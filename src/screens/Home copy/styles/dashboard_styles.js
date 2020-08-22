@@ -1,6 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-//import FontNames from '../../../helpers/BaseThemes/fontnames';
+import {isIphoneX} from 'react-native-iphone-x-helper';
+import FontNames from '../../../helpers/BaseThemes/fontnames';
 import {processFontSize} from '../../../helpers/fonts';
 import {spaces, colors, Basestyle} from '../../../helpers/BaseThemes';
 
@@ -10,6 +11,21 @@ export default StyleSheet.create({
     height: processFontSize(40),
     width: '45%',
   },
+  dashboard_container: {
+    height: isIphoneX() || Platform.OS === 'android' ? hp(30) : hp(35),
+    width: '100%',
+    paddingTop: isIphoneX() ? 50 : 25,
+    paddingHorizontal: 20,
+    // paddingTop: getStatusBarHeight() + 14,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    //   ...ifIphoneX({
+    //     paddingTop: 50
+    // }, {
+    //     paddingTop: 20
+    // })
+  },
+  bell_icon: {position: 'absolute', right: 0},
   middle_content: {
     marginTop: 40,
     justifyContent: 'space-around',
@@ -30,6 +46,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
+  },
+  head_row_text: {
+    textAlign: 'center',
+    fontFamily: FontNames.bold,
+    letterSpacing: 0.085,
+    fontSize: processFontSize(17),
+    color: '#fff',
   },
   opaq1: {...Basestyle.bold_15, opacity: 0.5},
   opaq2: {...Basestyle.bold_16, color: colors.PRIMARY_BLUE, opacity: 0.5},
@@ -59,40 +82,5 @@ export default StyleSheet.create({
   },
   empty_view: {alignItems: 'center', flex: 1, justifyContent: 'center'},
   scrollview: {marginHorizontal: spaces.appSpacing, marginBottom: 20},
-
-  /**Updated styles */
-  left_column: {
-    //backgroundColor: 'red',
-    width: '50%',
-    borderRightColor: '#d5e0e4',
-    borderRightWidth: 1,
-    height: '100%',
-  },
-  right_column: {
-    //backgroundColor: 'red',
-    width: '50%',
-    height: '100%',
-  },
-  img_icon: {width: '50%', marginBottom: 5, height: '50%'},
-  column_top: {
-    height: '50%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomColor: '#d5e0e4',
-    borderBottomWidth: 1,
-    //backgroundColor: 'green',
-  },
-  column_bottom: {
-    height: '50%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    //backgroundColor: 'green',
-  },
-  selection_box: {
-    height: hp(55),
-    paddingTop: 0,
-    flexDirection: 'row',
-    paddingHorizontal: 0,
-    borderRadius: 12,
-  },
+  head_row: {flexDirection: 'row', justifyContent: 'center'},
 });

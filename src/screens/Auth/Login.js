@@ -66,7 +66,7 @@ const Login = ({navigation}) => {
             Forgot Password?
           </Text>
           <ButtonMain
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('MainApp')}
             text="Login"
             btnContainerStyle={{marginTop: 60}}
           />

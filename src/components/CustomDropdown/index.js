@@ -11,11 +11,8 @@ import {
   Picker,
   FlatList,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import colors from '../../helpers/BaseThemes/colors';
-import FloatingTextInput from '../CustomInput/FloatingTextInput';
 import {Fontnames} from '../../helpers/BaseThemes';
 import InputContainer from '../InputContainer';
 
