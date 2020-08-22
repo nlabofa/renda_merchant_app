@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import * as HomeScreens from './src/navigation/Home/index';
+import * as Delivery from './src/navigation/Delivery/index';
 import * as Expresscreens from './src/navigation/Express/index';
 import * as AuthScreens from './src/navigation/Auth/index';
 import * as OnboardScreens from './src/navigation/Onboard/index';
@@ -84,6 +85,13 @@ const DeepStackScreen = () => (
     <DeepStack.Screen
       name="SubmitComplaint"
       component={HomeScreens.SubmitComplaint}
+    />
+    {/**Delivery Stack screens */}
+    <DeepStack.Screen name="DeliveryLanding" component={Delivery.Landing} />
+    <DeepStack.Screen name="TrackDelivery" component={Delivery.TrackDelivery} />
+    <DeepStack.Screen
+      name="DispatchDetailHistory"
+      component={Delivery.DispatchDetailHistory}
     />
 
     {/**Express delivery stack */}

@@ -28,6 +28,8 @@ const Dashboard = ({navigation}) => {
       <GradientHeader
         gradient_colors={['#1B5480', '#3990BB']}
         containerstyle={styles.extraheight}
+        showrighticon
+        navigation={navigation}
         lefticon={
           <Feather
             name="menu"
@@ -78,7 +80,7 @@ const Dashboard = ({navigation}) => {
               colors={['#1B5480', '#1b557d']}
               style={styles.button_active}>
               <TouchableOpacity
-                // onPress={() => setActive_tab('deliveries')}
+                onPress={() => navigation.navigate('DeliveryLanding')}
                 style={styles.button_row}>
                 <Text style={Basestyle.bold_14}>View Deliveries</Text>
                 <MaterialIcons

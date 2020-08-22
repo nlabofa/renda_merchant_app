@@ -16,6 +16,8 @@ const Landing = ({navigation}) => {
       />
       <GradientHeader
         gradient_colors={['#1B5480', '#3990BB']}
+        navigation={navigation}
+        showrighticon
         lefticon={
           <Feather
             name="menu"
@@ -63,6 +65,7 @@ const Landing = ({navigation}) => {
                 <Text style={[styles.opaq3]}>Warehousing</Text>
               </TouchableOpacity>
               <TouchableOpacity
+                onPress={() => navigation.navigate('DeliveryLanding')}
                 activeOpacity={0.7}
                 style={styles.column_bottom}>
                 <Image
