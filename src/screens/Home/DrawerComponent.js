@@ -20,12 +20,12 @@ const ITEM_LIST = [
   {
     title: 'Home',
     imgsrc: require('../../assets/images/home_icon.png'),
-    screen: 'ListAll',
+    screen: 'Home',
   },
   {
     title: 'Dashboard',
     imgsrc: require('../../assets/images/dashboard_icon.png'),
-    screen: 'ViewNotification',
+    screen: 'Dashboard',
   },
   {
     title: 'Wallet',
@@ -50,6 +50,13 @@ const ITEM_LIST = [
   },
 ];
 const DrawerComponent = ({navigation}) => {
+  const [activescreen, setActiveScreen] = useState('Home');
+
+  const gotoScreen = (screen, title) => {
+    setActiveScreen(title);
+    navigation.closeDrawer();
+    navigation.navigate(screen, {title: 'dgdgd'});
+  };
   return (
     <SafeAreaView forceInset={{bottom: 'never'}} style={Basestyle.container}>
       <StatusBar
@@ -58,10 +65,8 @@ const DrawerComponent = ({navigation}) => {
         backgroundColor="transparent"
       />
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={[styles.scrollview, {marginHorizontal: 15, marginBottom: 0}]}>
-        <View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{marginHorizontal: 15}}>
           <Ionicons
             name="close"
             size={35}
@@ -95,19 +100,24 @@ const DrawerComponent = ({navigation}) => {
           <View style={{marginTop: 25}}>
             {ITEM_LIST.map(({title, screen, customstyle = {}, imgsrc}) => (
               <TouchableOpacity
-                onPress={() => {
-                  navigation.closeDrawer();
-                  navigation.navigate(screen, {title: 'dgdgd'});
-                }}
+                onPress={() => gotoScreen(screen, title)}
                 key={title}
                 activeOpacity={0.7}
-                style={styles.itemlist}>
+                style={[
+                  styles.itemlist,
+                  activescreen === title ? styles.activeitem : null,
+                ]}>
                 <Image
                   resizeMode="contain"
                   style={[styles.itemimage, customstyle]}
                   source={imgsrc}
                 />
-                <Text numberOfLines={1} style={[styles.opaq5]}>
+                <Text
+                  numberOfLines={1}
+                  style={[
+                    styles.opaq5,
+                    activescreen === title ? styles.activeitemtext : null,
+                  ]}>
                   {title}
                 </Text>
               </TouchableOpacity>

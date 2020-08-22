@@ -1,14 +1,25 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, StatusBar, TouchableOpacity, Image, Text} from 'react-native';
+import {
+  View,
+  StatusBar,
+  TouchableOpacity,
+  ScrollView,
+  Text,
+} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import styles from './styles/dashboard_styles';
-import {Basestyle, Images} from '../../helpers/BaseThemes';
+import {Basestyle, colors} from '../../helpers/BaseThemes';
 import GradientHeader from '../../components/GradientHeader';
 import {processFontSize} from '../../helpers/fonts';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
+import ItemBox from '../../components/ItemBox';
 const Dashboard = ({navigation}) => {
   return (
-    <View style={Basestyle.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={Basestyle.container}>
       <StatusBar
         barStyle="light-content"
         translucent={true}
@@ -16,6 +27,7 @@ const Dashboard = ({navigation}) => {
       />
       <GradientHeader
         gradient_colors={['#1B5480', '#3990BB']}
+        containerstyle={styles.extraheight}
         lefticon={
           <Feather
             name="menu"
@@ -26,57 +38,127 @@ const Dashboard = ({navigation}) => {
           />
         }
         title="DASHBOARD">
-        <View style={styles.middle_content}>
-          <Text style={[Basestyle.bold_17, {fontSize: 20}]}>Welcome Eric</Text>
+        <View style={{marginTop: 40}}>
+          <Text
+            style={[Basestyle.bold_17, {fontSize: 20, textAlign: 'center'}]}>
+            Welcome Eric
+          </Text>
+          <View style={styles.dashlist}>
+            <View style={{width: '55%'}}>
+              <Text style={[styles.opaq1]}>Wallet Balance</Text>
+              <Text numberOfLines={1} style={Basestyle.bold_35}>
+                N 23,000
+              </Text>
+            </View>
+            <LinearGradient
+              colors={['#1B5480', '#1b557d']}
+              style={styles.button_active}>
+              <TouchableOpacity
+                // onPress={() => setActive_tab('deliveries')}
+                style={styles.button_row}>
+                <Text style={Basestyle.bold_14}>Manage Wallet</Text>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={35}
+                  color={colors.PRIMARY_ORANGE}
+                  style={{right: 0, position: 'absolute', alignSelf: 'center'}}
+                />
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+
+          <View style={styles.dashlist}>
+            <View style={{width: '55%'}}>
+              <Text style={[styles.opaq1]}>Total Deliveries</Text>
+              <Text numberOfLines={1} style={Basestyle.bold_35}>
+                1500
+              </Text>
+            </View>
+            <LinearGradient
+              colors={['#1B5480', '#1b557d']}
+              style={styles.button_active}>
+              <TouchableOpacity
+                // onPress={() => setActive_tab('deliveries')}
+                style={styles.button_row}>
+                <Text style={Basestyle.bold_14}>View Deliveries</Text>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={35}
+                  color={colors.PRIMARY_ORANGE}
+                  style={{right: 0, position: 'absolute', alignSelf: 'center'}}
+                />
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+
+          <View style={styles.dashlist}>
+            <View style={{width: '55%'}}>
+              <Text style={[styles.opaq1]}>Inventory</Text>
+              <Text numberOfLines={1} style={Basestyle.bold_35}>
+                5431
+              </Text>
+            </View>
+            <LinearGradient
+              colors={['#1B5480', '#1b557d']}
+              style={styles.button_active}>
+              <TouchableOpacity
+                // onPress={() => setActive_tab('deliveries')}
+                style={[styles.button_row, {paddingLeft: 12}]}>
+                <Text style={Basestyle.bold_14}>Manage Inventory</Text>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={35}
+                  color={colors.PRIMARY_ORANGE}
+                  style={{right: 0, position: 'absolute', alignSelf: 'center'}}
+                />
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
         </View>
       </GradientHeader>
       <View style={styles.scrollview}>
-        <View style={{marginTop: -25}}>
-          <View style={[Basestyle.round_box, styles.selection_box]}>
-            <View style={styles.left_column}>
-              <TouchableOpacity activeOpacity={0.7} style={styles.column_top}>
-                <Image
-                  source={Images.procurement_icon}
-                  resizeMode="contain"
-                  style={styles.img_icon}
-                />
-                <Text style={[styles.opaq3]}>Procurement</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                style={styles.column_bottom}>
-                <Image
-                  source={Images.manageinvent_icon}
-                  resizeMode="contain"
-                  style={styles.img_icon}
-                />
-                <Text style={[styles.opaq3]}>Manage Inventory</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.right_column}>
-              <TouchableOpacity activeOpacity={0.7} style={styles.column_top}>
-                <Image
-                  source={Images.warehouse_icon}
-                  resizeMode="contain"
-                  style={styles.img_icon}
-                />
-                <Text style={[styles.opaq3]}>Warehousing</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                style={styles.column_bottom}>
-                <Image
-                  source={Images.delivery_icon}
-                  resizeMode="contain"
-                  style={styles.img_icon}
-                />
-                <Text style={[styles.opaq3]}>Delivery</Text>
-              </TouchableOpacity>
-            </View>
+        <View style={{marginTop: 25}}>
+          <View style={Basestyle.row_space_between}>
+            <Text style={[styles.opaq2]}>Recent Deliveries</Text>
+          </View>
+          <View style={{marginTop: 15}}>
+            <ItemBox
+              idnumber="RA0492859"
+              status="completed"
+              destination="Ikeja"
+              duedate="22, July 2020"
+              onPress={() =>
+                navigation.navigate('DispatchDetail', {
+                  title: '# RA0492859',
+                })
+              }
+            />
+            <ItemBox
+              idnumber="RA0492859"
+              status="failed"
+              destination="Ikeja"
+              duedate="22, July 2020"
+              onPress={() =>
+                navigation.navigate('DispatchDetail', {
+                  title: '# RA0492859',
+                })
+              }
+            />
+            <ItemBox
+              idnumber="RA0492859"
+              status="in progress"
+              destination="Ikeja"
+              duedate="22, July 2020"
+              onPress={() =>
+                navigation.navigate('DispatchDetail', {
+                  title: '# RA0492859',
+                })
+              }
+            />
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

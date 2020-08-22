@@ -146,6 +146,11 @@ export default StyleSheet.create({
     fontSize: processFontSize(17),
     color: '#fff',
   },
+  bold_35: {
+    fontFamily: FontNames.bold,
+    fontSize: processFontSize(35),
+    color: '#fff',
+  },
   bold_40: {
     fontFamily: FontNames.bold,
     fontSize: processFontSize(40),

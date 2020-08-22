@@ -13,7 +13,8 @@ const DrawerStackScreen = () => (
   <Drawer.Navigator
     drawerContent={(props) => <HomeScreens.DrawerComponent {...props} />}
     initialRouteName="">
-    <Drawer.Screen name="Home" component={HomeScreens.Dashboard} />
+    <Drawer.Screen name="Home" component={HomeScreens.Landing} />
+    <Drawer.Screen name="Dashboard" component={HomeScreens.Dashboard} />
   </Drawer.Navigator>
 );
 const OnboardStack = createStackNavigator();

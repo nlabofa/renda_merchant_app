@@ -1,14 +1,15 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 //import FontNames from '../../../helpers/BaseThemes/fontnames';
 import {processFontSize} from '../../../helpers/fonts';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import {spaces, colors, Basestyle} from '../../../helpers/BaseThemes';
 
 export default StyleSheet.create({
   button_active: {
     borderRadius: 20,
     height: processFontSize(40),
-    width: '45%',
+    width: '43%',
   },
   middle_content: {
     marginTop: 40,
@@ -27,9 +28,20 @@ export default StyleSheet.create({
   },
   button_row: {
     width: '100%',
-    alignItems: 'center',
+    //alignItems: 'center',
+    paddingLeft: 20,
     justifyContent: 'center',
     height: '100%',
+  },
+  dashlist: {
+    flexDirection: 'row',
+    //backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: processFontSize(30),
+  },
+  extraheight: {
+    height: isIphoneX() || Platform.OS === 'android' ? hp(52) : hp(60),
   },
   opaq1: {...Basestyle.bold_15, opacity: 0.5},
   opaq2: {...Basestyle.bold_16, color: colors.PRIMARY_BLUE, opacity: 0.5},
@@ -74,8 +86,17 @@ export default StyleSheet.create({
     alignItems: 'center',
     height: processFontSize(50),
     marginBottom: processFontSize(25),
-    marginLeft: 10,
+    marginLeft: -15,
+    paddingHorizontal: 25,
     // backgroundColor: 'red',
+  },
+  activeitem: {
+    backgroundColor: '#3990BB',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+  },
+  activeitemtext: {
+    color: '#fff',
   },
   itemimage: {
     width: processFontSize(30),
