@@ -11,11 +11,7 @@ import * as OnboardScreens from './src/navigation/Onboard/index';
 const Drawer = createDrawerNavigator();
 const DrawerStackScreen = () => (
   <Drawer.Navigator
-    drawerContent={(props) => <HomeScreens.Dashboard {...props} />}
-    drawerContentOptions={{
-      activeTintColor: '#e91e63',
-      itemStyle: {marginVertical: 30},
-    }}
+    drawerContent={(props) => <HomeScreens.DrawerComponent {...props} />}
     initialRouteName="">
     <Drawer.Screen name="Home" component={HomeScreens.Dashboard} />
   </Drawer.Navigator>
@@ -66,7 +62,7 @@ const DeepStackScreen = () => (
       }}
     />
     {/**Dashboard Stack screens */}
-    {/* <DeepStack.Screen name="Dashboard" component={HomeScreens.Dashboard} />
+    <DeepStack.Screen name="Dashboard" component={HomeScreens.Dashboard} />
     <DeepStack.Screen name="ListAll" component={HomeScreens.ListAll} />
     <DeepStack.Screen
       name="ViewNotification"
@@ -87,7 +83,7 @@ const DeepStackScreen = () => (
     <DeepStack.Screen
       name="SubmitComplaint"
       component={HomeScreens.SubmitComplaint}
-    /> */}
+    />
 
     {/**Express delivery stack */}
 

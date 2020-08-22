@@ -37,12 +37,12 @@ export default StyleSheet.create({
   opaq4: {...Basestyle.bold_13, color: colors.PRIMARY_ORANGE},
   opaq5: {
     ...Basestyle.nunito_bold_16,
-    fontSize: 18,
+    fontSize: processFontSize(18),
     color: colors.PRIMARY_BLUE,
   },
   opaq6: {
     ...Basestyle.nunito_regular_16,
-    fontSize: 17,
+    fontSize: processFontSize(17),
     color: colors.PRIMARY_BLACK,
   },
   complaint_row: {flexDirection: 'row', alignItems: 'center', marginBottom: 35},
@@ -61,6 +61,57 @@ export default StyleSheet.create({
   scrollview: {marginHorizontal: spaces.appSpacing, marginBottom: 20},
 
   /**Updated styles */
+  profile_pic_view: {
+    borderRadius: 50,
+    width: 50,
+    height: 50,
+    padding: 0,
+    backgroundColor: '#ffffff50',
+    overflow: 'hidden',
+  },
+  itemlist: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: processFontSize(50),
+    marginBottom: processFontSize(25),
+    marginLeft: 10,
+    // backgroundColor: 'red',
+  },
+  itemimage: {
+    width: processFontSize(30),
+    height: processFontSize(30),
+    marginRight: 15,
+  },
+  profile_pic_icon: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 50 / 2,
+  },
+  sidebar_top: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'red',
+  },
+  sidebar_topright: {
+    marginLeft: 20,
+    width: '70%',
+  },
+  sidebar_bottom: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    // backgroundColor: 'red',
+  },
+  sidebar_bottomright: {
+    marginBottom: 30,
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  logouticon: {
+    width: processFontSize(20),
+    height: processFontSize(20),
+    marginRight: 10,
+  },
   left_column: {
     //backgroundColor: 'red',
     width: '50%',

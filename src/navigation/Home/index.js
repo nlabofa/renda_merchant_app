@@ -1,4 +1,5 @@
 import Dashboard from '../../screens/Home/Dashboard';
+import DrawerComponent from '../../screens/Home/DrawerComponent';
 import ViewNotification from '../../screens/Home/ViewNotification';
 import ListAll from '../../screens/Home/ListAll';
 import DispatchDetail from '../../screens/Home/DispatchDetail';
@@ -8,6 +9,7 @@ import SubmitComplaint from '../../screens/Home/SubmitComplaint';
 
 export {
   Dashboard,
+  DrawerComponent,
   ListAll,
   ViewNotification,
   DispatchDetail,

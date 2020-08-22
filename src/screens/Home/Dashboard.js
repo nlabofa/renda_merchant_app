@@ -5,6 +5,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import styles from './styles/dashboard_styles';
 import {Basestyle, Images} from '../../helpers/BaseThemes';
 import GradientHeader from '../../components/GradientHeader';
+import {processFontSize} from '../../helpers/fonts';
 const Dashboard = ({navigation}) => {
   return (
     <View style={Basestyle.container}>
@@ -19,7 +20,7 @@ const Dashboard = ({navigation}) => {
           <Feather
             name="menu"
             color="#fff"
-            size={32}
+            size={processFontSize(32)}
             style={{marginRight: 15}}
             onPress={() => navigation.toggleDrawer()}
           />
