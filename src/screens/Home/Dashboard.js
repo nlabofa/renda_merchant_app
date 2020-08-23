@@ -130,9 +130,7 @@ const Dashboard = ({navigation}) => {
               destination="Ikeja"
               duedate="22, July 2020"
               onPress={() =>
-                navigation.navigate('DispatchDetail', {
-                  title: '# RA0492859',
-                })
+                navigation.navigate('DispatchDetailHistory', {completed: false})
               }
             />
             <ItemBox
@@ -141,9 +139,7 @@ const Dashboard = ({navigation}) => {
               destination="Ikeja"
               duedate="22, July 2020"
               onPress={() =>
-                navigation.navigate('DispatchDetail', {
-                  title: '# RA0492859',
-                })
+                navigation.navigate('DispatchDetailHistory', {completed: false})
               }
             />
             <ItemBox
@@ -152,9 +148,7 @@ const Dashboard = ({navigation}) => {
               destination="Ikeja"
               duedate="22, July 2020"
               onPress={() =>
-                navigation.navigate('DispatchDetail', {
-                  title: '# RA0492859',
-                })
+                navigation.navigate('DispatchDetailHistory', {completed: false})
               }
             />
           </View>

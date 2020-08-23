@@ -43,7 +43,7 @@ const Landing = ({navigation}) => {
               />
             }
             customtext="Request Delivery"
-            onPress={() => navigation.navigate('SignUpBusiness')}
+            onPress={() => navigation.navigate('NewDelivery')}
           />
           <ItemBox
             customicon={
@@ -65,7 +65,7 @@ const Landing = ({navigation}) => {
               />
             }
             customtext="Delivery History"
-            onPress={() => navigation.navigate('SignUpBusiness')}
+            onPress={() => navigation.navigate('DeliveryHistory')}
           />
         </View>
       </View>

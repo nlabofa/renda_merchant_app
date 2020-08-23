@@ -37,6 +37,12 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  subtitle: {
+    color: colors.PRIMARY_BLUE,
+    opacity: 0.5,
+    paddingTop: 10,
+    width: '85%',
+  },
   status_text: {
     fontFamily: FontNames.nunito_bold,
     fontSize: processFontSize(13),

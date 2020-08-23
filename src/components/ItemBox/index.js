@@ -13,6 +13,7 @@ const ItemBox = ({
   navigation,
   btnContainerStyle = {},
   customicon,
+  subtitle,
   customtext,
   status,
   type = '',
@@ -69,6 +70,13 @@ const ItemBox = ({
             <Text style={[Basestyle.bold_16, {color: colors.PRIMARY_BLUE}]}>
               {customtext}
             </Text>
+            {subtitle && (
+              <Text
+                numberOfLines={2}
+                style={[Basestyle.regular_13, styles.subtitle]}>
+                {subtitle}
+              </Text>
+            )}
           </View>
         </View>
         <MaterialIcons

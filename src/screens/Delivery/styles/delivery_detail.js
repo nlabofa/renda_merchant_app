@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {
   heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
+  //widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {colors, Basestyle} from '../../../helpers/BaseThemes';
 import {processFontSize} from '../../../helpers/fonts';
