@@ -62,13 +62,15 @@ const InputContainer = ({
             {value || placeholder}
           </Text>
         </View>
-        <View style={{right: '80%'}}>
-          <MaterialIcons
-            name="arrow-drop-down"
-            size={33}
-            color={colors.PRIMARY_GREY_05}
-          />
-        </View>
+        {rightElement || (
+          <View style={{right: '80%'}}>
+            <MaterialIcons
+              name="arrow-drop-down"
+              size={33}
+              color={colors.PRIMARY_GREY_05}
+            />
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );

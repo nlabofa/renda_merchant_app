@@ -5,6 +5,7 @@ import DeliveryHistory from '../../screens/Delivery/DeliveryHistory';
 import NewDelivery from '../../screens/Delivery/NewDelivery';
 import SelectDeliveryType from '../../screens/Delivery/SelectDeliveryType';
 import SetLocation from '../../screens/Delivery/SetLocation';
+import SetLocationFull from '../../screens/Delivery/SetLocationFull';
 
 export {
   Landing,
@@ -14,4 +15,5 @@ export {
   NewDelivery,
   SelectDeliveryType,
   SetLocation,
+  SetLocationFull,
 };

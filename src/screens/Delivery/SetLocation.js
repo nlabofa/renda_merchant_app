@@ -6,7 +6,7 @@ import SafeAreaView from 'react-native-safe-area-view';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ReuseHeader from '../../components/Header';
 import styles from './styles/delivery_styles';
-import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
+import InputContainer from '../../components/InputContainer';
 
 const SetLocation = ({navigation}) => {
   return (
@@ -57,7 +57,11 @@ const SetLocation = ({navigation}) => {
                   <Text numberOfLines={2} style={styles.small_icon_text}>
                     12 Wole Ariyo Lekki Phase 1, Lagos State
                   </Text>
-                  <Text style={[styles.small_icon_text2]}>Change Location</Text>
+                  <Text
+                    onPress={() => navigation.navigate('SetLocationFull')}
+                    style={[styles.small_icon_text2]}>
+                    Change Location
+                  </Text>
                 </View>
               </View>
               <View style={styles.address_row}>
@@ -71,10 +75,11 @@ const SetLocation = ({navigation}) => {
                   <Text style={[styles.row_top_text, {paddingBottom: 0}]}>
                     Drop off location
                   </Text>
-                  <FloatingTextInput
+                  <InputContainer
                     label=""
+                    handlePress={() => navigation.navigate('SetLocationFull')}
                     placeholder="12 Wole Ariyo Street Lekki Phase 1"
-                    keyboardType="number-pad"
+                    //value={selectedOption}
                     rightElement={
                       <TouchableOpacity style={{right: '80%'}}>
                         <Ionicons
