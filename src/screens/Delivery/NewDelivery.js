@@ -35,8 +35,10 @@ const NewDelivery = ({navigation}) => {
                 style={{width: 55, height: 55}}
               />
             }
-            customtext="Request Delivery"
-            // onPress={() => navigation.navigate('SignUpBusiness')}
+            customtext="Same Day Delivery"
+            onPress={() =>
+              navigation.navigate('SelectDeliveryType', {type: 'sameday'})
+            }
           />
           <ItemBox
             subtitle="Deliveries are dispatched on selected days"
@@ -47,8 +49,10 @@ const NewDelivery = ({navigation}) => {
                 style={{width: 55, height: 55}}
               />
             }
-            customtext="Track Delivery"
-            //onPress={() => navigation.navigate('TrackDelivery')}
+            customtext="Schedule Delivery"
+            onPress={() =>
+              navigation.navigate('SelectDeliveryType', {type: 'scheduled'})
+            }
           />
         </View>
       </ScrollView>

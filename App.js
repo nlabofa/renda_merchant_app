@@ -98,6 +98,11 @@ const DeepStackScreen = () => (
       component={Delivery.DeliveryHistory}
     />
     <DeepStack.Screen name="NewDelivery" component={Delivery.NewDelivery} />
+    <DeepStack.Screen
+      name="SelectDeliveryType"
+      component={Delivery.SelectDeliveryType}
+    />
+    <DeepStack.Screen name="SetLocation" component={Delivery.SetLocation} />
 
     {/**Express delivery stack */}
 

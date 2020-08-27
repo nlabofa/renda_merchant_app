@@ -167,4 +167,47 @@ export default StyleSheet.create({
     paddingHorizontal: 0,
     borderRadius: 12,
   },
+  selection_box2: {
+    height: '35%',
+    paddingTop: processFontSize(20),
+    //backgroundColor: 'red',
+    //flexDirection: 'row',
+    paddingHorizontal: 20,
+    borderRadius: 12,
+  },
+  content: {
+    justifyContent: 'space-around',
+  },
+  boxicon: {
+    marginBottom: 20,
+    marginTop: -5,
+    width: '90%',
+  },
+  address_row: {
+    flexDirection: 'row',
+    height: '47%',
+    borderBottomColor: 'green',
+    //borderBottomWidth: 1,
+    //backgroundColor: 'red',
+  },
+  location_icon: {marginRight: 10},
+  small_icon_text: {
+    ...Basestyle.regular_16,
+    color: colors.PRIMARY_BLUE,
+    fontSize: processFontSize(15),
+    paddingBottom: processFontSize(10),
+    // paddingTop: 10,
+  },
+  small_icon_text2: {
+    ...Basestyle.nunito_bold_16,
+    color: colors.PRIMARY_ORANGE,
+    fontSize: processFontSize(13),
+  },
+  dashed_line2: {
+    position: 'absolute',
+    left: 3,
+    width: 15,
+    height: '55%',
+  },
+  row_top_text: {...Basestyle.bold_16, color: '#557993', paddingBottom: 10},
 });
