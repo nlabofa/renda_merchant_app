@@ -4,6 +4,7 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {processFontSize} from '../../../helpers/fonts';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {spaces, colors, Basestyle} from '../../../helpers/BaseThemes';
+import FontNames from '../../../helpers/BaseThemes/fontnames';
 
 export default StyleSheet.create({
   button_active: {
@@ -208,6 +209,37 @@ export default StyleSheet.create({
     left: 3,
     width: 15,
     height: '55%',
+  },
+  rowleft: {
+    color: colors.PRIMARY_BLUE,
+    paddingBottom: 0,
+    paddingRight: 10,
+  },
+  delivery_extra: {
+    ...Basestyle.nunito_regular_16,
+    color: '#203659',
+    fontSize: 15,
+  },
+  delivery_extra2: {
+    fontFamily: FontNames.nunito_bold,
+    color: colors.PRIMARY_INDIGO,
+    paddingLeft: 5,
+  },
+  uploadoption: {
+    width: '100%',
+    alignItems: 'center',
+    borderWidth: 1,
+    marginTop: 30,
+    borderColor: colors.PRIMARY_INDIGO,
+    borderStyle: 'dashed',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: colors.SECONDARY_INDIGO,
+    height: 60,
+  },
+  activeupload: {
+    backgroundColor: colors.SECONDARY_ORANGE,
+    borderColor: colors.PRIMARY_ORANGE,
   },
   row_top_text: {...Basestyle.bold_16, color: '#557993', paddingBottom: 10},
 });

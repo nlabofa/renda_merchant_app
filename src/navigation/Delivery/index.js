@@ -6,7 +6,10 @@ import NewDelivery from '../../screens/Delivery/NewDelivery';
 import SelectDeliveryType from '../../screens/Delivery/SelectDeliveryType';
 import SetLocation from '../../screens/Delivery/SetLocation';
 import SetLocationFull from '../../screens/Delivery/SetLocationFull';
-
+import SenderInfo from '../../screens/Delivery/SenderInfo';
+import ReceiverInfo from '../../screens/Delivery/ReceiverInfo';
+import PackageDetails from '../../screens/Delivery/packageDetails';
+import PackageDetailsFull from '../../screens/Delivery/packageDetailsFull';
 export {
   Landing,
   TrackDelivery,
@@ -16,4 +19,8 @@ export {
   SelectDeliveryType,
   SetLocation,
   SetLocationFull,
+  SenderInfo,
+  ReceiverInfo,
+  PackageDetails,
+  PackageDetailsFull,
 };

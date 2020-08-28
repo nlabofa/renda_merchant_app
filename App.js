@@ -107,7 +107,16 @@ const DeepStackScreen = () => (
       name="SetLocationFull"
       component={Delivery.SetLocationFull}
     />
-
+    <DeepStack.Screen name="SenderInfo" component={Delivery.SenderInfo} />
+    <DeepStack.Screen name="ReceiverInfo" component={Delivery.ReceiverInfo} />
+    <DeepStack.Screen
+      name="PackageDetails"
+      component={Delivery.PackageDetails}
+    />
+    <DeepStack.Screen
+      name="PackageDetailsFull"
+      component={Delivery.PackageDetailsFull}
+    />
     {/**Express delivery stack */}
 
     <DeepStack.Screen name="ExpStep1" component={Expresscreens.ExpStep1} />

@@ -77,7 +77,7 @@ const SetLocation = ({navigation}) => {
                   </Text>
                   <InputContainer
                     label=""
-                    handlePress={() => navigation.navigate('SetLocationFull')}
+                    handlePress={() => navigation.navigate('SenderInfo')}
                     placeholder="12 Wole Ariyo Street Lekki Phase 1"
                     //value={selectedOption}
                     rightElement={

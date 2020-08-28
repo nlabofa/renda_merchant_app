@@ -29,6 +29,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  row_center: {flexDirection: 'row', alignItems: 'center'},
   button_active: {
     borderRadius: 20,
     height: 40,
