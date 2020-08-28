@@ -83,8 +83,8 @@ export default StyleSheet.create({
     color: colors.PRIMARY_BLACK,
   },
   small_icon_text2: {
-    ...Basestyle.nunito_regular_16,
-    color: colors.PRIMARY_GREY_04,
+    ...Basestyle.regular_16,
+    color: colors.PRIMARY_GREY_06,
     paddingBottom: 5,
   },
   small_icon_text3: {

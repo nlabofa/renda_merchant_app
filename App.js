@@ -7,6 +7,7 @@ import * as HomeScreens from './src/navigation/Home/index';
 import * as Delivery from './src/navigation/Delivery/index';
 import * as Expresscreens from './src/navigation/Express/index';
 import * as AuthScreens from './src/navigation/Auth/index';
+import * as PaymentScreens from './src/navigation/Payments/index';
 import * as OnboardScreens from './src/navigation/Onboard/index';
 
 const Drawer = createDrawerNavigator();
@@ -117,6 +118,19 @@ const DeepStackScreen = () => (
       name="PackageDetailsFull"
       component={Delivery.PackageDetailsFull}
     />
+
+    {/**Payment Stack screens */}
+    <DeepStack.Screen
+      name="SelectPaymentType"
+      component={PaymentScreens.SelectPaymentType}
+    />
+    <DeepStack.Screen name="PayCard" component={PaymentScreens.PayCard} />
+    <DeepStack.Screen name="PayUssd" component={PaymentScreens.PayUssd} />
+    <DeepStack.Screen
+      name="PayMerchant"
+      component={PaymentScreens.PayMerchant}
+    />
+
     {/**Express delivery stack */}
 
     <DeepStack.Screen name="ExpStep1" component={Expresscreens.ExpStep1} />

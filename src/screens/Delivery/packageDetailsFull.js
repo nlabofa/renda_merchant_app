@@ -235,7 +235,7 @@ const PackageDetailsFull = ({navigation, route}) => {
             />
           )}
           <ButtonMain
-            onPress={() => navigation.navigate('PackageDetailsFull')}
+            onPress={() => navigation.navigate('SelectPaymentType')}
             text="Continue to Payment"
             btnContainerStyle={Basestyle.btn_full}
           />
