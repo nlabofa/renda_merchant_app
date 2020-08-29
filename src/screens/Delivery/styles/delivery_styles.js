@@ -169,7 +169,7 @@ export default StyleSheet.create({
     borderRadius: 12,
   },
   selection_box2: {
-    height: '35%',
+    height: '40%',
     paddingTop: processFontSize(20),
     //backgroundColor: 'red',
     //flexDirection: 'row',
@@ -208,7 +208,7 @@ export default StyleSheet.create({
     position: 'absolute',
     left: 3,
     width: 15,
-    height: '55%',
+    height: '50%',
   },
   rowleft: {
     color: colors.PRIMARY_BLUE,
@@ -218,7 +218,7 @@ export default StyleSheet.create({
   delivery_extra: {
     ...Basestyle.nunito_regular_16,
     color: '#203659',
-    fontSize: 15,
+    fontSize: processFontSize(15),
   },
   delivery_extra2: {
     fontFamily: FontNames.nunito_bold,

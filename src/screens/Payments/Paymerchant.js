@@ -110,7 +110,7 @@ const PayMerchant = ({navigation}) => {
         </View>
       </Modal>
       <ReuseHeader
-        title="Pay via Merchant"
+        title="Pay via Wallet"
         navigation={navigation}
         leftheader
         textStyle={{letterSpacing: 0.9}}

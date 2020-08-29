@@ -21,7 +21,7 @@ const LIST_DELIVERY = [
   },
   {
     index: 2,
-    label: 'Pay Via Merchant',
+    label: 'Pay Via Wallet',
     imgsrc: require('../../assets/images/pay-merchant.png'),
     route: 'PayMerchant',
   },

@@ -16,7 +16,7 @@ export default StyleSheet.create({
     minHeight: hp(30),
   },
   selection_box2: {
-    height: hp(25),
+    height: '60%',
     paddingTop: processFontSize(20),
     //backgroundColor: 'red',
     //flexDirection: 'row',

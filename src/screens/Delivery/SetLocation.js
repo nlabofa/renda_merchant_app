@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ReuseHeader from '../../components/Header';
 import styles from './styles/delivery_styles';
 import InputContainer from '../../components/InputContainer';
+import ButtonMain from '../../components/Button/ButtonMain';
 
 const SetLocation = ({navigation}) => {
   return (
@@ -31,7 +32,7 @@ const SetLocation = ({navigation}) => {
           {/* <Text style={[styles.opaq3, {color: '#557993', paddingBottom: 15}]}>
             Please select a delivery method
           </Text> */}
-          <View style={{width: '100%', height: '65%'}}>
+          <View style={{width: '100%', height: '60%'}}>
             <Image
               source={require('../../assets/images/map.png')}
               resizeMode="cover"
@@ -54,7 +55,7 @@ const SetLocation = ({navigation}) => {
                 />
                 <View style={{width: '90%'}}>
                   <Text style={styles.row_top_text}>Pick up location</Text>
-                  <Text numberOfLines={2} style={styles.small_icon_text}>
+                  <Text numberOfLines={1} style={styles.small_icon_text}>
                     12 Wole Ariyo Lekki Phase 1, Lagos State
                   </Text>
                   <Text
@@ -77,7 +78,7 @@ const SetLocation = ({navigation}) => {
                   </Text>
                   <InputContainer
                     label=""
-                    handlePress={() => navigation.navigate('SenderInfo')}
+                    handlePress={() => navigation.navigate('SetLocationFull')}
                     placeholder="12 Wole Ariyo Street Lekki Phase 1"
                     //value={selectedOption}
                     rightElement={
@@ -94,6 +95,14 @@ const SetLocation = ({navigation}) => {
                   />
                 </View>
               </View>
+              <ButtonMain
+                onPress={() => navigation.navigate('SenderInfo')}
+                text="Proceed"
+                btnContainerStyle={[
+                  Basestyle.btn_full,
+                  {marginBottom: 0, alignSelf: 'flex-end', width: '91%'},
+                ]}
+              />
             </View>
           </View>
         </View>

@@ -12,10 +12,11 @@ const ReuseHeader = ({
   showlefticon,
   leftheader,
   navigation,
+  containerstyle = {},
   textStyle = {},
 }) => {
   return leftheader ? (
-    <View style={styles.header2}>
+    <View style={[styles.header2, containerstyle]}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
         hitSlop={Basestyle.hitSlop}

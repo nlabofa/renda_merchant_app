@@ -15,8 +15,10 @@ const InputContainer = ({
   placeholder = 'Placeholder',
   handlePress = () => {},
   cutomwrapperInputStyle = {},
+  textinputcustomstyle = {},
   keyboardType,
   rightElement = null,
+  noRightElement,
   leftElement = null,
   editable = true,
   ...props
@@ -50,7 +52,7 @@ const InputContainer = ({
       <View style={[textinputviewstyle, cutomwrapperInputStyle]}>
         <View style={[textinputstyle]}>
           <Text style={{}} />
-
+          {leftElement || null}
           <Text
             style={[
               {
@@ -58,19 +60,22 @@ const InputContainer = ({
                 top: 5,
                 color: !value ? colors.PRIMARY_GREY_03 : '#000',
               },
+              textinputcustomstyle,
             ]}>
             {value || placeholder}
           </Text>
         </View>
-        {rightElement || (
-          <View style={{right: '80%'}}>
-            <MaterialIcons
-              name="arrow-drop-down"
-              size={33}
-              color={colors.PRIMARY_GREY_05}
-            />
-          </View>
-        )}
+        {noRightElement
+          ? null
+          : rightElement || (
+              <View style={{right: '80%'}}>
+                <MaterialIcons
+                  name="arrow-drop-down"
+                  size={33}
+                  color={colors.PRIMARY_GREY_05}
+                />
+              </View>
+            )}
       </View>
     </TouchableOpacity>
   );

@@ -11,6 +11,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
 import styles from './styles/delivery_styles';
+import InputContainer from '../../components/InputContainer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 const CYCLES = [
   {
@@ -93,6 +94,24 @@ const PackageDetails = ({navigation}) => {
             style={{marginBottom: 50, borderRadius: 6}}
           />
           <View style={{marginTop: 0}}>
+            <InputContainer
+              label="Set Delivery Date & Time"
+              //handlePress={() => navigation.navigate('SenderInfo')}
+              placeholder="14 Feb. 2018 | 12:30pm"
+              textinputcustomstyle={{paddingLeft: 40}}
+              //value={selectedOption}
+              leftElement={
+                <TouchableOpacity style={{position: 'absolute', left: 0}}>
+                  <Ionicons
+                    name="calendar"
+                    size={27}
+                    color={colors.PRIMARY_GREY_05}
+                  />
+                </TouchableOpacity>
+              }
+              noRightElement
+              cutomwrapperInputStyle={{marginBottom: 20}}
+            />
             {addressFields.map(
               ({index, label, placeholder, type, keyboardType}) => {
                 if (type === 'textarea') {
@@ -151,7 +170,8 @@ const PackageDetails = ({navigation}) => {
               },
             )}
           </View>
-          <Text style={styles.delivery_extra}>
+          <Text
+            style={[styles.delivery_extra, {paddingBottom: 15, marginTop: -5}]}>
             Products should not weigh more than{' '}
             <Text style={{fontFamily: Fontnames.nunito_bold}}>10 kg</Text> in
             total.
@@ -161,13 +181,13 @@ const PackageDetails = ({navigation}) => {
             label="Estimated worth of items"
             placeholder="0 pcs"
             keyboardType="number-pad"
-            cutomwrapperInputStyle={{marginTop: 15}}
+            //cutomwrapperInputStyle={{marginTop: 15}}
           />
           <View style={[Basestyle.row_center, {paddingTop: 20}]}>
             <Text
               style={[
                 styles.delivery_extra,
-                {fontFamily: Fontnames.nunito_bold, paddingRight: 15},
+                {fontFamily: Fontnames.nunito_bold, paddingRight: 10},
               ]}>
               Would you like to prioritize this delivery?
             </Text>
