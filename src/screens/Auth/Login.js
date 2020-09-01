@@ -1,5 +1,7 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-alert */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   TouchableOpacity,
@@ -15,9 +17,47 @@ import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import ButtonMain from '../../components/Button/ButtonMain';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
+import {GoogleSignin} from '@react-native-community/google-signin';
+
+import {processFontSize} from '../../helpers/fonts';
 const Login = ({navigation, route}) => {
   const email = route.params && route.params.email;
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [hidePassword, sethidePassword] = useState(false);
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '91081549853-30ro22ipmi94oeep4sq2ufia9bg8c3rk.apps.googleusercontent.com',
+      forceConsentPrompt: true, // if you want to show the authorization prompt at each login
+    });
+  }, []);
+  const handleOAUTHLogin = (data) => {
+    console.log(data);
+    setIsLoading(true);
+  };
+  const googleSignInHandler = () => {
+    GoogleSignin.hasPlayServices()
+      .then((res) => {
+        GoogleSignin.signIn()
+          .then((res) => {
+            console.log(res);
+            let userDetails = {
+              email: res.user.email.toLowerCase(),
+              // access_token: "12345"
+            };
+            //console.log(userDetails);
+            handleOAUTHLogin(userDetails);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
   return (
     <ImageBackground
       source={Images.login_bg}
@@ -70,8 +110,24 @@ const Login = ({navigation, route}) => {
           </Text>
           <ButtonMain
             onPress={() => navigation.navigate('MainApp')}
-            text="Login"
+            text="Sign in"
+            isLoading={isLoading}
             btnContainerStyle={{marginTop: 60}}
+          />
+          <ButtonMain
+            btnwhite
+            onPress={() => googleSignInHandler()}
+            disabled={isLoading}
+            text="Sign in with your Google account"
+            showicon={
+              <Image
+                source={require('../../assets/images/google_icon.png')}
+                resizeMode="contain"
+                style={{width: 25, height: 25, marginRight: 15}}
+              />
+            }
+            btnTextStyles={{color: colors.PRIMARY_BLUE}}
+            btnContainerStyle={{height: processFontSize(50), marginTop: 20}}
           />
           <ButtonMain
             btnwhite

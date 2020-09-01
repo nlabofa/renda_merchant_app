@@ -265,6 +265,7 @@ const SignUpIndividual = ({
             <ButtonMain
               btnwhite
               onPress={() => googleSignInHandler()}
+              disabled={isLoading}
               text="Sign up with your Google account"
               showicon={
                 <Image
@@ -274,7 +275,7 @@ const SignUpIndividual = ({
                 />
               }
               btnTextStyles={{color: colors.PRIMARY_BLUE}}
-              btnContainerStyle={{height: processFontSize(55)}}
+              btnContainerStyle={{height: processFontSize(50)}}
             />
           </View>
           <View style={styles.line_row}>
