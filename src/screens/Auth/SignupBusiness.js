@@ -1,8 +1,9 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {View, StatusBar} from 'react-native';
-import {Basestyle} from '../../helpers/BaseThemes';
+import {View, TouchableOpacity, StatusBar} from 'react-native';
+import {Basestyle, colors} from '../../helpers/BaseThemes';
 import SafeAreaView from 'react-native-safe-area-view';
 import ReuseHeader from '../../components/Header/index';
 import ButtonMain from '../../components/Button/ButtonMain';
@@ -10,8 +11,13 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
 import statesList from '../../helpers/statelist';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {connect} from 'react-redux';
-import {getRoles} from '../../actions/auth.action';
+import {
+  getRoles,
+  getBusinessTypes,
+  createAccount,
+} from '../../actions/auth.action';
 const CYCLES = [
   {
     title: 'Information Technology',
@@ -29,9 +35,16 @@ const CYCLES = [
 const addressFields = [
   {
     index: 0,
-    label: 'Full Name',
-    name: 'fullName',
-    placeholder: 'Eric Jones',
+    label: 'First Name',
+    name: 'firstName',
+    placeholder: 'Eric',
+    keyboardType: '',
+  },
+  {
+    index: 20,
+    label: 'Last Name',
+    name: 'lastName',
+    placeholder: 'Jones',
     keyboardType: '',
   },
   {
@@ -63,6 +76,12 @@ const addressFields = [
     type: 'dropdown',
   },
   {
+    index: 90,
+    label: 'Password',
+    placeholder: '*****',
+    name: 'password',
+  },
+  {
     index: 3,
     label: 'Address',
     placeholder: '12 Wole Ariyo Street Lekki Phase 1',
@@ -71,41 +90,56 @@ const addressFields = [
   },
 ];
 const initialErrorState = {
-  fullName: '',
+  firstName: '',
+  lastName: '',
   businessName: '',
+  password: '',
   address: '',
   phoneNumber: '',
   email: '',
 };
 const requiredFields = [
-  'fullName',
+  'firstName',
+  'lastName',
   'businessName',
+  'password',
   'phoneNumber',
   'email',
   'address',
 ];
 const initialInputState = {
-  fullName: '',
+  firstName: '',
+  lastName: '',
   businessName: '',
   phoneNumber: '',
   email: '',
   businessType: '',
+  password: '',
   address: '',
   lga: '',
   stateoforigin: '',
 };
-const SignUpBusiness = ({navigation, getRoles}) => {
+const SignUpBusiness = ({
+  navigation,
+  getRoles,
+  getBusinessTypes,
+  business_types,
+  createAccount,
+  user_roles,
+}) => {
   useEffect(() => {
-    const fetchRoles = async () => {
-      const response = await getRoles();
-      console.log(response);
+    const fetchData = async () => {
+      await getRoles();
+      await getBusinessTypes();
     };
-    fetchRoles();
-  }, [getRoles]);
+    !user_roles && fetchData();
+  }, [getRoles, user_roles, getBusinessTypes]);
   const [{errors}, setState] = useState({
     errors: initialErrorState,
   });
   const [inputValues, setInput] = useState(initialInputState);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hidePassword, sethidePassword] = useState(false);
 
   const handleInputChange = (name, value) => {
     setInput((state) => ({
@@ -119,6 +153,16 @@ const SignUpBusiness = ({navigation, getRoles}) => {
         [name]: '',
       },
     }));
+  };
+  const getRoleId = () => {
+    if (user_roles.some((el) => el.slug === 'user')) {
+      const updatedInfo = user_roles.filter((el) => el.slug === 'user');
+      //console.log(updatedInfo);
+      return updatedInfo[0]._id;
+    }
+  };
+  const managePasswordVisibility = () => {
+    sethidePassword(!hidePassword);
   };
   const validateFields = (requiredFields) => {
     let isValid = true;
@@ -153,8 +197,7 @@ const SignUpBusiness = ({navigation, getRoles}) => {
 
     return isValid;
   };
-  const handleNext = () => {
-    //navigation.navigate('SignUpOTP')
+  const handleNext = async () => {
     setState((state) => ({
       ...state,
       errors: initialErrorState,
@@ -164,16 +207,34 @@ const SignUpBusiness = ({navigation, getRoles}) => {
     console.log(isValid);
     if (isValid) {
       const data = {
-        fullName: inputValues.fullName,
+        firstName: inputValues.firstName,
+        lastName: inputValues.lastName,
         businessName: inputValues.businessName,
         phoneNumber: inputValues.phoneNumber,
         email: inputValues.email,
         businessType: inputValues.businessType,
         address: inputValues.address,
         lga: inputValues.lga,
-        stateoforigin: inputValues.stateoforigin,
+        state: inputValues.stateoforigin,
+        password: inputValues.password,
+        role: getRoleId(),
       };
       console.log(data);
+      try {
+        setIsLoading(true);
+        const response = await createAccount(data);
+        setIsLoading(false);
+        console.log(response);
+        if (response.status === 201) {
+          navigation.navigate('SignUpOTP', {email: response.data.email});
+        } else {
+          alert('error occured');
+        }
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error.message);
+        alert(error.message);
+      }
     }
   };
   return (
@@ -255,6 +316,22 @@ const SignUpBusiness = ({navigation, getRoles}) => {
                       handleInputChange={(text) =>
                         handleInputChange(name, text)
                       }
+                      secureTextEntry={
+                        name === 'password' && !hidePassword ? true : false
+                      }
+                      rightElement={
+                        name === 'password' && (
+                          <TouchableOpacity
+                            onPress={() => managePasswordVisibility()}
+                            style={{right: '80%'}}>
+                            <Entypo
+                              name={hidePassword ? 'eye' : 'eye-with-line'}
+                              size={25}
+                              color={colors.PRIMARY_GREY_02}
+                            />
+                          </TouchableOpacity>
+                        )
+                      }
                       errorMessage={errors[name] || ''}
                       cutomwrapperInputStyle={{marginBottom: 20}}
                     />
@@ -302,6 +379,7 @@ const SignUpBusiness = ({navigation, getRoles}) => {
         <ButtonMain
           onPress={() => handleNext()}
           text="Continue"
+          isLoading={isLoading}
           btnContainerStyle={Basestyle.btn_full}
         />
       </KeyboardAwareScrollView>
@@ -309,19 +387,21 @@ const SignUpBusiness = ({navigation, getRoles}) => {
   );
 };
 
-// const mapStateToProps = state => {
-//   const {
-//     account: { subaccountrules, sub_account_wallet_id },
-//   } = state;
+const mapStateToProps = (state) => {
+  const {
+    auth: {user_roles, business_types},
+  } = state;
 
-//   return {
-//     subaccountrules,
-//     sub_account_wallet_id,
-//   };
-// };
+  return {
+    user_roles,
+    business_types,
+  };
+};
 
 const mapDispatchToProps = {
   getRoles,
+  getBusinessTypes,
+  createAccount,
 };
 
-export default connect(null, mapDispatchToProps)(SignUpBusiness);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpBusiness);

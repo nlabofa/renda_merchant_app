@@ -15,7 +15,9 @@ import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import ButtonMain from '../../components/Button/ButtonMain';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
-const Login = ({navigation}) => {
+const Login = ({navigation, route}) => {
+  const email = route.params && route.params.email;
+
   return (
     <ImageBackground
       source={Images.login_bg}
@@ -44,8 +46,9 @@ const Login = ({navigation}) => {
         <View style={{marginTop: hp(7)}}>
           <FloatingTextInput
             label="Email Address"
-            placeholder="test@gmail.com"
+            placeholder={email || 'test@gmail.com'}
             keyboardType="email-address"
+            //value={email || ''}
             cutomwrapperInputStyle={{marginBottom: 30}}
           />
           <FloatingTextInput

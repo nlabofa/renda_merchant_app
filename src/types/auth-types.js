@@ -1,4 +1,6 @@
 module.exports = {
   LOAD_START: 'auth/LOAD_START',
   LOAD_END: 'auth/LOAD_END',
+  SAVE_USER_ROLES: 'auth/SAVE_USER_ROLES',
+  SAVE_BUSINESS_TYPES: 'auth/SAVE_BUSINESS_TYPES',
 };

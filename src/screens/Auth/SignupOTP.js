@@ -15,8 +15,16 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import ReuseHeader from '../../components/Header/index';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-const SignUpOTP = ({navigation}) => {
+const SignUpOTP = ({navigation, route}) => {
+  const {email} = route.params;
+  //console.log(email);
   const [showmodal, setshowmodal] = useState(false);
+  const goHome = () => {
+    setshowmodal(false);
+    setTimeout(() => {
+      navigation.navigate('Login', {email});
+    }, 1000);
+  };
 
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
@@ -38,9 +46,13 @@ const SignUpOTP = ({navigation}) => {
             <Text style={[styles.message_text, {paddingTop: 20}]}>
               Successfull Sign Up !
             </Text>
+            <Text style={[styles.message_text, {paddingTop: 20}]}>
+              You can now sign in with{' '}
+              <Text style={{color: '#8AA9BF'}}>{email}</Text>
+            </Text>
           </View>
           <TouchableOpacity
-            onPress={() => setshowmodal(false)}
+            onPress={() => goHome()}
             style={styles.message_bottom}>
             <Text style={styles.continue_btn}>Continue</Text>
           </TouchableOpacity>

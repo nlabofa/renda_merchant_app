@@ -1,5 +1,4 @@
-/* eslint-disable eqeqeq */
-//import * as actionTypes from '../types/login';
+import * as actionTypes from '../types/auth-types';
 import {AuthRequest} from '../api/index';
 // import {
 //   storeUserLoginData,
@@ -24,15 +23,31 @@ import NavigationService from '../helpers/NavigationService';
 //     type: actionTypes.LOAD_END,
 //   };
 // };
-
-// const clearError = () => {
-//   return {
-//     type: actionTypes.CLEAR_ERROR,
-//   };
-// };
-export const getRoles = () => async () => {
+export const saveUserRoles = (data) => {
+  return {
+    type: actionTypes.SAVE_USER_ROLES,
+    data,
+  };
+};
+export const saveBusinessTypes = (data) => {
+  return {
+    type: actionTypes.SAVE_BUSINESS_TYPES,
+    data,
+  };
+};
+export const getRoles = () => async (dispatch) => {
   const response = await AuthRequest.getRoles();
-  return response.data;
+  dispatch(saveUserRoles(response.data));
+  return response;
+};
+export const getBusinessTypes = () => async (dispatch) => {
+  const response = await AuthRequest.getBusinessTypes();
+  dispatch(saveBusinessTypes(response.data));
+  return response;
+};
+export const createAccount = (data) => async (dispatch) => {
+  const response = await AuthRequest.createAccount(data);
+  return response;
 };
 
 // export const handleLogin = (data) => async (dispatch) => {

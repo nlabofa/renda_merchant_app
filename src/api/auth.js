@@ -27,13 +27,13 @@ export default class Auth extends RendaRequest {
     }
   };
 
-  resetPassword = async (payload) => {
+  createAccount = async (payload) => {
     try {
-      const {data} = await this.noTokenRequestInstance.post(
-        '/account/reset_password/',
+      const response = await this.noTokenRequestInstance.post(
+        '/users',
         payload,
       );
-      return data;
+      return response;
     } catch (err) {
       return this.handleError(err);
     }
@@ -41,7 +41,15 @@ export default class Auth extends RendaRequest {
 
   getRoles = async () => {
     try {
-      const {data} = await this.noTokenRequestInstance.get('/roles/');
+      const {data} = await this.noTokenRequestInstance.get('/roles');
+      return data;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
+  getBusinessTypes = async () => {
+    try {
+      const {data} = await this.noTokenRequestInstance.get('/businesstype');
       return data;
     } catch (err) {
       return this.handleError(err);
