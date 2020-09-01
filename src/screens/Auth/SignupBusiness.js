@@ -1,5 +1,6 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StatusBar} from 'react-native';
 import {Basestyle} from '../../helpers/BaseThemes';
 import SafeAreaView from 'react-native-safe-area-view';
@@ -9,6 +10,8 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
 import statesList from '../../helpers/statelist';
+import {connect} from 'react-redux';
+import {getRoles} from '../../actions/auth.action';
 const CYCLES = [
   {
     title: 'Information Technology',
@@ -27,12 +30,14 @@ const addressFields = [
   {
     index: 0,
     label: 'Full Name',
+    name: 'fullName',
     placeholder: 'Eric Jones',
     keyboardType: '',
   },
   {
     index: 11,
     label: 'Business Name',
+    name: 'businessName',
     placeholder: 'Garner corp',
     keyboardType: '',
   },
@@ -40,50 +45,140 @@ const addressFields = [
     index: 1,
     label: 'Phone Number',
     placeholder: '08189798881',
+    name: 'phoneNumber',
     keyboardType: 'number-pad',
   },
   {
     index: 2,
     label: 'Your Email Address',
     placeholder: 'Eric@gmail.com',
+    name: 'email',
     keyboardType: 'email-address',
   },
   {
     index: 7,
     label: 'Business Type',
     placeholder: 'Textiles',
+    name: 'businessType',
     type: 'dropdown',
   },
   {
     index: 3,
     label: 'Address',
     placeholder: '12 Wole Ariyo Street Lekki Phase 1',
+    name: 'address',
     keyboardType: '',
   },
-  // {
-  //   index: 8,
-  //   label: 'Package Description',
-  //   placeholder: 'Eric Jones',
-  //   keyboardType: '',
-  //   type: 'textarea',
-  // },
 ];
-const SignUpBusiness = ({navigation}) => {
-  const [inputValues, setInput] = useState({
-    on_days: '',
-    week_days: 'friday',
-    end_days: '12',
-    cycle_days: '',
+const initialErrorState = {
+  fullName: '',
+  businessName: '',
+  address: '',
+  phoneNumber: '',
+  email: '',
+};
+const requiredFields = [
+  'fullName',
+  'businessName',
+  'phoneNumber',
+  'email',
+  'address',
+];
+const initialInputState = {
+  fullName: '',
+  businessName: '',
+  phoneNumber: '',
+  email: '',
+  businessType: '',
+  address: '',
+  lga: '',
+  stateoforigin: '',
+};
+const SignUpBusiness = ({navigation, getRoles}) => {
+  useEffect(() => {
+    const fetchRoles = async () => {
+      const response = await getRoles();
+      console.log(response);
+    };
+    fetchRoles();
+  }, [getRoles]);
+  const [{errors}, setState] = useState({
+    errors: initialErrorState,
   });
+  const [inputValues, setInput] = useState(initialInputState);
+
   const handleInputChange = (name, value) => {
     setInput((state) => ({
       ...state,
       [name]: value,
     }));
+    setState((state) => ({
+      ...state,
+      errors: {
+        ...state.errors,
+        [name]: '',
+      },
+    }));
+  };
+  const validateFields = (requiredFields) => {
+    let isValid = true;
+    for (let iterator = 0; iterator < requiredFields.length; iterator++) {
+      const requiredField = requiredFields[iterator];
+      const inputValue =
+        requiredField !== 'biz_category_id'
+          ? inputValues[requiredField].trim()
+          : inputValues[requiredField];
+
+      if (!inputValue) {
+        isValid = false;
+        const formField = addressFields.find(
+          (field) => field.name === requiredField,
+        );
+
+        const message = `Please ${
+          formField.type === 'dropdown' ? 'select' : 'enter'
+        } ${formField.label.toLowerCase()}`;
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        break;
+      } else {
+        continue;
+      }
+    }
+
+    return isValid;
+  };
+  const handleNext = () => {
+    //navigation.navigate('SignUpOTP')
+    setState((state) => ({
+      ...state,
+      errors: initialErrorState,
+    }));
+    const isValid = validateFields(requiredFields);
+    // console.log(requiredFields);
+    console.log(isValid);
+    if (isValid) {
+      const data = {
+        fullName: inputValues.fullName,
+        businessName: inputValues.businessName,
+        phoneNumber: inputValues.phoneNumber,
+        email: inputValues.email,
+        businessType: inputValues.businessType,
+        address: inputValues.address,
+        lga: inputValues.lga,
+        stateoforigin: inputValues.stateoforigin,
+      };
+      console.log(data);
+    }
   };
   return (
     <SafeAreaView
-      //forceInset={{bottom: 'never'}}
+      forceInset={{bottom: 'never'}}
       style={Basestyle.container_with_space}>
       <StatusBar
         barStyle="dark-content"
@@ -100,7 +195,7 @@ const SignUpBusiness = ({navigation}) => {
         <View style={{marginTop: 30}}>
           <View style={{marginTop: 0}}>
             {addressFields.map(
-              ({index, label, placeholder, type, keyboardType}) => {
+              ({index, label, placeholder, type, name, keyboardType}) => {
                 if (type === 'textarea') {
                   return (
                     <FloatingTextInput
@@ -110,11 +205,16 @@ const SignUpBusiness = ({navigation}) => {
                       multiline={true}
                       numberOfLines={4}
                       placeholder={placeholder}
+                      value={inputValues[name]}
+                      handleInputChange={(text) =>
+                        handleInputChange(name, text)
+                      }
                       keyboardType={keyboardType || 'default'}
                       cutomwrapperInputStyle={[
                         Basestyle.textarea,
                         {marginBottom: 20},
                       ]}
+                      errorMessage={errors[name] || ''}
                     />
                   );
                 } else if (type === 'dropdown') {
@@ -124,7 +224,7 @@ const SignUpBusiness = ({navigation}) => {
                       containerStyle={{marginBottom: 20}}
                       defaultLabel={label}
                       // inputTextStyle={styles.dropdown_inputext}
-                      selectedOption={inputValues.on_days}
+                      selectedOption={inputValues[name]}
                       options={[
                         {
                           name: 'Choose category..',
@@ -134,12 +234,13 @@ const SignUpBusiness = ({navigation}) => {
                       ]}
                       handleDropdownChange={(value) => {
                         if (value !== null) {
-                          handleInputChange('on_days', value);
+                          handleInputChange(name, value);
                         }
                       }}
                       labelKey="title"
                       valueKey="type"
                       placeholder={placeholder}
+                      errorMessage={errors[name] || ''}
                     />
                   );
                 } else {
@@ -150,6 +251,11 @@ const SignUpBusiness = ({navigation}) => {
                       label={label}
                       placeholder={placeholder}
                       keyboardType={keyboardType || 'default'}
+                      value={inputValues[name]}
+                      handleInputChange={(text) =>
+                        handleInputChange(name, text)
+                      }
+                      errorMessage={errors[name] || ''}
                       cutomwrapperInputStyle={{marginBottom: 20}}
                     />
                   );
@@ -161,6 +267,8 @@ const SignUpBusiness = ({navigation}) => {
                 <FloatingTextInput
                   label="L.G.A"
                   placeholder="Eti Osa"
+                  value={inputValues.lga}
+                  handleInputChange={(text) => handleInputChange('lga', text)}
                   //cutomwrapperInputStyle={{width: '48%'}}
                 />
               </View>
@@ -170,7 +278,7 @@ const SignUpBusiness = ({navigation}) => {
                   // containerStyle={{backgroundColor: 'red'}}
                   defaultLabel="State"
                   // inputTextStyle={styles.dropdown_inputext}
-                  selectedOption={inputValues.cycle_days}
+                  selectedOption={inputValues.stateoforigin}
                   options={[
                     {
                       name: 'Choose state...',
@@ -180,7 +288,7 @@ const SignUpBusiness = ({navigation}) => {
                   ]}
                   handleDropdownChange={(value) => {
                     if (value !== null) {
-                      handleInputChange('cycle_days', value);
+                      handleInputChange('stateoforigin', value);
                     }
                   }}
                   labelKey="name"
@@ -192,7 +300,7 @@ const SignUpBusiness = ({navigation}) => {
           </View>
         </View>
         <ButtonMain
-          onPress={() => navigation.navigate('SignUpOTP')}
+          onPress={() => handleNext()}
           text="Continue"
           btnContainerStyle={Basestyle.btn_full}
         />
@@ -201,4 +309,19 @@ const SignUpBusiness = ({navigation}) => {
   );
 };
 
-export default SignUpBusiness;
+// const mapStateToProps = state => {
+//   const {
+//     account: { subaccountrules, sub_account_wallet_id },
+//   } = state;
+
+//   return {
+//     subaccountrules,
+//     sub_account_wallet_id,
+//   };
+// };
+
+const mapDispatchToProps = {
+  getRoles,
+};
+
+export default connect(null, mapDispatchToProps)(SignUpBusiness);

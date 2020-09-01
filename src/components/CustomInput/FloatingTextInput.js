@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, TextInput} from 'react-native';
-import {colors, Basestyle} from '../../helpers/BaseThemes/';
+import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {colors, Basestyle, Fontnames} from '../../helpers/BaseThemes/';
 import {processFontSize} from '../../helpers/fonts';
 
 const FloatingTextInput = ({
@@ -15,6 +15,7 @@ const FloatingTextInput = ({
   keyboardType,
   rightElement = null,
   leftElement = null,
+  errorMessage,
   editable = true,
   ...props
 }) => {
@@ -86,7 +87,12 @@ const FloatingTextInput = ({
   ) : (
     <View>
       <Text style={labelstyle}>{label}</Text>
-      <View style={[textinputviewstyle, cutomwrapperInputStyle]}>
+      <View
+        style={[
+          textinputviewstyle,
+          cutomwrapperInputStyle,
+          errorMessage ? {borderColor: colors.PRIMARY_RED} : null,
+        ]}>
         <TextInput
           keyboardType={keyboardType}
           style={[textinputstyle]}
@@ -102,8 +108,20 @@ const FloatingTextInput = ({
         />
         {rightElement ? rightElement : null}
       </View>
+      {errorMessage ? (
+        <Text style={styles.errorMessageStyle}>{errorMessage}</Text>
+      ) : null}
     </View>
   );
 };
+const styles = StyleSheet.create({
+  errorMessageStyle: {
+    marginTop: -13,
+    paddingBottom: 10,
+    fontSize: 13,
+    fontFamily: Fontnames.medium,
+    color: colors.PRIMARY_RED,
+  },
+});
 
 export default FloatingTextInput;

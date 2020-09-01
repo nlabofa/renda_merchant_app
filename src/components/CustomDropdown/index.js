@@ -26,6 +26,7 @@ const CustomDropdown = ({
   inputTextStyle,
   defaultLabel = '',
   placeholder = '',
+  errorMessage,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -35,6 +36,7 @@ const CustomDropdown = ({
         handlePress={() => setModalVisible(true)}
         placeholder={placeholder}
         value={selectedOption}
+        errorMessage={errorMessage}
         cutomwrapperInputStyle={[containerStyle]}
       />
       <Modal

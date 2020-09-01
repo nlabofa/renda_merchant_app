@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
-import {colors, Basestyle} from '../../helpers/BaseThemes/';
+import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
+import {colors, Basestyle, Fontnames} from '../../helpers/BaseThemes/';
 import {processFontSize} from '../../helpers/fonts';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -21,6 +21,7 @@ const InputContainer = ({
   noRightElement,
   leftElement = null,
   editable = true,
+  errorMessage,
   ...props
 }) => {
   const textinputviewstyle = {
@@ -49,7 +50,12 @@ const InputContainer = ({
   return (
     <TouchableOpacity activeOpacity={0.7} style={{}} onPress={handlePress}>
       <Text style={[labelstyle]}>{label}</Text>
-      <View style={[textinputviewstyle, cutomwrapperInputStyle]}>
+      <View
+        style={[
+          textinputviewstyle,
+          cutomwrapperInputStyle,
+          errorMessage ? {borderColor: colors.PRIMARY_RED} : null,
+        ]}>
         <View style={[textinputstyle]}>
           <Text style={{}} />
           {leftElement || null}
@@ -77,8 +83,19 @@ const InputContainer = ({
               </View>
             )}
       </View>
+      {errorMessage ? (
+        <Text style={styles.errorMessageStyle}>{errorMessage}</Text>
+      ) : null}
     </TouchableOpacity>
   );
 };
-
+const styles = StyleSheet.create({
+  errorMessageStyle: {
+    marginTop: -13,
+    paddingBottom: 10,
+    fontSize: 13,
+    fontFamily: Fontnames.medium,
+    color: colors.PRIMARY_RED,
+  },
+});
 export default InputContainer;

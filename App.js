@@ -9,6 +9,9 @@ import * as Expresscreens from './src/navigation/Express/index';
 import * as AuthScreens from './src/navigation/Auth/index';
 import * as PaymentScreens from './src/navigation/Payments/index';
 import * as OnboardScreens from './src/navigation/Onboard/index';
+import Store from './src/store/index';
+import {Provider} from 'react-redux';
+import {navigationRef} from './src/helpers/NavigationService';
 
 const Drawer = createDrawerNavigator();
 const DrawerStackScreen = () => (
@@ -169,9 +172,11 @@ const RootStackScreen = () => (
 );
 const App = () => {
   return (
-    <NavigationContainer>
-      <RootStackScreen />
-    </NavigationContainer>
+    <Provider store={Store}>
+      <NavigationContainer ref={navigationRef}>
+        <RootStackScreen />
+      </NavigationContainer>
+    </Provider>
   );
 };
 
