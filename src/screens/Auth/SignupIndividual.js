@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-alert */
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
-import {View, StatusBar, Text, Image} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, StatusBar, TouchableOpacity, Text, Image} from 'react-native';
 import {Basestyle, colors} from '../../helpers/BaseThemes';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import ReuseHeader from '../../components/Header/index';
 import ButtonMain from '../../components/Button/ButtonMain';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -11,16 +13,26 @@ import styles from './styles';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
 import statesList from '../../helpers/statelist';
+import SafeAreaView from 'react-native-safe-area-view';
+import Entypo from 'react-native-vector-icons/Entypo';
+import {
+  getRoles,
+  createAccount,
+  getBusinessTypes,
+} from '../../actions/auth.action';
+import {connect} from 'react-redux';
 const addressFields = [
   {
     index: 0,
     label: 'First Name',
+    name: 'firstName',
     placeholder: 'Eric',
     keyboardType: '',
   },
   {
     index: 12,
     label: 'Last Name',
+    name: 'lastName',
     placeholder: 'Jones',
     keyboardType: '',
   },
@@ -28,50 +40,174 @@ const addressFields = [
     index: 2,
     label: 'Your Email Address',
     placeholder: 'Eric@gmail.com',
+    name: 'email',
     keyboardType: 'email-address',
   },
   {
     index: 1,
     label: 'Phone Number',
+    name: 'phoneNumber',
     placeholder: '08189798881',
+    keyboardType: 'number-pad',
+  },
+  {
+    index: 10,
+    label: 'Password',
+    placeholder: '****',
+    name: 'password',
     keyboardType: 'number-pad',
   },
   {
     index: 3,
     label: 'Address',
+    name: 'address',
     placeholder: '12 Wole Ariyo Street Lekki Phase 1',
     keyboardType: '',
   },
-  // {
-  //   index: 7,
-  //   label: 'Category',
-  //   placeholder: 'Clothes',
-  //   keyboardType: '',
-  //   type: 'dropdown',
-  // },
-  // {
-  //   index: 8,
-  //   label: 'Package Description',
-  //   placeholder: 'Eric Jones',
-  //   keyboardType: '',
-  //   type: 'textarea',
-  // },
 ];
-const SignUpIndividual = ({navigation}) => {
-  const [inputValues, setInput] = useState({
-    on_days: 'third',
-    week_days: 'friday',
-    end_days: '12',
-    cycle_days: '',
+const initialErrorState = {
+  firstName: '',
+  lastName: '',
+  password: '',
+  address: '',
+  phoneNumber: '',
+  email: '',
+};
+const requiredFields = [
+  'firstName',
+  'lastName',
+  'email',
+  'phoneNumber',
+  'password',
+  'address',
+];
+const initialInputState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phoneNumber: '',
+  password: '',
+  address: '',
+  lga: '',
+  stateoforigin: '',
+};
+const SignUpIndividual = ({
+  navigation,
+  getRoles,
+  createAccount,
+  getBusinessTypes,
+  user_roles,
+}) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      await getRoles();
+      await getBusinessTypes();
+    };
+    user_roles.length > 0 ? null : fetchData();
+  }, [getRoles, getBusinessTypes]);
+  const [{errors}, setState] = useState({
+    errors: initialErrorState,
   });
+  const [inputValues, setInput] = useState(initialInputState);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hidePassword, sethidePassword] = useState(false);
   const handleInputChange = (name, value) => {
     setInput((state) => ({
       ...state,
       [name]: value,
     }));
+    setState((state) => ({
+      ...state,
+      errors: {
+        ...state.errors,
+        [name]: '',
+      },
+    }));
+  };
+  const getRoleId = () => {
+    if (user_roles.some((el) => el.slug === 'user')) {
+      const updatedInfo = user_roles.filter((el) => el.slug === 'user');
+      //console.log(updatedInfo);
+      return updatedInfo[0]._id;
+    }
+  };
+  const managePasswordVisibility = () => {
+    sethidePassword(!hidePassword);
+  };
+  const validateFields = (requiredFields) => {
+    let isValid = true;
+    for (let iterator = 0; iterator < requiredFields.length; iterator++) {
+      const requiredField = requiredFields[iterator];
+      const inputValue =
+        requiredField !== 'biz_category_id'
+          ? inputValues[requiredField].trim()
+          : inputValues[requiredField];
+
+      if (!inputValue) {
+        isValid = false;
+        const formField = addressFields.find(
+          (field) => field.name === requiredField,
+        );
+
+        const message = `Please ${
+          formField.type === 'dropdown' ? 'select' : 'enter'
+        } ${formField.label.toLowerCase()}`;
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        break;
+      } else {
+        continue;
+      }
+    }
+
+    return isValid;
+  };
+  const handleNext = async () => {
+    setState((state) => ({
+      ...state,
+      errors: initialErrorState,
+    }));
+    const isValid = validateFields(requiredFields);
+    // console.log(requiredFields);
+    if (isValid) {
+      const data = {
+        firstName: inputValues.firstName,
+        lastName: inputValues.lastName,
+        phoneNumber: inputValues.phoneNumber,
+        email: inputValues.email,
+        address: inputValues.address,
+        lga: inputValues.lga,
+        state: inputValues.stateoforigin,
+        password: inputValues.password,
+        role: getRoleId(),
+      };
+      console.log(data);
+      try {
+        setIsLoading(true);
+        const response = await createAccount(data);
+        setIsLoading(false);
+        console.log(response);
+        if (response.status === 201) {
+          navigation.navigate('SignUpOTP', {email: response.data.email});
+        } else {
+          alert('error occured');
+        }
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error.message);
+        alert(error.message);
+      }
+    }
   };
   return (
-    <SafeAreaView style={Basestyle.container_with_space}>
+    <SafeAreaView
+      forceInset={{bottom: 'never'}}
+      style={Basestyle.container_with_space}>
       <StatusBar
         barStyle="dark-content"
         translucent={true}
@@ -110,7 +246,7 @@ const SignUpIndividual = ({navigation}) => {
           </View>
           <View style={{marginTop: 30}}>
             {addressFields.map(
-              ({index, label, placeholder, type, keyboardType}) => {
+              ({index, label, placeholder, name, type, keyboardType}) => {
                 if (type === 'textarea') {
                   return (
                     <FloatingTextInput
@@ -120,6 +256,11 @@ const SignUpIndividual = ({navigation}) => {
                       multiline={true}
                       numberOfLines={4}
                       placeholder={placeholder}
+                      value={inputValues.name}
+                      handleInputChange={(text) =>
+                        handleInputChange(name, text)
+                      }
+                      errorMessage={errors[name] || ''}
                       keyboardType={keyboardType || 'default'}
                       cutomwrapperInputStyle={[
                         Basestyle.textarea,
@@ -135,6 +276,27 @@ const SignUpIndividual = ({navigation}) => {
                       label={label}
                       placeholder={placeholder}
                       keyboardType={keyboardType || 'default'}
+                      value={inputValues.name}
+                      handleInputChange={(text) =>
+                        handleInputChange(name, text)
+                      }
+                      secureTextEntry={
+                        name === 'password' && !hidePassword ? true : false
+                      }
+                      rightElement={
+                        name === 'password' && (
+                          <TouchableOpacity
+                            onPress={() => managePasswordVisibility()}
+                            style={{right: '80%'}}>
+                            <Entypo
+                              name={hidePassword ? 'eye' : 'eye-with-line'}
+                              size={25}
+                              color={colors.PRIMARY_GREY_02}
+                            />
+                          </TouchableOpacity>
+                        )
+                      }
+                      errorMessage={errors[name] || ''}
                       cutomwrapperInputStyle={{marginBottom: 20}}
                     />
                   );
@@ -146,6 +308,8 @@ const SignUpIndividual = ({navigation}) => {
                 <FloatingTextInput
                   label="L.G.A"
                   placeholder="Eti Osa"
+                  value={inputValues.lga}
+                  handleInputChange={(text) => handleInputChange('lga', text)}
                   //cutomwrapperInputStyle={{width: '48%'}}
                 />
               </View>
@@ -155,7 +319,7 @@ const SignUpIndividual = ({navigation}) => {
                   // containerStyle={{backgroundColor: 'red'}}
                   defaultLabel="State"
                   // inputTextStyle={styles.dropdown_inputext}
-                  selectedOption={inputValues.cycle_days}
+                  selectedOption={inputValues.stateoforigin}
                   options={[
                     {
                       name: 'Choose state...',
@@ -165,7 +329,7 @@ const SignUpIndividual = ({navigation}) => {
                   ]}
                   handleDropdownChange={(value) => {
                     if (value !== null) {
-                      handleInputChange('cycle_days', value);
+                      handleInputChange('stateoforigin', value);
                     }
                   }}
                   labelKey="name"
@@ -177,8 +341,9 @@ const SignUpIndividual = ({navigation}) => {
           </View>
         </View>
         <ButtonMain
-          onPress={() => navigation.navigate('SignUpOTP')}
+          onPress={() => handleNext()}
           text="Continue"
+          isLoading={isLoading}
           btnContainerStyle={Basestyle.btn_full}
         />
       </KeyboardAwareScrollView>
@@ -186,4 +351,20 @@ const SignUpIndividual = ({navigation}) => {
   );
 };
 
-export default SignUpIndividual;
+const mapStateToProps = (state) => {
+  const {
+    auth: {user_roles},
+  } = state;
+
+  return {
+    user_roles,
+  };
+};
+
+const mapDispatchToProps = {
+  getRoles,
+  getBusinessTypes,
+  createAccount,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpIndividual);

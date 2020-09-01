@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-alert */
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
@@ -132,8 +133,8 @@ const SignUpBusiness = ({
       await getRoles();
       await getBusinessTypes();
     };
-    !user_roles && fetchData();
-  }, [getRoles, user_roles, getBusinessTypes]);
+    user_roles.length > 0 ? null : fetchData();
+  }, [getRoles, getBusinessTypes]);
   const [{errors}, setState] = useState({
     errors: initialErrorState,
   });

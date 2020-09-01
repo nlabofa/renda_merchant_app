@@ -36,7 +36,9 @@ export const saveBusinessTypes = (data) => {
   };
 };
 export const getRoles = () => async (dispatch) => {
+  //console.log('fetching');
   const response = await AuthRequest.getRoles();
+  //console.log(response);
   dispatch(saveUserRoles(response.data));
   return response;
 };
