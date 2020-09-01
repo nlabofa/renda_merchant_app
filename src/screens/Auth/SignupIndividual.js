@@ -2,7 +2,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View, StatusBar, TouchableOpacity, Text, Image} from 'react-native';
 import {Basestyle, colors} from '../../helpers/BaseThemes';
 import ReuseHeader from '../../components/Header/index';
@@ -10,6 +10,7 @@ import ButtonMain from '../../components/Button/ButtonMain';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {processFontSize} from '../../helpers/fonts';
 import styles from './styles';
+import {GoogleSignin} from '@react-native-community/google-signin';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
 import statesList from '../../helpers/statelist';
@@ -98,6 +99,8 @@ const SignUpIndividual = ({
   getBusinessTypes,
   user_roles,
 }) => {
+  const scrollViewRef = useRef(null);
+
   useEffect(() => {
     const fetchData = async () => {
       await getRoles();
@@ -105,6 +108,34 @@ const SignUpIndividual = ({
     };
     user_roles.length > 0 ? null : fetchData();
   }, [getRoles, getBusinessTypes]);
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '91081549853-30ro22ipmi94oeep4sq2ufia9bg8c3rk.apps.googleusercontent.com',
+      forceConsentPrompt: true, // if you want to show the authorization prompt at each login
+    });
+  }, []);
+  const googleSignInHandler = () => {
+    GoogleSignin.hasPlayServices()
+      .then((res) => {
+        GoogleSignin.signIn()
+          .then((res) => {
+            console.log(res);
+            let userDetails = {
+              email: res.user.email.toLowerCase(),
+              // access_token: "12345"
+            };
+            //console.log(userDetails);
+            handleOAUTHLogin(userDetails);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
   const [{errors}, setState] = useState({
     errors: initialErrorState,
   });
@@ -167,6 +198,13 @@ const SignUpIndividual = ({
 
     return isValid;
   };
+  const handleOAUTHLogin = (data) => {
+    console.log(data);
+    setTimeout(() => {
+      scrollViewRef.current.scrollToEnd({animated: true});
+    }, 500);
+    setIsLoading(true);
+  };
   const handleNext = async () => {
     setState((state) => ({
       ...state,
@@ -219,12 +257,14 @@ const SignUpIndividual = ({
         leftheader
         textStyle={{letterSpacing: 0.9}}
       />
-      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView
+        ref={scrollViewRef}
+        showsVerticalScrollIndicator={false}>
         <View style={{marginTop: 30}}>
           <View style={{marginTop: 15}}>
             <ButtonMain
               btnwhite
-              onPress={() => navigation.navigate('SignUpLanding')}
+              onPress={() => googleSignInHandler()}
               text="Sign up with your Google account"
               showicon={
                 <Image

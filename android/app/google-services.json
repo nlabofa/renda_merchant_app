@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "91081549853",
+    "firebase_url": "https://renda-merchant.firebaseio.com",
+    "project_id": "renda-merchant",
+    "storage_bucket": "renda-merchant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91081549853:android:fe61c8229b0052f3947ef4",
+        "android_client_info": {
+          "package_name": "com.rendamerchant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91081549853-g80o3i2v6ejbcfhi6vic5chmgs79ra8d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rendamerchant",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "91081549853-30ro22ipmi94oeep4sq2ufia9bg8c3rk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChH7APu6lbqc3J9AE4q8s-EDCa1492LZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91081549853-30ro22ipmi94oeep4sq2ufia9bg8c3rk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "91081549853-4n3ep5474ss3jb2boujovmhitci7mor6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.RendaMerchant"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
