@@ -20,11 +20,93 @@ import styles from './styles';
 import {GoogleSignin} from '@react-native-community/google-signin';
 
 import {processFontSize} from '../../helpers/fonts';
-const Login = ({navigation, route}) => {
-  const email = route.params && route.params.email;
+import {handleLogin} from '../../actions/auth.action';
+import {connect} from 'react-redux';
+
+const addressFields = [
+  {
+    index: 2,
+    label: 'Your Email Address',
+    placeholder: 'Eric@gmail.com',
+    name: 'email',
+    keyboardType: 'email-address',
+  },
+  {
+    index: 10,
+    label: 'Password',
+    placeholder: '****',
+    name: 'password',
+  },
+];
+
+const initialErrorState = {
+  password: '',
+  email: '',
+};
+const requiredFields = ['email', 'password'];
+
+const Login = ({navigation, handleLogin, route}) => {
+  const preemail = route.params && route.params.email;
+  const initialInputState = {
+    email: preemail || '',
+    password: '',
+  };
 
   const [isLoading, setIsLoading] = useState(false);
   const [hidePassword, sethidePassword] = useState(false);
+  const [inputValues, setInput] = useState(initialInputState);
+  const [{errors}, setState] = useState({
+    errors: initialErrorState,
+  });
+  const handleInputChange = (name, value) => {
+    setInput((state) => ({
+      ...state,
+      [name]: value,
+    }));
+    setState((state) => ({
+      ...state,
+      errors: {
+        ...state.errors,
+        [name]: '',
+      },
+    }));
+  };
+  const managePasswordVisibility = () => {
+    sethidePassword(!hidePassword);
+  };
+  const validateFields = (requiredFields) => {
+    let isValid = true;
+    for (let iterator = 0; iterator < requiredFields.length; iterator++) {
+      const requiredField = requiredFields[iterator];
+      const inputValue =
+        requiredField !== 'biz_category_id'
+          ? inputValues[requiredField].trim()
+          : inputValues[requiredField];
+
+      if (!inputValue) {
+        isValid = false;
+        const formField = addressFields.find(
+          (field) => field.name === requiredField,
+        );
+
+        const message = `Please ${
+          formField.type === 'dropdown' ? 'select' : 'enter'
+        } ${formField.label.toLowerCase()}`;
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        break;
+      } else {
+        continue;
+      }
+    }
+
+    return isValid;
+  };
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -33,6 +115,7 @@ const Login = ({navigation, route}) => {
       forceConsentPrompt: true, // if you want to show the authorization prompt at each login
     });
   }, []);
+
   const handleOAUTHLogin = (data) => {
     console.log(data);
     setIsLoading(true);
@@ -57,6 +140,39 @@ const Login = ({navigation, route}) => {
       .catch((err) => {
         alert(err);
       });
+  };
+  const handleNext = async () => {
+    setState((state) => ({
+      ...state,
+      errors: initialErrorState,
+    }));
+    const isValid = validateFields(requiredFields);
+    if (isValid) {
+      const data = {
+        email: inputValues.email,
+        password: inputValues.password,
+        strategy: 'local',
+      };
+      console.log(data);
+      try {
+        setIsLoading(true);
+        const response = await handleLogin(data);
+        setIsLoading(false);
+        console.log(response);
+        if (response.status === 201) {
+          handleInputChange('email', '');
+          handleInputChange('password', '');
+
+          navigation.navigate('MainApp');
+        } else {
+          alert('error occured');
+        }
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error.message);
+        alert(error.message);
+      }
+    }
   };
   return (
     <ImageBackground
@@ -86,19 +202,29 @@ const Login = ({navigation, route}) => {
         <View style={{marginTop: hp(7)}}>
           <FloatingTextInput
             label="Email Address"
-            placeholder={email || 'test@gmail.com'}
+            placeholder="test@gmail.com"
             keyboardType="email-address"
-            //value={email || ''}
+            value={inputValues.email}
+            handleInputChange={(text) => handleInputChange('email', text)}
+            errorMessage={errors.email || ''}
             cutomwrapperInputStyle={{marginBottom: 30}}
           />
           <FloatingTextInput
             label="Password"
             placeholder="* * * * "
-            secureTextEntry
-            keyboardType="number-pad"
+            value={inputValues.password}
+            handleInputChange={(text) => handleInputChange('password', text)}
+            errorMessage={errors.password || ''}
+            secureTextEntry={!hidePassword ? true : false}
             rightElement={
-              <TouchableOpacity style={{right: '80%'}}>
-                <Entypo name="eye" size={25} color={colors.PRIMARY_GREY_02} />
+              <TouchableOpacity
+                onPress={() => managePasswordVisibility()}
+                style={{right: '80%'}}>
+                <Entypo
+                  name={hidePassword ? 'eye' : 'eye-with-line'}
+                  size={25}
+                  color={colors.PRIMARY_GREY_02}
+                />
               </TouchableOpacity>
             }
             cutomwrapperInputStyle={{marginBottom: 20}}
@@ -109,7 +235,7 @@ const Login = ({navigation, route}) => {
             Forgot Password?
           </Text>
           <ButtonMain
-            onPress={() => navigation.navigate('MainApp')}
+            onPress={() => handleNext()}
             text="Sign in"
             isLoading={isLoading}
             btnContainerStyle={{marginTop: 60}}
@@ -149,4 +275,18 @@ const Login = ({navigation, route}) => {
   );
 };
 
-export default Login;
+const mapStateToProps = (state) => {
+  const {
+    auth: {user_roles},
+  } = state;
+
+  return {
+    user_roles,
+  };
+};
+
+const mapDispatchToProps = {
+  handleLogin,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

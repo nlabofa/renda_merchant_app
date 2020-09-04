@@ -11,7 +11,7 @@ export default class RendaRequest {
   _token = '';
   requestInstance;
   noTokenRequestInstance;
-  businessAccountId;
+  userId;
 
   constructor() {
     this.init();
@@ -23,15 +23,15 @@ export default class RendaRequest {
 
     await this._setToken(userData.token);
     this._setRequestInstance();
-    this._setBusinessAccountId(userData.biz_account_id);
+    this._setUserId(userData._id);
   }
 
   async _setToken(token) {
     this._token = token;
   }
 
-  _setBusinessAccountId(id) {
-    this.businessAccountId = id;
+  _setUserId(id) {
+    this.userId = id;
   }
 
   _setRequestInstance() {

@@ -7,11 +7,11 @@ export default class Auth extends RendaRequest {
 
   login = async (userData) => {
     try {
-      const {data} = await this.noTokenRequestInstance.post(
-        '/account/prospa_login/',
+      const response = await this.noTokenRequestInstance.post(
+        '/authentication',
         userData,
       );
-      return data;
+      return response;
     } catch (err) {
       return this.handleError(err);
     }

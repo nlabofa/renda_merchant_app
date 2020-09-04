@@ -131,7 +131,9 @@ const DrawerComponent = ({navigation}) => {
           style={{width: processFontSize(120), height: processFontSize(140)}}
           source={require('../../assets/images/sliderbottomarc.png')}
         />
-        <TouchableOpacity style={styles.sidebar_bottomright}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Auth')}
+          style={styles.sidebar_bottomright}>
           <Image
             source={require('../../assets/images/logout_icon.png')}
             resizeMode="contain"

@@ -56,7 +56,7 @@ const addressFields = [
     label: 'Password',
     placeholder: '****',
     name: 'password',
-    keyboardType: 'number-pad',
+    keyboardType: '',
   },
   {
     index: 3,
