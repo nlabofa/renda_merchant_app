@@ -10,7 +10,7 @@ const NewDelivery = ({navigation}) => {
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
       <StatusBar
-        barStyle="light-content"
+        barStyle="dark-content"
         translucent={true}
         backgroundColor="transparent"
       />
@@ -19,6 +19,7 @@ const NewDelivery = ({navigation}) => {
         leftheader
         showlefticon
         navigation={navigation}
+        containerstyle={{marginTop: 10}}
         textStyle={{letterSpacing: 0.9}}
       />
       <ScrollView showsVerticalScrollIndicator={false}>

@@ -50,12 +50,12 @@ const ButtonMain = ({
       backgroundColor: '#fff',
       // IOS
       shadowColor: '#e8e8e8',
-      shadowOffset: {width: 0, height: 2},
+      shadowOffset: {width: 0, height: 1},
       shadowOpacity: 1,
-      shadowRadius: 4,
+      shadowRadius: 1.5,
 
       // ANDROID
-      elevation: 2,
+      elevation: 1,
       borderWidth: 1,
       borderColor: '#e8e8e8',
     };

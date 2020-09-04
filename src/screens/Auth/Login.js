@@ -238,7 +238,7 @@ const Login = ({navigation, handleLogin, route}) => {
             onPress={() => handleNext()}
             text="Sign in"
             isLoading={isLoading}
-            btnContainerStyle={{marginTop: 60}}
+            btnContainerStyle={{marginTop: processFontSize(40)}}
           />
           <ButtonMain
             btnwhite
@@ -253,7 +253,10 @@ const Login = ({navigation, handleLogin, route}) => {
               />
             }
             btnTextStyles={{color: colors.PRIMARY_BLUE}}
-            btnContainerStyle={{height: processFontSize(50), marginTop: 20}}
+            btnContainerStyle={{
+              height: processFontSize(50),
+              marginTop: processFontSize(20),
+            }}
           />
           <ButtonMain
             btnwhite
@@ -267,7 +270,7 @@ const Login = ({navigation, handleLogin, route}) => {
             //   />
             // }
             btnTextStyles={{color: colors.PRIMARY_BLUE}}
-            btnContainerStyle={{marginTop: 30}}
+            btnContainerStyle={{marginTop: processFontSize(20)}}
           />
         </View>
       </KeyboardAwareScrollView>

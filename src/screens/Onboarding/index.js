@@ -1,17 +1,9 @@
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Image,
-  Platform,
-  Dimensions,
-} from 'react-native';
+import React from 'react';
+import {SafeAreaView, View, Text, StatusBar, Image} from 'react-native';
 import styles from './styles';
 import {Basestyle, Images, colors} from '../../helpers/BaseThemes/';
 import ButtonMain from '../../components/Button/ButtonMain';
+import AppIntroSlider from 'react-native-app-intro-slider';
 
 const IntroScreens = [
   {
@@ -37,23 +29,24 @@ const IntroScreens = [
 ];
 
 const IntroSlider = ({navigation}) => {
-  const [sliderState, setSliderState] = useState({currentPage: 0});
-  const {width} = Dimensions.get('window');
+  const _keyExtractor = (item) => item.index.toString();
 
-  const setSliderPage = (event) => {
-    const {currentPage} = sliderState;
-    const {x} = event.nativeEvent.contentOffset;
-    const indexOfNextScreen =
-      Platform.OS === 'android' ? Math.ceil(x / width) : Math.floor(x / width);
-    if (indexOfNextScreen !== currentPage) {
-      setSliderState({
-        ...sliderState,
-        currentPage: indexOfNextScreen,
-      });
-    }
+  const _renderItem = ({item}) => {
+    return (
+      <View style={styles.sliderview}>
+        <Image
+          source={item.imagesrc}
+          resizeMode="contain"
+          style={styles.sliderview_img}
+        />
+        <View style={styles.sliderview_bottom}>
+          <Text numberOfLines={2} style={styles.headtext}>
+            {item.headtext}
+          </Text>
+        </View>
+      </View>
+    );
   };
-
-  const {currentPage: pageIndex} = sliderState;
 
   return (
     <>
@@ -80,40 +73,16 @@ const IntroSlider = ({navigation}) => {
           </View>
         </View>
 
-        <ScrollView
-          horizontal={true}
-          scrollEventThrottle={16}
-          showsHorizontalScrollIndicator={false}
-          pagingEnabled={true}
-          onScroll={(event) => {
-            setSliderPage(event);
-          }}>
-          {IntroScreens.map(({imagesrc, headtext, index}) => (
-            <View key={index} style={styles.sliderview}>
-              <Image
-                source={imagesrc}
-                resizeMode="contain"
-                style={styles.sliderview_img}
-              />
-              <View style={styles.sliderview_bottom}>
-                <Text numberOfLines={2} style={styles.headtext}>
-                  {headtext}
-                </Text>
-              </View>
-            </View>
-          ))}
-        </ScrollView>
-        <View style={styles.paginationrow}>
-          {Array.from(Array(4).keys()).map((key, index) => (
-            <View
-              style={[
-                styles.paginationDots,
-                pageIndex === index ? styles.activepagination : null,
-              ]}
-              key={index}
-            />
-          ))}
-        </View>
+        <AppIntroSlider
+          keyExtractor={_keyExtractor}
+          renderItem={_renderItem}
+          data={IntroScreens}
+          showNextButton={false}
+          showDoneButton={false}
+          dotStyle={styles.paginationDots}
+          activeDotStyle={styles.activepagination}
+        />
+
         <ButtonMain
           btnContainerStyle={styles.button}
           btnTextStyles={{

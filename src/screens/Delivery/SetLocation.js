@@ -13,7 +13,7 @@ const SetLocation = ({navigation}) => {
   return (
     <SafeAreaView forceInset={{bottom: 'never'}} style={Basestyle.container}>
       <StatusBar
-        barStyle="light-content"
+        barStyle="dark-content"
         translucent={true}
         backgroundColor="transparent"
       />

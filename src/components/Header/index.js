@@ -1,10 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
+import {TouchableOpacity, Text, View, StyleSheet, Platform} from 'react-native';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {colors, Basestyle} from '../../helpers/BaseThemes';
+import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 
 const ReuseHeader = ({
   title,
@@ -15,8 +16,12 @@ const ReuseHeader = ({
   containerstyle = {},
   textStyle = {},
 }) => {
+  const header2 = {
+    ...styles.header2,
+    marginTop: Platform.OS === 'android' ? getStatusBarHeight() + 10 : 10,
+  };
   return leftheader ? (
-    <View style={[styles.header2, containerstyle]}>
+    <View style={[header2, containerstyle]}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
         hitSlop={Basestyle.hitSlop}
