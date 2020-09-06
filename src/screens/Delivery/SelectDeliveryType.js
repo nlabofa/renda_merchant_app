@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, StatusBar, Image, ScrollView, Text} from 'react-native';
@@ -5,7 +6,9 @@ import {Basestyle} from '../../helpers/BaseThemes';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ItemBox from '../../components/ItemBox';
 import ReuseHeader from '../../components/Header';
+import {connect} from 'react-redux';
 import styles from './styles/delivery_styles';
+import {saveDeliveryData} from '../../actions/delivery.action';
 const LIST_DELIVERY = [
   {
     index: 0,
@@ -28,7 +31,7 @@ const LIST_DELIVERY = [
     imgsrc: require('../../assets/images/minitruck.png'),
   },
 ];
-const SelectDeliveryType = ({navigation}) => {
+const SelectDeliveryType = ({navigation, saveDeliveryData}) => {
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
       <StatusBar
@@ -60,7 +63,12 @@ const SelectDeliveryType = ({navigation}) => {
                 />
               }
               customtext={label}
-              onPress={() => navigation.navigate('SetLocation', {type: label})}
+              onPress={() => {
+                saveDeliveryData({
+                  deliveryMethod: label,
+                });
+                navigation.navigate('SetLocation');
+              }}
             />
           ))}
         </View>
@@ -69,4 +77,18 @@ const SelectDeliveryType = ({navigation}) => {
   );
 };
 
-export default SelectDeliveryType;
+// const mapStateToProps = (state) => {
+//   const {
+//     account: {selectedBusinessAccount, walletInflowOutflow},
+//   } = state;
+//   return {
+//     selectedBusinessAccount,
+//     walletInflowOutflow,
+//   };
+// };
+
+const mapDispatchToProps = {
+  saveDeliveryData,
+};
+
+export default connect(null, mapDispatchToProps)(SelectDeliveryType);

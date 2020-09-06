@@ -1,4 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-shadow */
+
 import React, {useState} from 'react';
 import {View, Text, Switch, StatusBar} from 'react-native';
 import {Basestyle, colors} from '../../helpers/BaseThemes';
@@ -9,6 +11,8 @@ import ProgressBar from 'react-native-progress/Bar';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
+import {connect} from 'react-redux';
+import {saveDeliveryData} from '../../actions/delivery.action';
 import styles from './styles/delivery_styles';
 const CYCLES = [
   {
@@ -29,65 +33,124 @@ const addressFields = [
     index: 0,
     label: 'Full Name',
     placeholder: 'Eric Jones',
+    name: 'fullname',
     keyboardType: '',
   },
-  // {
-  //   index: 11,
-  //   label: 'Business Name',
-  //   placeholder: 'Garner corp',
-  //   keyboardType: '',
-  // },
   {
     index: 1,
     label: 'Phone Number',
     placeholder: '08189798881',
+    name: 'phone',
     keyboardType: 'number-pad',
   },
   {
     index: 2,
     label: 'Your Email Address',
     placeholder: 'Eric@gmail.com',
+    name: 'email',
     keyboardType: 'email-address',
   },
-  // {
-  //   index: 7,
-  //   label: 'Business Type',
-  //   placeholder: 'Textiles',
-  //   type: 'dropdown',
-  // },
   {
     index: 3,
     label: 'Pick Up Address',
     placeholder: '12 Wole Ariyo Street Lekki Phase 1',
     keyboardType: '',
+    name: 'pickUpAddress',
   },
   {
     index: 33,
     label: 'Closest Landmark',
     placeholder: '12 Wole Ariyo Street Lekki Phase 1',
     keyboardType: '',
+    name: 'pickUpLandmark',
   },
-  // {
-  //   index: 8,
-  //   label: 'Package Description',
-  //   placeholder: 'Eric Jones',
-  //   keyboardType: '',
-  //   type: 'textarea',
-  // },
 ];
-const SenderInfo = ({navigation}) => {
-  const [inputValues, setInput] = useState({
-    on_days: '',
-    week_days: 'friday',
-    end_days: '12',
-    cycle_days: '',
-    options: '',
+const initialErrorState = {
+  fullname: '',
+  phone: '',
+  email: '',
+  pickUpAddress: '',
+};
+const requiredFields = ['fullname', 'phone', 'email', 'pickUpAddress'];
+const initialInputState = {
+  fullname: '',
+  phone: '',
+  email: '',
+  pickUpAddress: '',
+  pickUpLandmark: '',
+};
+const SenderInfo = ({navigation, deliverydata, saveDeliveryData}) => {
+  const [{errors}, setState] = useState({
+    errors: initialErrorState,
   });
+  const [inputValues, setInput] = useState(initialInputState);
   const handleInputChange = (name, value) => {
     setInput((state) => ({
       ...state,
       [name]: value,
     }));
+    setState((state) => ({
+      ...state,
+      errors: {
+        ...state.errors,
+        [name]: '',
+      },
+    }));
+  };
+  const validateFields = (requiredFields) => {
+    let isValid = true;
+    for (let iterator = 0; iterator < requiredFields.length; iterator++) {
+      const requiredField = requiredFields[iterator];
+      const inputValue =
+        requiredField !== 'biz_category_id'
+          ? inputValues[requiredField].trim()
+          : inputValues[requiredField];
+
+      if (!inputValue) {
+        isValid = false;
+        const formField = addressFields.find(
+          (field) => field.name === requiredField,
+        );
+
+        const message = `Please ${
+          formField.type === 'dropdown' ? 'select' : 'enter'
+        } ${formField.label.toLowerCase()}`;
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        break;
+      } else {
+        continue;
+      }
+    }
+
+    return isValid;
+  };
+  const handleNext = () => {
+    setState((state) => ({
+      ...state,
+      errors: initialErrorState,
+    }));
+    const isValid = validateFields(requiredFields);
+    if (isValid) {
+      saveDeliveryData({
+        ...deliverydata,
+        sender: {
+          details: {
+            name: inputValues.fullname,
+            phone: inputValues.phone,
+            email: inputValues.email,
+          },
+        },
+        pickUpAddress: inputValues.pickUpAddress,
+        pickUpLandmark: inputValues.pickUpLandmark,
+      });
+      navigation.navigate('ReceiverInfo');
+    }
   };
   return (
     <SafeAreaView
@@ -121,7 +184,7 @@ const SenderInfo = ({navigation}) => {
           />
           <View style={{marginTop: 0}}>
             {addressFields.map(
-              ({index, label, placeholder, type, keyboardType}) => {
+              ({index, label, name, placeholder, type, keyboardType}) => {
                 if (type === 'textarea') {
                   return (
                     <FloatingTextInput
@@ -170,6 +233,11 @@ const SenderInfo = ({navigation}) => {
                       express
                       label={label}
                       placeholder={placeholder}
+                      value={inputValues.name}
+                      handleInputChange={(text) =>
+                        handleInputChange(name, text)
+                      }
+                      errorMessage={errors[name] || ''}
                       keyboardType={keyboardType || 'default'}
                       cutomwrapperInputStyle={{marginBottom: 20}}
                     />
@@ -202,7 +270,7 @@ const SenderInfo = ({navigation}) => {
             btnContainerStyle={[Basestyle.btn_small]}
           />
           <ButtonMain
-            onPress={() => navigation.navigate('ReceiverInfo')}
+            onPress={() => handleNext()}
             text="Next"
             btnContainerStyle={Basestyle.btn_small}
           />
@@ -212,4 +280,16 @@ const SenderInfo = ({navigation}) => {
   );
 };
 
-export default SenderInfo;
+const mapStateToProps = (state) => {
+  const {
+    delivery: {deliverydata},
+  } = state;
+  return {
+    deliverydata,
+  };
+};
+const mapDispatchToProps = {
+  saveDeliveryData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SenderInfo);

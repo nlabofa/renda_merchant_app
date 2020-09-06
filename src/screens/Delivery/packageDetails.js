@@ -1,4 +1,6 @@
+/* eslint-disable radix */
 /* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-shadow */
 import React, {useState} from 'react';
 import {View, Text, Image, Switch, StatusBar} from 'react-native';
 import {Basestyle, colors, Fontnames} from '../../helpers/BaseThemes';
@@ -12,6 +14,8 @@ import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
 import styles from './styles/delivery_styles';
 import InputContainer from '../../components/InputContainer';
+import {connect} from 'react-redux';
+import {saveDeliveryData} from '../../actions/delivery.action';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 const CYCLES = [
   {
@@ -32,36 +36,131 @@ const addressFields = [
     index: 7,
     label: 'Category',
     placeholder: 'Shoes',
+    name: 'category',
     type: 'dropdown',
   },
   {
     index: 0,
     label: 'Quanity',
     placeholder: '0 pcs',
+    name: 'quantity',
     keyboardType: 'number-pad',
   },
   {
     index: 8,
     label: 'Package Description',
     placeholder: '',
+    name: 'description',
     keyboardType: '',
     type: 'textarea',
   },
 ];
-const PackageDetails = ({navigation}) => {
+const initialErrorState = {
+  category: '',
+  quantity: '',
+  estimatedWorth: '',
+};
+const requiredFields = ['category', 'quantity', 'estimatedWorth'];
+const initialInputState = {
+  deliveryDate: '2020-10-02',
+  category: '',
+  quantity: '',
+  description: '',
+  estimatedWorth: '',
+  priority: true,
+  image:
+    'https://cloudfront-us-east-1.images.arcpublishing.com/advancelocal/YESIHAFIOFHSJDVGMVQ5PQRSGE.jpg',
+};
+const PackageDetails = ({navigation, deliverydata, saveDeliveryData}) => {
   const [imageupload, toggleimageupload] = useState(false);
-  const [inputValues, setInput] = useState({
-    on_days: '',
-    week_days: 'friday',
-    end_days: '12',
-    cycle_days: '',
-    options: '',
+  const [{errors}, setState] = useState({
+    errors: initialErrorState,
   });
+  const [inputValues, setInput] = useState(initialInputState);
+  console.log(inputValues && inputValues.category);
   const handleInputChange = (name, value) => {
     setInput((state) => ({
       ...state,
       [name]: value,
     }));
+    setState((state) => ({
+      ...state,
+      errors: {
+        ...state.errors,
+        [name]: '',
+      },
+    }));
+  };
+  const validateFields = (requiredFields) => {
+    let isValid = true;
+    for (let iterator = 0; iterator < requiredFields.length; iterator++) {
+      const requiredField = requiredFields[iterator];
+      const inputValue =
+        requiredField !== 'biz_category_id'
+          ? inputValues[requiredField].trim()
+          : inputValues[requiredField];
+
+      if (!inputValue) {
+        isValid = false;
+        const formField = addressFields.find(
+          (field) => field.name === requiredField,
+        );
+
+        const message = `Please ${
+          formField.type === 'dropdown' ? 'select' : 'enter'
+        } ${formField.label.toLowerCase()}`;
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        break;
+      } else {
+        continue;
+      }
+    }
+
+    return isValid;
+  };
+  const handleNext = () => {
+    setState((state) => ({
+      ...state,
+      errors: initialErrorState,
+    }));
+    const isValid = validateFields(requiredFields);
+    if (isValid) {
+      const data = {
+        ...deliverydata,
+        package: {
+          details: {
+            quantity: parseInt(inputValues.quantity),
+            description: inputValues.description,
+            image: inputValues.image,
+            estimatedWorth: parseInt(inputValues.estimatedWorth),
+          },
+        },
+        deliveryDate: inputValues.deliveryDate,
+        category: inputValues.category,
+        //extras
+        user: '5f18cec0e44e3de65ff1e7fc',
+        // distance: 20,
+        // estimatedTime: 120,
+        // paymentMode: 'Card',
+        // paymentAmount: 1000,
+        priority: inputValues.priority,
+        endUserGpsLocation: [
+          {
+            latitude: -1000,
+            longitude: 23,
+          },
+        ],
+      };
+      console.log(data);
+      saveDeliveryData(data);
+      navigation.navigate('PackageDetailsFull');
+    }
   };
   return (
     <SafeAreaView
@@ -99,7 +198,7 @@ const PackageDetails = ({navigation}) => {
               //handlePress={() => navigation.navigate('SenderInfo')}
               placeholder="14 Feb. 2018 | 12:30pm"
               textinputcustomstyle={{paddingLeft: 40}}
-              //value={selectedOption}
+              value={inputValues.deliveryDate}
               leftElement={
                 <TouchableOpacity style={{position: 'absolute', left: 0}}>
                   <Ionicons
@@ -113,7 +212,7 @@ const PackageDetails = ({navigation}) => {
               cutomwrapperInputStyle={{marginBottom: 20}}
             />
             {addressFields.map(
-              ({index, label, placeholder, type, keyboardType}) => {
+              ({index, label, placeholder, name, type, keyboardType}) => {
                 if (type === 'textarea') {
                   return (
                     <FloatingTextInput
@@ -123,6 +222,11 @@ const PackageDetails = ({navigation}) => {
                       multiline={true}
                       numberOfLines={4}
                       placeholder={placeholder}
+                      value={inputValues.name}
+                      handleInputChange={(text) =>
+                        handleInputChange(name, text)
+                      }
+                      errorMessage={errors[name] || ''}
                       keyboardType={keyboardType || 'default'}
                       cutomwrapperInputStyle={[
                         Basestyle.textarea,
@@ -137,7 +241,7 @@ const PackageDetails = ({navigation}) => {
                       containerStyle={{marginBottom: 20}}
                       defaultLabel={label}
                       // inputTextStyle={styles.dropdown_inputext}
-                      selectedOption={inputValues.on_days}
+                      selectedOption={inputValues.category}
                       options={[
                         {
                           name: 'Choose category..',
@@ -147,9 +251,10 @@ const PackageDetails = ({navigation}) => {
                       ]}
                       handleDropdownChange={(value) => {
                         if (value !== null) {
-                          handleInputChange('on_days', value);
+                          handleInputChange(name, value);
                         }
                       }}
+                      errorMessage={errors[name] || ''}
                       labelKey="title"
                       valueKey="type"
                       placeholder={placeholder}
@@ -164,6 +269,11 @@ const PackageDetails = ({navigation}) => {
                       placeholder={placeholder}
                       keyboardType={keyboardType || 'default'}
                       cutomwrapperInputStyle={{marginBottom: 20}}
+                      value={inputValues.name}
+                      handleInputChange={(text) =>
+                        handleInputChange(name, text)
+                      }
+                      errorMessage={errors[name] || ''}
                     />
                   );
                 }
@@ -181,6 +291,11 @@ const PackageDetails = ({navigation}) => {
             label="Estimated worth of items"
             placeholder="0 pcs"
             keyboardType="number-pad"
+            value={inputValues.estimatedWorth}
+            handleInputChange={(text) =>
+              handleInputChange('estimatedWorth', text)
+            }
+            errorMessage={errors.estimatedWorth || ''}
             //cutomwrapperInputStyle={{marginTop: 15}}
           />
           <View style={[Basestyle.row_center, {paddingTop: 20}]}>
@@ -199,8 +314,8 @@ const PackageDetails = ({navigation}) => {
               //style={{marginTop: 16}}
               thumbColor="#fff"
               ios_backgroundColor={'#E6EDF2'}
-              onValueChange={(value) => handleInputChange('options', value)}
-              value={inputValues.options}
+              onValueChange={(value) => handleInputChange('priority', value)}
+              value={inputValues.priority}
             />
           </View>
         </View>
@@ -243,7 +358,7 @@ const PackageDetails = ({navigation}) => {
             btnContainerStyle={[Basestyle.btn_small]}
           />
           <ButtonMain
-            onPress={() => navigation.navigate('PackageDetailsFull')}
+            onPress={() => handleNext()}
             text="Next"
             btnContainerStyle={Basestyle.btn_small}
           />
@@ -253,4 +368,16 @@ const PackageDetails = ({navigation}) => {
   );
 };
 
-export default PackageDetails;
+const mapStateToProps = (state) => {
+  const {
+    delivery: {deliverydata},
+  } = state;
+  return {
+    deliverydata,
+  };
+};
+const mapDispatchToProps = {
+  saveDeliveryData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PackageDetails);

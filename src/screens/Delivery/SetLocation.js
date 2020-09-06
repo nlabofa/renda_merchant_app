@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-shadow */
 import React from 'react';
 import {View, StatusBar, Image, TouchableOpacity, Text} from 'react-native';
 import {Basestyle, Images} from '../../helpers/BaseThemes';
@@ -6,10 +7,31 @@ import SafeAreaView from 'react-native-safe-area-view';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ReuseHeader from '../../components/Header';
 import styles from './styles/delivery_styles';
+import {connect} from 'react-redux';
+import {saveDeliveryData} from '../../actions/delivery.action';
+
 import InputContainer from '../../components/InputContainer';
 import ButtonMain from '../../components/Button/ButtonMain';
 
-const SetLocation = ({navigation}) => {
+const SetLocation = ({navigation, deliverydata, saveDeliveryData}) => {
+  const handleNext = () => {
+    saveDeliveryData({
+      ...deliverydata,
+      pickUpLocation: [
+        {
+          longitude: -40123,
+          latitude: 1000,
+        },
+      ],
+      deliveryLocation: [
+        {
+          longitude: -4123,
+          latitude: 100,
+        },
+      ],
+    });
+    navigation.navigate('SenderInfo');
+  };
   return (
     <SafeAreaView forceInset={{bottom: 'never'}} style={Basestyle.container}>
       <StatusBar
@@ -96,7 +118,9 @@ const SetLocation = ({navigation}) => {
                 </View>
               </View>
               <ButtonMain
-                onPress={() => navigation.navigate('SenderInfo')}
+                onPress={() => {
+                  handleNext();
+                }}
                 text="Proceed"
                 btnContainerStyle={[
                   Basestyle.btn_full,
@@ -110,5 +134,16 @@ const SetLocation = ({navigation}) => {
     </SafeAreaView>
   );
 };
+const mapStateToProps = (state) => {
+  const {
+    delivery: {deliverydata},
+  } = state;
+  return {
+    deliverydata,
+  };
+};
+const mapDispatchToProps = {
+  saveDeliveryData,
+};
 
-export default SetLocation;
+export default connect(mapStateToProps, mapDispatchToProps)(SetLocation);
