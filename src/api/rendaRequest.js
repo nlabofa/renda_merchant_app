@@ -20,6 +20,7 @@ export default class RendaRequest {
   async init() {
     const storedUserData = await AsyncStorage.getItem('user_stats');
     const userData = JSON.parse(storedUserData) || {};
+    // console.log(userData);
 
     await this._setToken(userData.token);
     this._setRequestInstance();
@@ -38,7 +39,7 @@ export default class RendaRequest {
     this.requestInstance = axios.create({
       baseURL,
       headers: {
-        Authorization: `Token ${this._token}`,
+        Authorization: `Bearer ${this._token}`,
       },
     });
     this.noTokenRequestInstance = axios.create({

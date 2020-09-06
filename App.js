@@ -9,6 +9,7 @@ import * as Expresscreens from './src/navigation/Express/index';
 import * as AuthScreens from './src/navigation/Auth/index';
 import * as PaymentScreens from './src/navigation/Payments/index';
 import * as OnboardScreens from './src/navigation/Onboard/index';
+import LoadingScreen from './src/screens/LoadingScreen';
 import Store from './src/store/index';
 import {Provider} from 'react-redux';
 import {navigationRef} from './src/helpers/NavigationService';
@@ -143,33 +144,54 @@ const DeepStackScreen = () => (
   </DeepStack.Navigator>
 );
 const RootStack = createStackNavigator();
-const RootStackScreen = () => (
-  <RootStack.Navigator headerMode="none" initialRouteName="">
-    <RootStack.Screen
-      name="Onboard"
-      component={OnboardStackScreen}
-      options={{
-        animationEnabled: false,
-        headerMode: 'none',
-      }}
-    />
-    <RootStack.Screen
-      name="Auth"
-      component={AuthStackScreen}
-      options={{
-        animationEnabled: false,
-        headerMode: 'none',
-      }}
-    />
-    <RootStack.Screen
-      name="MainApp"
-      component={DeepStackScreen}
-      options={{
-        animationEnabled: false,
-      }}
-    />
-  </RootStack.Navigator>
-);
+const RootStackScreen = () => {
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     const userData = await AsyncStorage.getItem('user_stats');
+  //     const data = JSON.parse(userData);
+  //     console.log(data);
+  //     setIsLoggedIn(true);
+  //   };
+  //   checkUser();
+  // }, []);
+  // //console.log(isLoggedIn);
+  return (
+    <RootStack.Navigator headerMode="none" initialRouteName="">
+      <RootStack.Screen
+        name="Loading"
+        component={LoadingScreen}
+        options={{
+          animationEnabled: false,
+          headerMode: 'none',
+        }}
+      />
+      <RootStack.Screen
+        name="Onboard"
+        component={OnboardStackScreen}
+        options={{
+          animationEnabled: false,
+          headerMode: 'none',
+        }}
+      />
+      <RootStack.Screen
+        name="Auth"
+        component={AuthStackScreen}
+        options={{
+          animationEnabled: false,
+          headerMode: 'none',
+        }}
+      />
+      <RootStack.Screen
+        name="MainApp"
+        component={DeepStackScreen}
+        options={{
+          animationEnabled: false,
+        }}
+      />
+    </RootStack.Navigator>
+  );
+};
 const App = () => {
   return (
     <Provider store={Store}>

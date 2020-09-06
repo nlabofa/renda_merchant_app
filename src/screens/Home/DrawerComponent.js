@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
@@ -15,6 +16,8 @@ import SafeAreaView from 'react-native-safe-area-view';
 import styles from './styles/dashboard_styles';
 import {Basestyle, Images, colors} from '../../helpers/BaseThemes';
 import {processFontSize} from '../../helpers/fonts';
+import {connect} from 'react-redux';
+import {logout} from '../../actions/auth.action';
 
 const ITEM_LIST = [
   {
@@ -49,7 +52,7 @@ const ITEM_LIST = [
     screen: 'ViewNotification',
   },
 ];
-const DrawerComponent = ({navigation}) => {
+const DrawerComponent = ({navigation, logout, user_info}) => {
   const [activescreen, setActiveScreen] = useState('Home');
 
   const gotoScreen = (screen, title) => {
@@ -84,7 +87,7 @@ const DrawerComponent = ({navigation}) => {
             </View>
             <View style={styles.sidebar_topright}>
               <Text numberOfLines={1} style={[styles.opaq5]}>
-                Eric Garner
+                {user_info && user_info.firstName + ' ' + user_info.lastName}
               </Text>
               <Text
                 numberOfLines={1}
@@ -92,7 +95,7 @@ const DrawerComponent = ({navigation}) => {
                   styles.opaq6,
                   {fontSize: 14, color: colors.PRIMARY_BLUE},
                 ]}>
-                ericgarner@gmail
+                {user_info && user_info.email}
               </Text>
             </View>
           </View>
@@ -132,7 +135,7 @@ const DrawerComponent = ({navigation}) => {
           source={require('../../assets/images/sliderbottomarc.png')}
         />
         <TouchableOpacity
-          onPress={() => navigation.navigate('Auth')}
+          onPress={() => logout()}
           style={styles.sidebar_bottomright}>
           <Image
             source={require('../../assets/images/logout_icon.png')}
@@ -146,4 +149,17 @@ const DrawerComponent = ({navigation}) => {
   );
 };
 
-export default DrawerComponent;
+const mapStateToProps = (state) => {
+  const {
+    auth: {user_info},
+  } = state;
+  return {
+    user_info,
+  };
+};
+
+const mapDispatchToProps = {
+  logout,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerComponent);

@@ -29,6 +29,13 @@ export const saveUserRoles = (data) => {
     data,
   };
 };
+export const clearUserInfo = () => ({
+  type: actionTypes.RESET_USER_INFO,
+});
+export const saveUserInfo = (data) => ({
+  type: actionTypes.SAVE_USER_INFO,
+  data,
+});
 export const saveBusinessTypes = (data) => {
   return {
     type: actionTypes.SAVE_BUSINESS_TYPES,
@@ -61,6 +68,7 @@ export const handleLogin = (data) => async (dispatch) => {
       ...response.data.user,
     };
     console.log(userData);
+    dispatch(saveUserInfo(userData));
     await storeUserLoginData(userData);
     // NavigationService.reset('Dashboard');
   }
@@ -97,24 +105,13 @@ export const handleLogin = (data) => async (dispatch) => {
 //     return Promise.reject(error);
 //   }
 // };
+export const resetStore = () => (dispatch) => {
+  dispatch(clearUserInfo());
+};
 
-// export const logout = () => async (dispatch) => {
-//   dispatch(resetStore());
-//   AsyncStorage.removeItem('isUserLoggedIn');
-//   AsyncStorage.removeItem('mfaType');
-//   removeUserData([
-//     'token',
-//     'biz_account_id',
-//     'email',
-//     'first_name',
-//     'last_name',
-//     'isPinCreated',
-//   ]);
-//   Intercom.logout();
-//   Mixpanel.reset();
-//   NavigationService.reset('Login');
-//   try {
-//     LockScreenActions.unlockApp();
-//   } catch (err) {}
-//   await AuthRequest.logout();
-// };
+export const logout = () => async (dispatch) => {
+  dispatch(resetStore()); //clear data in redux
+  removeUserData();
+  NavigationService.navigate('Auth');
+  //await AuthRequest.logout();
+};

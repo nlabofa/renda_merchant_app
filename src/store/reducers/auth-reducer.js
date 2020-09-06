@@ -2,6 +2,7 @@ import * as actionTypes from '../../types/auth-types';
 
 const initialState = {
   user_roles: [],
+  user_info: null,
   business_types: [],
   auth_loading: false,
 };
@@ -22,6 +23,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         user_roles: action.data,
+      };
+    case actionTypes.SAVE_USER_INFO:
+      return {
+        ...state,
+        user_info: action.data,
+      };
+    case actionTypes.RESET_USER_INFO:
+      return {
+        ...state,
+        user_info: null,
       };
     case actionTypes.SAVE_BUSINESS_TYPES:
       return {

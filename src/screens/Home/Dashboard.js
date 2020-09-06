@@ -15,7 +15,12 @@ import {processFontSize} from '../../helpers/fonts';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import ItemBox from '../../components/ItemBox';
-const Dashboard = ({navigation}) => {
+import {connect} from 'react-redux';
+import {logout} from '../../actions/auth.action';
+
+const Dashboard = ({navigation, user_info}) => {
+  const {firstName} = user_info;
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -43,7 +48,7 @@ const Dashboard = ({navigation}) => {
         <View style={{marginTop: 40}}>
           <Text
             style={[Basestyle.bold_17, {fontSize: 20, textAlign: 'center'}]}>
-            Welcome Eric
+            Welcome {firstName}
           </Text>
           <View style={styles.dashlist}>
             <View style={{width: '55%'}}>
@@ -158,4 +163,17 @@ const Dashboard = ({navigation}) => {
   );
 };
 
-export default Dashboard;
+const mapStateToProps = (state) => {
+  const {
+    auth: {user_info},
+  } = state;
+  return {
+    user_info,
+  };
+};
+
+const mapDispatchToProps = {
+  logout,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

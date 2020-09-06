@@ -1,12 +1,24 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, StatusBar, TouchableOpacity, Image, Text} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import styles from './styles/dashboard_styles';
 import {Basestyle, Images} from '../../helpers/BaseThemes';
 import GradientHeader from '../../components/GradientHeader';
+import AsyncStorage from '@react-native-community/async-storage';
 import {processFontSize} from '../../helpers/fonts';
-const Landing = ({navigation}) => {
+import {connect} from 'react-redux';
+import {saveUserInfo} from '../../actions/auth.action';
+const Landing = ({navigation, saveUserInfo, user_info}) => {
+  useEffect(() => {
+    const checkUser = async () => {
+      const userData = await AsyncStorage.getItem('user_stats');
+      const data = JSON.parse(userData);
+      saveUserInfo(data);
+    };
+    !user_info && checkUser();
+  }, [saveUserInfo, user_info]);
   return (
     <View style={Basestyle.container}>
       <StatusBar
@@ -29,7 +41,9 @@ const Landing = ({navigation}) => {
         }
         title="DASHBOARD">
         <View style={styles.middle_content}>
-          <Text style={[Basestyle.bold_17, {fontSize: 20}]}>Welcome Eric</Text>
+          <Text style={[Basestyle.bold_17, {fontSize: 20}]}>
+            Welcome {user_info && user_info.firstName}
+          </Text>
         </View>
       </GradientHeader>
       <View style={styles.scrollview}>
@@ -83,4 +97,17 @@ const Landing = ({navigation}) => {
   );
 };
 
-export default Landing;
+const mapStateToProps = (state) => {
+  const {
+    auth: {user_info},
+  } = state;
+  return {
+    user_info,
+  };
+};
+
+const mapDispatchToProps = {
+  saveUserInfo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Landing);
