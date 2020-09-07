@@ -13,6 +13,7 @@ const FloatingTextInput = ({
   placeholder = '',
   cutomwrapperInputStyle = {},
   keyboardType,
+  customtextinputstyle = {},
   rightElement = null,
   leftElement = null,
   errorMessage,
@@ -95,7 +96,7 @@ const FloatingTextInput = ({
         ]}>
         <TextInput
           keyboardType={keyboardType}
-          style={[textinputstyle]}
+          style={[textinputstyle, customtextinputstyle]}
           onChangeText={handleInputChange}
           value={value}
           editable={editable}

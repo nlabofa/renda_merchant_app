@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-shadow */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useCallback, useState} from 'react';
 import {
   View,
   StatusBar,
@@ -21,6 +21,7 @@ import ReuseHeader from '../../components/Header';
 import styles from './styles/delivery_styles';
 import {connect} from 'react-redux';
 import {saveDeliveryData} from '../../actions/delivery.action';
+import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 
 import InputContainer from '../../components/InputContainer';
 import Geolocation from 'react-native-geolocation-service';
@@ -116,7 +117,8 @@ const SetLocation = ({navigation, deliverydata, route, saveDeliveryData}) => {
       }
     };
     parseFullLocation();
-  }, [navigation, pickupData, dropoffData]);
+    getMapRegion();
+  }, [navigation, pickupData, getMapRegion, dropoffData]);
   const hasLocationPermissionIOS = async () => {
     const openSetting = () => {
       Linking.openSettings().catch(() => {
@@ -180,6 +182,56 @@ const SetLocation = ({navigation, deliverydata, route, saveDeliveryData}) => {
       dropoffPrev: dropoffLocation,
     });
   };
+  const defaultregion = {
+    latitude: 6.599033,
+    longitude: 3.3411348,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
+  const getMapRegion = useCallback(
+    () => ({
+      latitude: activeLocation ? activeLocation.location.latitude : 6.599033,
+      longitude: activeLocation ? activeLocation.location.longitude : 3.3411348,
+      // latitudeDelta: 0.0922,
+      // longitudeDelta: 0.0421,
+      latitudeDelta: 0.0045,
+      longitudeDelta: 0.004,
+    }),
+    [activeLocation],
+  );
+  // export function getRegionForCoordinates(points) {
+  //   // points should be an array of { latitude: X, longitude: Y }
+  //   let minX, maxX, minY, maxY;
+
+  //   // init first point
+  //   ((point) => {
+  //     minX = point.latitude;
+  //     maxX = point.latitude;
+  //     minY = point.longitude;
+  //     maxY = point.longitude;
+  //   })(points[0]);
+
+  //   // calculate rect
+  //   points.map((point) => {
+  //     minX = Math.min(minX, point.latitude);
+  //     maxX = Math.max(maxX, point.latitude);
+  //     minY = Math.min(minY, point.longitude);
+  //     maxY = Math.max(maxY, point.longitude);
+  //   });
+
+  //   const midX = (minX + maxX) / 2;
+  //   const midY = (minY + maxY) / 2;
+  //   const deltaX = (maxX - minX);
+  //   const deltaY = (maxY - minY);
+
+  //   return {
+  //     latitude: midX,
+  //     longitude: midY,
+  //     latitudeDelta: deltaX,
+  //     longitudeDelta: deltaY
+  //   };
+  // }
+  //console.log(activeLocation);
   return (
     <SafeAreaView forceInset={{bottom: 'never'}} style={Basestyle.container}>
       <StatusBar
@@ -199,16 +251,35 @@ const SetLocation = ({navigation, deliverydata, route, saveDeliveryData}) => {
 
       <View style={{marginTop: 20, flex: 1}}>
         <View>
-          {/* <Text style={[styles.opaq3, {color: '#557993', paddingBottom: 15}]}>
-            Please select a delivery method
-          </Text> */}
-          <View style={{width: '100%', height: '60%'}}>
-            <Image
-              source={require('../../assets/images/map.png')}
-              resizeMode="cover"
-              style={{width: '100%', height: '100%'}}
-            />
-          </View>
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={{width: '100%', height: '60%'}}
+            initialRegion={defaultregion}
+            onRegionChangeComplete={(region) => console.log(region)}
+            region={getMapRegion()}
+            // customMapStyle={{width: '100%', height: '100%'}}
+          >
+            {activeLocation && (
+              <Marker
+                key={1}
+                coordinate={{
+                  latitude: activeLocation.location.latitude,
+                  longitude: activeLocation.location.longitude,
+                }}
+                // pinColor={'#1B2E5A'}
+              />
+            )}
+            {dropoffLocation && (
+              <Marker
+                key={2}
+                coordinate={{
+                  latitude: dropoffLocation.location.latitude,
+                  longitude: dropoffLocation.location.longitude,
+                }}
+                pinColor={'#ffb600'}
+              />
+            )}
+          </MapView>
           <View style={[Basestyle.round_box, styles.selection_box2]}>
             <View style={styles.content}>
               <Image

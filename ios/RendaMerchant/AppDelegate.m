@@ -17,6 +17,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:@"AIzaSyAczjio3ggIXRlQmxoqyW_DdAEAjGjyiDg"];
+  [GMSPlacesClient provideAPIKey:@"AIzaSyAczjio3ggIXRlQmxoqyW_DdAEAjGjyiDg"];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"RendaMerchant"
@@ -27,8 +29,6 @@
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
-  [GMSPlacesClient provideAPIKey:@"AIzaSyAczjio3ggIXRlQmxoqyW_DdAEAjGjyiDg"];
-  [GMSServices provideAPIKey:@"AIzaSyAczjio3ggIXRlQmxoqyW_DdAEAjGjyiDg"];
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;

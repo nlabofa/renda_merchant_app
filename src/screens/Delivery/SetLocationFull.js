@@ -146,17 +146,25 @@ const SetLocationFull = ({navigation, route}) => {
                   onChangeText={(text) =>
                     handleInputChange('pickupAddress', text)
                   }
+                  customtextinputstyle={{width: '96%'}}
                   value={pickupAddress}
                   onFocus={() => setactiveinput('pickupAddress')}
                   rightElement={
-                    <TouchableOpacity style={{right: '80%'}}>
-                      <Ionicons
-                        name="location-sharp"
-                        size={30}
-                        color="transparent"
-                        //style={styles.location_icon}
-                      />
-                    </TouchableOpacity>
+                    pickupAddress && (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setpickUpData(null);
+                          setpickupAddress('');
+                        }}
+                        style={{position: 'absolute', right: 5}}>
+                        <Ionicons
+                          name="close-circle-outline"
+                          size={20}
+                          color={'#000'}
+                          //style={styles.location_icon}
+                        />
+                      </TouchableOpacity>
+                    )
                   }
                   cutomwrapperInputStyle={[styles.boxicon, {marginBottom: 10}]}
                 />
@@ -174,27 +182,35 @@ const SetLocationFull = ({navigation, route}) => {
                 color="#4964D8"
                 style={styles.location_icon}
               />
-              <View>
+              <View style={{width: '100%'}}>
                 <Text style={[styles.row_top_text, {paddingBottom: 0}]}>
                   Drop off location
                 </Text>
                 <FloatingTextInput
                   label=""
-                  placeholder="12 Wole Ariyo Street Lekki Phase 1"
+                  placeholder="12 Ikate street, Thomas"
                   onChangeText={(text) =>
                     handleInputChange('dropoffAddress', text)
                   }
+                  customtextinputstyle={{width: '96%'}}
                   value={dropoffAddress}
                   onFocus={() => setactiveinput('dropoffAddress')}
                   rightElement={
-                    <TouchableOpacity style={{right: '80%'}}>
-                      <Ionicons
-                        name="location-sharp"
-                        size={30}
-                        color="transparent"
-                        //style={styles.location_icon}
-                      />
-                    </TouchableOpacity>
+                    dropoffAddress && (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setdropOffData(null);
+                          setdropoffAddress('');
+                        }}
+                        style={{position: 'absolute', right: 5}}>
+                        <Ionicons
+                          name="close-circle-outline"
+                          size={20}
+                          color={'#000'}
+                          //style={styles.location_icon}
+                        />
+                      </TouchableOpacity>
+                    )
                   }
                   cutomwrapperInputStyle={[styles.boxicon, {marginBottom: 10}]}
                 />
