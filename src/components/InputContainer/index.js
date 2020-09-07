@@ -60,6 +60,7 @@ const InputContainer = ({
           <Text style={{}} />
           {leftElement || null}
           <Text
+            numberOfLines={1}
             style={[
               {
                 ...textinputstyle,

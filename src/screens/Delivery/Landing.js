@@ -4,9 +4,11 @@ import {View, StatusBar, Image, Text} from 'react-native';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import styles from './styles/delivery_styles';
 import {Basestyle, Images} from '../../helpers/BaseThemes';
+import {connect} from 'react-redux';
 import GradientHeader from '../../components/GradientHeader';
 import ItemBox from '../../components/ItemBox';
-const Landing = ({navigation}) => {
+const Landing = ({navigation, user_info}) => {
+  const {firstName} = user_info;
   return (
     <View style={Basestyle.container}>
       <StatusBar
@@ -29,7 +31,9 @@ const Landing = ({navigation}) => {
         }
         title="Delivery">
         <View style={styles.middle_content}>
-          <Text style={[Basestyle.bold_17, {fontSize: 20}]}>Welcome Eric</Text>
+          <Text style={[Basestyle.bold_17, {fontSize: 20}]}>
+            Welcome {firstName}
+          </Text>
         </View>
       </GradientHeader>
       <View style={styles.scrollview}>
@@ -73,4 +77,17 @@ const Landing = ({navigation}) => {
   );
 };
 
-export default Landing;
+const mapStateToProps = (state) => {
+  const {
+    auth: {user_info},
+  } = state;
+  return {
+    user_info,
+  };
+};
+
+// const mapDispatchToProps = {
+//   logout,
+// };
+
+export default connect(mapStateToProps, null)(Landing);

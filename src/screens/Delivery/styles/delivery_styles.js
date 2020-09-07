@@ -242,4 +242,15 @@ export default StyleSheet.create({
     borderColor: colors.PRIMARY_ORANGE,
   },
   row_top_text: {...Basestyle.bold_16, color: '#557993', paddingBottom: 10},
+  optionContainer: {
+    width: '100%',
+    paddingVertical: 12,
+    //position: 'absolute',
+  },
+  optionTextStyle: {
+    fontSize: 14,
+    fontFamily: FontNames.rubik_medium,
+    color: colors.PRIMARY_GREY,
+    letterSpacing: 0,
+  },
 });
