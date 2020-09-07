@@ -163,21 +163,15 @@ const SetLocation = ({navigation, deliverydata, route, saveDeliveryData}) => {
   };
 
   const handleNext = () => {
-    saveDeliveryData({
+    // console.log(activeLocation);
+    // console.log(dropoffLocation);
+    const formdata = {
       ...deliverydata,
-      pickUpLocation: [
-        {
-          longitude: -40123,
-          latitude: 1000,
-        },
-      ],
-      deliveryLocation: [
-        {
-          longitude: -4123,
-          latitude: 100,
-        },
-      ],
-    });
+      pickUpLocation: [activeLocation.location],
+      deliveryLocation: [dropoffLocation.location],
+    };
+    // console.log(formdata);
+    saveDeliveryData(formdata);
     navigation.navigate('SenderInfo');
   };
   const viewFullLocation = () => {

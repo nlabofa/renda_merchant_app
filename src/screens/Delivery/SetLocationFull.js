@@ -13,10 +13,12 @@ import SafeAreaView from 'react-native-safe-area-view';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ReuseHeader from '../../components/Header';
 import styles from './styles/delivery_styles';
-import RNGooglePlaces from 'react-native-google-places';
+//import RNGooglePlaces from 'react-native-google-places';
 
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import ButtonMain from '../../components/Button/ButtonMain';
+const GOOGLE_MAP_URL = 'https://maps.googleapis.com/maps/api/place/';
+import {API_KEY} from '../../../key';
 
 const SetLocationFull = ({navigation, route}) => {
   const pickupPrev = route && route.params && route.params.pickupPrev;
@@ -32,23 +34,47 @@ const SetLocationFull = ({navigation, route}) => {
   const [activeinput, setactiveinput] = useState('');
   //const [loading, setLoading] = useState(false);
 
-  const handleInputChange = (name, text) => {
+  const fetchRequest = async (url) => {
+    try {
+      const response = await fetch(url);
+      const apiResponse = await response.json();
+
+      if (apiResponse && apiResponse.status && apiResponse.status === 'OK') {
+        //console.log(apiResponse);
+        return apiResponse;
+      } else {
+        throw new Error('Failed to fetch request. Please try again.');
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const handleInputChange = async (name, text) => {
     try {
       name === 'pickupAddress'
         ? (setpickupAddress(text), setpickUpData(null))
         : (setdropoffAddress(text), setdropOffData(null));
 
+      const response = await fetchRequest(`${GOOGLE_MAP_URL}autocomplete/json?input=${text}&location=6.5243793,3.3792057&radius=5000&key=${API_KEY}
+      `);
+      let formatpredictions = response.predictions;
+      formatpredictions.forEach((task) => {
+        task.placeID = task.place_id;
+      });
+      setPredictions(formatpredictions);
+
       //setLoading(true);
-      RNGooglePlaces.getAutocompletePredictions(text, {
-        type: 'address',
-        country: 'NG',
-      })
-        .then((place) => {
-          // console.log(place);
-          setPredictions(place);
-        })
-        .catch((error) => console.log(error.message));
-      // console.log(response)
+      // RNGooglePlaces.getAutocompletePredictions(text, {
+      //   type: 'address',
+      //   country: 'NG',
+      // })
+      //   .then((place) => {
+      //     // console.log(place);
+      //     setPredictions(place);
+      //   })
+      //   .catch((error) => console.log(error.message));
+      // // console.log(response)
     } catch (error) {
       setPredictions([]);
     } finally {
@@ -59,10 +85,10 @@ const SetLocationFull = ({navigation, route}) => {
     setPredictions([]);
     //console.log(data);
     if (label === 'pickupAddress') {
-      setpickupAddress(data.fullText);
+      setpickupAddress(data.description);
       setpickUpData(data);
     } else {
-      setdropoffAddress(data.fullText);
+      setdropoffAddress(data.description);
       setdropOffData(data);
     }
   };
@@ -183,11 +209,11 @@ const SetLocationFull = ({navigation, route}) => {
               {predictions.map((option) => {
                 return (
                   <TouchableOpacity
-                    key={option.placeID}
+                    key={option.place_id}
                     onPress={() => onSelect(activeinput, option)}
                     style={styles.optionContainer}>
                     <Text style={styles.optionTextStyle}>
-                      {option.fullText}
+                      {option.description}
                     </Text>
                   </TouchableOpacity>
                 );
