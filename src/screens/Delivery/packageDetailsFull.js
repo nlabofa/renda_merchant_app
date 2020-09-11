@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useRef} from 'react';
 import {View, StatusBar, Image, ScrollView, Text} from 'react-native';
@@ -7,8 +8,14 @@ import deliverystyles from './styles/delivery_styles';
 import {Basestyle, Images, colors} from '../../helpers/BaseThemes';
 import SafeAreaView from 'react-native-safe-area-view';
 import ReuseHeader from '../../components/Header/index';
+import moment from 'moment';
 import ImageSlider from '../../components/ImageSlider';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
+import {connect} from 'react-redux';
+import {
+  saveDeliveryData,
+  submitDeliveryRequest,
+} from '../../actions/delivery.action';
 import ButtonMain from '../../components/Button/ButtonMain';
 
 const contents = [
@@ -21,9 +28,22 @@ const contents = [
     imgsrc: Images.show_download,
   },
 ];
-const PackageDetailsFull = ({navigation, route}) => {
+const PackageDetailsFull = ({
+  navigation,
+  deliverydata,
+  submitDeliveryRequest,
+  delievery_loading,
+  route,
+}) => {
   const scrollViewRef = useRef(null);
+  const productimage = route.params && route.params.avatar;
+  console.log(route.params);
   // const {completed} = route.params;
+
+  const handleNext = () => {
+    //submitDeliveryRequest(deliverydata);
+    navigation.navigate('SelectPaymentType');
+  };
 
   return (
     <SafeAreaView
@@ -89,7 +109,7 @@ const PackageDetailsFull = ({navigation, route}) => {
                     style={styles.location_icon}
                   />
                   <Text numberOfLines={2} style={styles.address}>
-                    9 Jinadu Street, Igboefon, Lagos State
+                    {deliverydata && deliverydata.pickUpAddress}
                   </Text>
                 </View>
                 <View style={{marginTop: 20}}>
@@ -99,7 +119,9 @@ const PackageDetailsFull = ({navigation, route}) => {
                       resizeMode="contain"
                       style={styles.small_icon}
                     />
-                    <Text style={styles.small_icon_text}>Tobi Afolabi</Text>
+                    <Text numberOfLines={1} style={styles.small_icon_text}>
+                      {deliverydata && deliverydata.sender.details.name}
+                    </Text>
                   </View>
                   <View style={styles.small_icon_view}>
                     <Image
@@ -107,7 +129,9 @@ const PackageDetailsFull = ({navigation, route}) => {
                       resizeMode="contain"
                       style={styles.small_icon}
                     />
-                    <Text style={styles.small_icon_text}>09027371303</Text>
+                    <Text style={styles.small_icon_text}>
+                      {deliverydata && deliverydata.sender.details.phone}
+                    </Text>
                   </View>
                   <View style={styles.small_icon_view}>
                     <Image
@@ -116,7 +140,7 @@ const PackageDetailsFull = ({navigation, route}) => {
                       style={styles.small_icon}
                     />
                     <Text numberOfLines={2} style={styles.small_icon_text}>
-                      Call recipient once you are 3 bustops away
+                      {deliverydata && deliverydata.package.details.description}
                     </Text>
                   </View>
                 </View>
@@ -136,7 +160,7 @@ const PackageDetailsFull = ({navigation, route}) => {
                     style={styles.location_icon}
                   />
                   <Text numberOfLines={2} style={styles.address}>
-                    9 Jinadu Street, Igboefon, Lagos State
+                    {deliverydata && deliverydata.deliveryAddress}
                   </Text>
                 </View>
 
@@ -147,7 +171,9 @@ const PackageDetailsFull = ({navigation, route}) => {
                       resizeMode="contain"
                       style={styles.small_icon}
                     />
-                    <Text style={styles.small_icon_text}>Tobi Afolabi</Text>
+                    <Text style={styles.small_icon_text}>
+                      {deliverydata && deliverydata.receiver.details.name}
+                    </Text>
                   </View>
                   <View style={styles.small_icon_view}>
                     <Image
@@ -155,7 +181,9 @@ const PackageDetailsFull = ({navigation, route}) => {
                       resizeMode="contain"
                       style={styles.small_icon}
                     />
-                    <Text style={styles.small_icon_text}>09027371303</Text>
+                    <Text style={styles.small_icon_text}>
+                      {deliverydata && deliverydata.receiver.details.phone}
+                    </Text>
                   </View>
                   <View style={styles.small_icon_view}>
                     <Image
@@ -164,7 +192,7 @@ const PackageDetailsFull = ({navigation, route}) => {
                       style={styles.small_icon}
                     />
                     <Text numberOfLines={2} style={styles.small_icon_text}>
-                      Call recipient once you are 3 bustops away
+                      {deliverydata && deliverydata.package.details.description}
                     </Text>
                   </View>
                 </View>
@@ -176,20 +204,27 @@ const PackageDetailsFull = ({navigation, route}) => {
                       Estimated Worth :
                     </Text>
                     <Text style={[styles.small_icon_text3]}>
-                      NGN 50,000,000
+                      NGN{' '}
+                      {deliverydata &&
+                        deliverydata.package.details.estimatedWorth}
                     </Text>
                   </View>
                   <View style={{width: '36%'}}>
                     <Text style={[styles.small_icon_text2]}>Date :</Text>
                     <Text style={[styles.small_icon_text3]}>
-                      12th July 2020.
+                      {moment(deliverydata && deliverydata.deliveryDate).format(
+                        'Do MMM YYYY',
+                      )}
                     </Text>
                   </View>
                 </View>
                 <View style={[Basestyle.row_space_between, {marginBottom: 10}]}>
                   <View>
                     <Text style={[styles.small_icon_text2]}>Quantity :</Text>
-                    <Text style={[styles.small_icon_text3]}>20 pcs</Text>
+                    <Text style={[styles.small_icon_text3]}>
+                      {deliverydata && deliverydata.package.details.quantity}{' '}
+                      pcs
+                    </Text>
                   </View>
                   <View style={{width: '36%'}}>
                     <Text style={[styles.small_icon_text2]}>Category :</Text>
@@ -203,7 +238,9 @@ const PackageDetailsFull = ({navigation, route}) => {
                   </View>
                   <View style={{width: '36%'}}>
                     <Text style={[styles.small_icon_text2]}>Carrier :</Text>
-                    <Text style={[styles.small_icon_text3]}>Motorcycle</Text>
+                    <Text style={[styles.small_icon_text3]}>
+                      {deliverydata && deliverydata.deliveryMethod}
+                    </Text>
                   </View>
                 </View>
                 <View>
@@ -216,7 +253,15 @@ const PackageDetailsFull = ({navigation, route}) => {
               </View>
             </View>
           </View>
-          {contents && contents.length !== 0 && (
+          {productimage && (
+            <Image
+              source={productimage}
+              resizeMode="contain"
+              style={styles.sliderview}
+            />
+          )}
+
+          {/* {contents && contents.length !== 0 && (
             <ImageSlider
               customwrapperstyle={{
                 height: heightPercentageToDP(26),
@@ -233,9 +278,10 @@ const PackageDetailsFull = ({navigation, route}) => {
               contents={contents}
               //delivered={completed ? true : false}
             />
-          )}
+          )} */}
           <ButtonMain
-            onPress={() => navigation.navigate('SelectPaymentType')}
+            onPress={() => handleNext()}
+            //isLoading={delievery_loading}
             text="Continue to Payment"
             btnContainerStyle={Basestyle.btn_full}
           />
@@ -245,4 +291,21 @@ const PackageDetailsFull = ({navigation, route}) => {
   );
 };
 
-export default PackageDetailsFull;
+const mapStateToProps = (state) => {
+  const {
+    delivery: {deliverydata, deliveryinfo, delievery_loading},
+    auth: {user_info},
+  } = state;
+  return {
+    deliverydata,
+    deliveryinfo,
+    delievery_loading,
+    user_info,
+  };
+};
+const mapDispatchToProps = {
+  saveDeliveryData,
+  submitDeliveryRequest,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PackageDetailsFull);

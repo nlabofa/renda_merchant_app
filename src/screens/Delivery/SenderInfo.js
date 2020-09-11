@@ -72,18 +72,25 @@ const initialErrorState = {
   pickUpAddress: '',
 };
 const requiredFields = ['fullname', 'phone', 'email', 'pickUpAddress'];
-const initialInputState = {
-  fullname: '',
-  phone: '',
-  email: '',
-  pickUpAddress: '',
-  pickUpLandmark: '',
-};
-const SenderInfo = ({navigation, deliverydata, saveDeliveryData}) => {
+
+const SenderInfo = ({
+  navigation,
+  deliverydata,
+  user_info,
+  deliveryinfo,
+  saveDeliveryData,
+}) => {
+  const {activeLocation} = deliveryinfo;
   const [{errors}, setState] = useState({
     errors: initialErrorState,
   });
-  const [inputValues, setInput] = useState(initialInputState);
+  const [inputValues, setInput] = useState({
+    fullname: user_info.firstName + ' ' + user_info.lastName || '',
+    phone: user_info.phoneNumber,
+    email: user_info.email,
+    pickUpAddress: activeLocation && activeLocation.address,
+    pickUpLandmark: activeLocation && activeLocation.name,
+  });
   const handleInputChange = (name, value) => {
     setInput((state) => ({
       ...state,
@@ -233,7 +240,7 @@ const SenderInfo = ({navigation, deliverydata, saveDeliveryData}) => {
                       express
                       label={label}
                       placeholder={placeholder}
-                      value={inputValues.name}
+                      value={inputValues[name]}
                       handleInputChange={(text) =>
                         handleInputChange(name, text)
                       }
@@ -282,10 +289,13 @@ const SenderInfo = ({navigation, deliverydata, saveDeliveryData}) => {
 
 const mapStateToProps = (state) => {
   const {
-    delivery: {deliverydata},
+    delivery: {deliverydata, deliveryinfo},
+    auth: {user_info},
   } = state;
   return {
     deliverydata,
+    deliveryinfo,
+    user_info,
   };
 };
 const mapDispatchToProps = {

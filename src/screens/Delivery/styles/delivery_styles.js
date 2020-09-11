@@ -1,5 +1,8 @@
 import {StyleSheet, Platform} from 'react-native';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 //import FontNames from '../../../helpers/BaseThemes/fontnames';
 import {processFontSize} from '../../../helpers/fonts';
 import {isIphoneX} from 'react-native-iphone-x-helper';
@@ -16,6 +19,27 @@ export default StyleSheet.create({
     marginTop: 40,
     justifyContent: 'space-around',
     flexDirection: 'row',
+  },
+  datepicker: {
+    minHeight: 50,
+    position: 'absolute',
+    zIndex: 100000000,
+    width: '100%',
+  },
+  imageloader: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    zIndex: 1000000,
+  },
+  sliderview: {
+    width: wp(91),
+    alignItems: 'center',
+    height: 200,
+    marginTop: 10,
+    //overflow: 'hidden',
   },
   head_bottom: {
     borderTopColor: '#86b9d3',

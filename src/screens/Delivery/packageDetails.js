@@ -2,21 +2,31 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-shadow */
 import React, {useState} from 'react';
-import {View, Text, Image, Switch, StatusBar} from 'react-native';
+import moment from 'moment';
+import {
+  View,
+  Text,
+  Image,
+  Switch,
+  StatusBar,
+  ActivityIndicator,
+} from 'react-native';
 import {Basestyle, colors, Fontnames} from '../../helpers/BaseThemes';
 import SafeAreaView from 'react-native-safe-area-view';
 import ReuseHeader from '../../components/Header/index';
 import ButtonMain from '../../components/Button/ButtonMain';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressBar from 'react-native-progress/Bar';
+import ImagePicker from 'react-native-image-picker';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
 import styles from './styles/delivery_styles';
 import InputContainer from '../../components/InputContainer';
 import {connect} from 'react-redux';
-import {saveDeliveryData} from '../../actions/delivery.action';
+import {saveDeliveryData, uploadImage} from '../../actions/delivery.action';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import DatePicker from '../../components/DatePicker/DatePicker';
 const CYCLES = [
   {
     title: 'Information Technology',
@@ -61,23 +71,29 @@ const initialErrorState = {
   estimatedWorth: '',
 };
 const requiredFields = ['category', 'quantity', 'estimatedWorth'];
-const initialInputState = {
-  deliveryDate: '2020-10-02',
-  category: '',
-  quantity: '',
-  description: '',
-  estimatedWorth: '',
-  priority: true,
-  image:
-    'https://cloudfront-us-east-1.images.arcpublishing.com/advancelocal/YESIHAFIOFHSJDVGMVQ5PQRSGE.jpg',
-};
-const PackageDetails = ({navigation, deliverydata, saveDeliveryData}) => {
-  const [imageupload, toggleimageupload] = useState(false);
+const PackageDetails = ({
+  navigation,
+  uploadImage,
+  user_info,
+  deliverydata,
+  deliveryimage,
+  imageloading,
+  saveDeliveryData,
+}) => {
+  const [avatar, setAvatar] = useState('');
   const [{errors}, setState] = useState({
     errors: initialErrorState,
   });
-  const [inputValues, setInput] = useState(initialInputState);
-  console.log(inputValues && inputValues.category);
+  const [inputValues, setInput] = useState({
+    deliveryDate: new Date(),
+    initialDateValue: null,
+    category: '',
+    quantity: '',
+    description: '',
+    estimatedWorth: '',
+    priority: true,
+    image: '',
+  });
   const handleInputChange = (name, value) => {
     setInput((state) => ({
       ...state,
@@ -90,6 +106,14 @@ const PackageDetails = ({navigation, deliverydata, saveDeliveryData}) => {
         [name]: '',
       },
     }));
+  };
+  const handleSelect = (date) => {
+    setInput((state) => ({
+      ...state,
+      initialDateValue: date,
+      deliveryDate: date,
+    }));
+    handleInputChange('deliveryDate', moment(date).format('YYYY-MM-DD'));
   };
   const validateFields = (requiredFields) => {
     let isValid = true;
@@ -124,6 +148,34 @@ const PackageDetails = ({navigation, deliverydata, saveDeliveryData}) => {
 
     return isValid;
   };
+  const chooseImage = () => {
+    ImagePicker.showImagePicker(
+      {title: 'Upload image', mediaType: 'photo', quality: 0.4},
+      (response) => {
+        console.log('Response = ', response);
+
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          const source = {uri: response.uri};
+          setAvatar(source);
+          uploadImage(response);
+
+          // You can also display the image using data:
+          // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+          // this.setState({
+          //   avatarSource: source,
+          // });
+        }
+      },
+    );
+  };
+  console.log(avatar.uri);
   const handleNext = () => {
     setState((state) => ({
       ...state,
@@ -137,31 +189,26 @@ const PackageDetails = ({navigation, deliverydata, saveDeliveryData}) => {
           details: {
             quantity: parseInt(inputValues.quantity),
             description: inputValues.description,
-            image: inputValues.image,
+            image: (deliveryimage && deliveryimage.url) || '',
             estimatedWorth: parseInt(inputValues.estimatedWorth),
           },
         },
-        deliveryDate: inputValues.deliveryDate,
-        category: inputValues.category,
+        deliveryDate: moment(inputValues.deliveryDate).format('YYYY-MM-DD'),
+        category: '5f4f6219c57af2edb475b90e', // inputValues.category,
         //extras
-        user: '5f18cec0e44e3de65ff1e7fc',
+        user: user_info._id,
         // distance: 20,
         // estimatedTime: 120,
         // paymentMode: 'Card',
         // paymentAmount: 1000,
         priority: inputValues.priority,
-        endUserGpsLocation: [
-          {
-            latitude: -1000,
-            longitude: 23,
-          },
-        ],
       };
       console.log(data);
       saveDeliveryData(data);
-      navigation.navigate('PackageDetailsFull');
+      navigation.navigate('PackageDetailsFull', {avatar: avatar.uri});
     }
   };
+  const dateString = moment(inputValues.deliveryDate).format('DD MMMM, YYYY');
   return (
     <SafeAreaView
       //forceInset={{bottom: 'never'}}
@@ -194,11 +241,12 @@ const PackageDetails = ({navigation, deliverydata, saveDeliveryData}) => {
           />
           <View style={{marginTop: 0}}>
             <InputContainer
-              label="Set Delivery Date & Time"
+              label="Set Delivery Date"
               //handlePress={() => navigation.navigate('SenderInfo')}
-              placeholder="14 Feb. 2018 | 12:30pm"
+              placeholder="14 Feb. 2018"
               textinputcustomstyle={{paddingLeft: 40}}
-              value={inputValues.deliveryDate}
+              disabled
+              value={dateString}
               leftElement={
                 <TouchableOpacity style={{position: 'absolute', left: 0}}>
                   <Ionicons
@@ -209,8 +257,17 @@ const PackageDetails = ({navigation, deliverydata, saveDeliveryData}) => {
                 </TouchableOpacity>
               }
               noRightElement
-              cutomwrapperInputStyle={{marginBottom: 20}}
-            />
+              cutomwrapperInputStyle={{marginBottom: 20}}>
+              <DatePicker
+                value={inputValues.deliveryDate}
+                onSelect={handleSelect}
+                minimumDate={new Date()}
+                containerStyle={styles.datepicker}
+                labelElement={
+                  <Text style={{color: 'transparent'}}>{dateString}</Text>
+                }
+              />
+            </InputContainer>
             {addressFields.map(
               ({index, label, placeholder, name, type, keyboardType}) => {
                 if (type === 'textarea') {
@@ -319,37 +376,37 @@ const PackageDetails = ({navigation, deliverydata, saveDeliveryData}) => {
             />
           </View>
         </View>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => toggleimageupload(!imageupload)}
-          style={[
-            styles.uploadoption,
-            imageupload ? styles.activeupload : null,
-          ]}>
-          {!imageupload ? (
+        {avatar ? (
+          <TouchableOpacity
+            disabled={imageloading}
+            onPress={() => chooseImage()}>
+            {imageloading ? (
+              <ActivityIndicator
+                size="large"
+                color="#fff"
+                style={styles.imageloader}
+              />
+            ) : null}
+            <Image
+              source={avatar}
+              resizeMode="contain"
+              style={styles.sliderview}
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => chooseImage()}
+            style={[styles.uploadoption]}>
             <View style={Basestyle.row_center}>
               <Ionicons name="add" size={20} color={colors.PRIMARY_INDIGO} />
               <Text style={[styles.delivery_extra2]}>
                 Upload an Image of the package
               </Text>
             </View>
-          ) : (
-            <View style={Basestyle.row_center}>
-              <Image
-                source={require('../../assets/images/change-icon.png')}
-                resizeMode="contain"
-                style={{width: 18}}
-              />
-              <Text
-                style={[
-                  styles.delivery_extra2,
-                  {color: colors.PRIMARY_ORANGE},
-                ]}>
-                Change Image
-              </Text>
-            </View>
-          )}
-        </TouchableOpacity>
+          </TouchableOpacity>
+        )}
+
         <View style={[Basestyle.row_space_between, {marginVertical: 30}]}>
           <ButtonMain
             greybtn
@@ -358,6 +415,7 @@ const PackageDetails = ({navigation, deliverydata, saveDeliveryData}) => {
             btnContainerStyle={[Basestyle.btn_small]}
           />
           <ButtonMain
+            //disabled={imageloading}
             onPress={() => handleNext()}
             text="Next"
             btnContainerStyle={Basestyle.btn_small}
@@ -370,14 +428,19 @@ const PackageDetails = ({navigation, deliverydata, saveDeliveryData}) => {
 
 const mapStateToProps = (state) => {
   const {
-    delivery: {deliverydata},
+    delivery: {deliverydata, deliveryimage, imageloading},
+    auth: {user_info},
   } = state;
   return {
     deliverydata,
+    deliveryimage,
+    imageloading,
+    user_info,
   };
 };
 const mapDispatchToProps = {
   saveDeliveryData,
+  uploadImage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PackageDetails);

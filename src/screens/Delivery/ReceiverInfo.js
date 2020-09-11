@@ -44,7 +44,7 @@ const addressFields = [
   },
   {
     index: 2,
-    label: 'Your Email Address',
+    label: 'Email Address',
     placeholder: 'Eric@gmail.com',
     name: 'email',
     keyboardType: 'email-address',
@@ -79,19 +79,26 @@ const initialErrorState = {
   deliveryAddress: '',
 };
 const requiredFields = ['fullname', 'phone', 'email', 'deliveryAddress'];
-const initialInputState = {
-  fullname: '',
-  phone: '',
-  email: '',
-  deliveryAddress: '',
-  dropOffLandmark: '',
-  description: '',
-};
-const ReceiverInfo = ({navigation, deliverydata, saveDeliveryData}) => {
+
+const ReceiverInfo = ({
+  navigation,
+  deliverydata,
+  deliveryinfo,
+  saveDeliveryData,
+}) => {
+  const {dropoffLocation} = deliveryinfo;
+
   const [{errors}, setState] = useState({
     errors: initialErrorState,
   });
-  const [inputValues, setInput] = useState(initialInputState);
+  const [inputValues, setInput] = useState({
+    fullname: '',
+    phone: '',
+    email: '',
+    deliveryAddress: dropoffLocation.address || '',
+    dropOffLandmark: dropoffLocation.name || '',
+    description: '',
+  });
   const handleInputChange = (name, value) => {
     setInput((state) => ({
       ...state,
@@ -204,7 +211,7 @@ const ReceiverInfo = ({navigation, deliverydata, saveDeliveryData}) => {
                       numberOfLines={4}
                       placeholder={placeholder}
                       keyboardType={keyboardType || 'default'}
-                      value={inputValues.name}
+                      value={inputValues[name]}
                       handleInputChange={(text) =>
                         handleInputChange(name, text)
                       }
@@ -248,7 +255,7 @@ const ReceiverInfo = ({navigation, deliverydata, saveDeliveryData}) => {
                       label={label}
                       placeholder={placeholder}
                       keyboardType={keyboardType || 'default'}
-                      value={inputValues.name}
+                      value={inputValues[name]}
                       handleInputChange={(text) =>
                         handleInputChange(name, text)
                       }
@@ -281,10 +288,11 @@ const ReceiverInfo = ({navigation, deliverydata, saveDeliveryData}) => {
 
 const mapStateToProps = (state) => {
   const {
-    delivery: {deliverydata},
+    delivery: {deliverydata, deliveryinfo},
   } = state;
   return {
     deliverydata,
+    deliveryinfo,
   };
 };
 const mapDispatchToProps = {

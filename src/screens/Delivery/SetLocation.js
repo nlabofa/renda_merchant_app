@@ -20,14 +20,23 @@ import RNGooglePlaces from 'react-native-google-places';
 import ReuseHeader from '../../components/Header';
 import styles from './styles/delivery_styles';
 import {connect} from 'react-redux';
-import {saveDeliveryData} from '../../actions/delivery.action';
+import {
+  saveDeliveryData,
+  saveLocationInfo,
+} from '../../actions/delivery.action';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 
 import InputContainer from '../../components/InputContainer';
 import Geolocation from 'react-native-geolocation-service';
 import ButtonMain from '../../components/Button/ButtonMain';
 
-const SetLocation = ({navigation, deliverydata, route, saveDeliveryData}) => {
+const SetLocation = ({
+  navigation,
+  deliverydata,
+  route,
+  saveLocationInfo,
+  saveDeliveryData,
+}) => {
   const [activeLocation, setActiveLocation] = useState(null);
   const [dropoffLocation, setDropOffLocation] = useState(null);
   const pickupData = route && route.params && route.params.pickupData;
@@ -56,7 +65,13 @@ const SetLocation = ({navigation, deliverydata, route, saveDeliveryData}) => {
       RNGooglePlaces.getCurrentPlace(['placeID', 'location', 'name', 'address'])
         .then((results) => {
           //console.log(results);
-          !pickupData && setActiveLocation(results[0]); //set users default location when location isn't specified
+          if (!pickupData) {
+            setActiveLocation(results[0]); //set users default location when location isn't specified
+            saveDeliveryData({
+              ...deliverydata,
+              endUserGpsLocation: [results[0].location],
+            });
+          }
         })
         .catch((error) => console.log(error.message));
     };
@@ -101,6 +116,7 @@ const SetLocation = ({navigation, deliverydata, route, saveDeliveryData}) => {
       return false;
     };
     getLocation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickupData]);
   useEffect(() => {
     const parseFullLocation = async () => {
@@ -174,13 +190,18 @@ const SetLocation = ({navigation, deliverydata, route, saveDeliveryData}) => {
     };
     // console.log(formdata);
     saveDeliveryData(formdata);
+    saveLocationInfo({activeLocation, dropoffLocation});
     navigation.navigate('SenderInfo');
   };
   const viewFullLocation = () => {
-    navigation.navigate('SetLocationFull', {
-      pickupPrev: activeLocation,
-      dropoffPrev: dropoffLocation,
-    });
+    if (!activeLocation) {
+      return false;
+    } else {
+      navigation.navigate('SetLocationFull', {
+        pickupPrev: activeLocation,
+        dropoffPrev: dropoffLocation,
+      });
+    }
   };
   const defaultregion = {
     latitude: 6.599033,
@@ -365,6 +386,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = {
   saveDeliveryData,
+  saveLocationInfo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetLocation);

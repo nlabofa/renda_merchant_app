@@ -12,6 +12,7 @@ const InputContainer = ({
   label,
   dropdown,
   express,
+  children,
   placeholder = 'Placeholder',
   handlePress = () => {},
   cutomwrapperInputStyle = {},
@@ -56,6 +57,7 @@ const InputContainer = ({
           cutomwrapperInputStyle,
           errorMessage ? {borderColor: colors.PRIMARY_RED} : null,
         ]}>
+        {children}
         <View style={[textinputstyle]}>
           <Text style={{}} />
           {leftElement || null}

@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>RendaMerchant</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -52,6 +52,10 @@
 	<string>Allow RendaMerchant access Location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Allow RendaMerchant access Location</string>
+	 <key>NSPhotoLibraryUsageDescription</key>
+    <string>RendaMerchant would like access to your photo gallery</string>
+    <key>NSCameraUsageDescription</key>
+    <string>RendaMerchant would like to use your camera</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NunitoSans-Black.ttf</string>
