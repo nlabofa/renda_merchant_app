@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useRef} from 'react';
@@ -11,6 +12,7 @@ import ReuseHeader from '../../components/Header/index';
 import moment from 'moment';
 import ImageSlider from '../../components/ImageSlider';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
+import {getPreciseDistance} from 'geolib';
 import {connect} from 'react-redux';
 import {
   saveDeliveryData,
@@ -28,6 +30,8 @@ const contents = [
     imgsrc: Images.show_download,
   },
 ];
+const kms_per_min = 0.5;
+
 const PackageDetailsFull = ({
   navigation,
   deliverydata,
@@ -41,8 +45,43 @@ const PackageDetailsFull = ({
   // const {completed} = route.params;
 
   const handleNext = () => {
-    //submitDeliveryRequest(deliverydata);
+    const data = {
+      ...deliverydata,
+      distance: _getPreciseDistance(), //in KM,
+      estimatedTime: _getBareEstimate(),
+      //paymentAmount: 1000,
+      //extras
+    };
+    console.log(data);
+    saveDeliveryData(data);
     navigation.navigate('SelectPaymentType');
+  };
+  const _getPreciseDistance = () => {
+    var pdis = getPreciseDistance(
+      deliverydata.pickUpLocation[0],
+      deliverydata.deliveryLocation[0],
+    );
+    //  alert(`Precise Distance\n${pdis} Meter\nor\n${pdis / 1000} KM`);
+    return pdis / 1000;
+  };
+  const getTimeTaken = () => {
+    const mins_taken = _getPreciseDistance() / kms_per_min;
+
+    const totalMinutes = parseInt(mins_taken);
+    if (totalMinutes < 60) {
+      console.log(totalMinutes + ' mins');
+      return totalMinutes + ' mins';
+    } else {
+      let minutes = (totalMinutes % 60).toString();
+      minutes = minutes.length == 1 ? '0' + minutes : minutes;
+      console.log(totalMinutes / 60 + ' hour ' + minutes + 'mins');
+      return totalMinutes / 60 + ' hour ' + minutes + 'mins';
+    }
+  };
+  const _getBareEstimate = () => {
+    const mins_taken = _getPreciseDistance() / kms_per_min;
+
+    return parseInt(mins_taken);
   };
   const getCatId = (id) => {
     if (categories.some((el) => el._id === id)) {
@@ -51,7 +90,6 @@ const PackageDetailsFull = ({
       return updatedInfo[0].name;
     }
   };
-
   return (
     <SafeAreaView
       forceInset={{bottom: 'never'}}
@@ -243,7 +281,9 @@ const PackageDetailsFull = ({
                 <View style={[Basestyle.row_space_between, {marginBottom: 10}]}>
                   <View>
                     <Text style={[styles.small_icon_text2]}>Distance :</Text>
-                    <Text style={[styles.small_icon_text3]}>30 Km</Text>
+                    <Text style={[styles.small_icon_text3]}>
+                      {_getPreciseDistance() + ' KM'}
+                    </Text>
                   </View>
                   <View style={{width: '36%'}}>
                     <Text style={[styles.small_icon_text2]}>Carrier :</Text>
@@ -253,10 +293,10 @@ const PackageDetailsFull = ({
                   </View>
                 </View>
                 <View>
-                  <Text style={[styles.small_icon_text2]}>
-                    Estimated time of Arrival :
+                  <Text style={[styles.small_icon_text2]}>Arrives In:</Text>
+                  <Text style={[styles.small_icon_text3]}>
+                    {getTimeTaken()}
                   </Text>
-                  <Text style={[styles.small_icon_text3]}>6:00 PM</Text>
                 </View>
                 <Text style={[styles.small_icon_text4]}>Product Image</Text>
               </View>

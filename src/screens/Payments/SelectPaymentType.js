@@ -76,11 +76,9 @@ const SelectDeliveryType = ({
       },
       // extras
       user: user_info._id,
-      distance: 20,
-      estimatedTime: 120,
       paymentMode: 'Card',
       paymentAmount: 1000,
-      //extras end
+      //extras
     };
     console.log(data);
     saveDeliveryData(data);
