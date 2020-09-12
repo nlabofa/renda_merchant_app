@@ -4,6 +4,7 @@ const initialState = {
   user_roles: [],
   user_info: null,
   business_types: [],
+  categories: null,
   auth_loading: false,
 };
 
@@ -23,6 +24,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         user_roles: action.data,
+      };
+    case actionTypes.SAVE_CATEGORIES:
+      return {
+        ...state,
+        categories: action.data,
       };
     case actionTypes.SAVE_USER_INFO:
       return {

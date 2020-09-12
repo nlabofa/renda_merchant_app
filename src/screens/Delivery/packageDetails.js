@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-keys */
 /* eslint-disable radix */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-shadow */
@@ -27,25 +28,11 @@ import {connect} from 'react-redux';
 import {saveDeliveryData, uploadImage} from '../../actions/delivery.action';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import DatePicker from '../../components/DatePicker/DatePicker';
-const CYCLES = [
-  {
-    title: 'Information Technology',
-    type: 'Information Technology',
-  },
-  {
-    title: 'Agriculture',
-    type: 'Agriculture',
-  },
-  {
-    title: 'Finance',
-    type: 'Finance',
-  },
-];
 const addressFields = [
   {
     index: 7,
     label: 'Category',
-    placeholder: 'Shoes',
+    placeholder: 'Choose Category',
     name: 'category',
     type: 'dropdown',
   },
@@ -75,6 +62,8 @@ const PackageDetails = ({
   navigation,
   uploadImage,
   user_info,
+  deliveryschedule,
+  categories,
   deliverydata,
   imageloading,
   saveDeliveryData,
@@ -106,6 +95,14 @@ const PackageDetails = ({
       },
     }));
   };
+  const getCatId = (name) => {
+    if (categories.some((el) => el.name === name)) {
+      const updatedInfo = categories.filter((el) => el.name === name);
+      //console.log(updatedInfo);
+      return updatedInfo[0]._id;
+    }
+  };
+
   const handleSelect = (date) => {
     setInput((state) => ({
       ...state,
@@ -192,10 +189,10 @@ const PackageDetails = ({
           },
         },
         deliveryDate: moment(inputValues.deliveryDate).format('YYYY-MM-DD'),
-        category: '5f4f6219c57af2edb475b90e', // inputValues.category,
+        category: getCatId(inputValues.category), // inputValues.category,
         priority: inputValues.priority,
       };
-      //  console.log(data);
+      // console.log(data);
       saveDeliveryData(data);
       navigation.navigate('PackageDetailsFull', {avatar: avatar});
     }
@@ -232,34 +229,37 @@ const PackageDetails = ({
             style={{marginBottom: 50, borderRadius: 6}}
           />
           <View style={{marginTop: 0}}>
-            <InputContainer
-              label="Set Delivery Date"
-              //handlePress={() => navigation.navigate('SenderInfo')}
-              placeholder="14 Feb. 2018"
-              textinputcustomstyle={{paddingLeft: 40}}
-              disabled
-              value={dateString}
-              leftElement={
-                <TouchableOpacity style={{position: 'absolute', left: 0}}>
-                  <Ionicons
-                    name="calendar"
-                    size={27}
-                    color={colors.PRIMARY_GREY_05}
-                  />
-                </TouchableOpacity>
-              }
-              noRightElement
-              cutomwrapperInputStyle={{marginBottom: 20}}>
-              <DatePicker
-                value={inputValues.deliveryDate}
-                onSelect={handleSelect}
-                minimumDate={new Date()}
-                containerStyle={styles.datepicker}
-                labelElement={
-                  <Text style={{color: 'transparent'}}>{dateString}</Text>
+            {deliveryschedule === 'scheduled' && (
+              <InputContainer
+                label="Set Delivery Date"
+                //handlePress={() => navigation.navigate('SenderInfo')}
+                placeholder="14 Feb. 2018"
+                textinputcustomstyle={{paddingLeft: 40}}
+                disabled
+                value={dateString}
+                leftElement={
+                  <TouchableOpacity style={{position: 'absolute', left: 0}}>
+                    <Ionicons
+                      name="calendar"
+                      size={27}
+                      color={colors.PRIMARY_GREY_05}
+                    />
+                  </TouchableOpacity>
                 }
-              />
-            </InputContainer>
+                noRightElement
+                cutomwrapperInputStyle={{marginBottom: 20}}>
+                <DatePicker
+                  value={inputValues.deliveryDate}
+                  onSelect={handleSelect}
+                  minimumDate={new Date()}
+                  containerStyle={styles.datepicker}
+                  labelElement={
+                    <Text style={{color: 'transparent'}}>{dateString}</Text>
+                  }
+                />
+              </InputContainer>
+            )}
+
             {addressFields.map(
               ({index, label, placeholder, name, type, keyboardType}) => {
                 if (type === 'textarea') {
@@ -294,18 +294,18 @@ const PackageDetails = ({
                       options={[
                         {
                           name: 'Choose category..',
-                          value: null,
+                          name: '',
                         },
-                        ...CYCLES,
+                        ...(categories && categories),
                       ]}
                       handleDropdownChange={(value) => {
-                        if (value !== null) {
+                        if (value !== '') {
                           handleInputChange(name, value);
                         }
                       }}
                       errorMessage={errors[name] || ''}
-                      labelKey="title"
-                      valueKey="type"
+                      labelKey="name"
+                      valueKey="name"
                       placeholder={placeholder}
                     />
                   );
@@ -338,7 +338,7 @@ const PackageDetails = ({
           <FloatingTextInput
             express
             label="Estimated worth of items"
-            placeholder="0 pcs"
+            placeholder="N1000"
             keyboardType="number-pad"
             value={inputValues.estimatedWorth}
             handleInputChange={(text) =>
@@ -420,12 +420,14 @@ const PackageDetails = ({
 
 const mapStateToProps = (state) => {
   const {
-    delivery: {deliverydata, imageloading},
-    auth: {user_info},
+    delivery: {deliverydata, deliveryschedule, imageloading},
+    auth: {user_info, categories},
   } = state;
   return {
     deliverydata,
     imageloading,
+    categories,
+    deliveryschedule,
     user_info,
   };
 };

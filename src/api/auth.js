@@ -47,6 +47,14 @@ export default class Auth extends RendaRequest {
       return this.handleError(err);
     }
   };
+  getCategories = async () => {
+    try {
+      const {data} = await this.requestInstance.get('/category');
+      return data;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
   getBusinessTypes = async () => {
     try {
       const {data} = await this.noTokenRequestInstance.get('/businesstype');

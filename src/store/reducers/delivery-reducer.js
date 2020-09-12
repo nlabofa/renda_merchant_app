@@ -2,7 +2,8 @@ import * as actionTypes from '../../types/delivery-types';
 
 const initialState = {
   deliverydata: null,
-  delievery_loading: true,
+  delievery_loading: false,
+  deliveryschedule: '',
   deliveryinfo: null,
   deliveryimage: '',
   imageloading: false,
@@ -35,6 +36,13 @@ export default (state = initialState, action) => {
         ...state,
         deliverydata: action.data,
       };
+    case actionTypes.SAVE_DELIVERY_SCHEDULE:
+      return {
+        ...state,
+        deliveryschedule: action.data,
+      };
+    case actionTypes.CLEAR_DELIVERY_DATA:
+      return initialState;
     case actionTypes.SAVE_UPLOADED_IMAGE:
       return {
         ...state,

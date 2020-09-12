@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, StatusBar, Image, ScrollView, Text} from 'react-native';
@@ -6,7 +7,9 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import ItemBox from '../../components/ItemBox';
 import ReuseHeader from '../../components/Header';
 import styles from './styles/delivery_styles';
-const NewDelivery = ({navigation}) => {
+import {connect} from 'react-redux';
+import {saveDeliverySchedule} from '../../actions/delivery.action';
+const NewDelivery = ({navigation, saveDeliverySchedule}) => {
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
       <StatusBar
@@ -37,9 +40,10 @@ const NewDelivery = ({navigation}) => {
               />
             }
             customtext="Same Day Delivery"
-            onPress={() =>
-              navigation.navigate('SelectDeliveryType', {type: 'sameday'})
-            }
+            onPress={() => {
+              saveDeliverySchedule('sameday');
+              navigation.navigate('SelectDeliveryType', {type: 'sameday'});
+            }}
           />
           <ItemBox
             subtitle="Deliveries are dispatched on selected days"
@@ -51,9 +55,10 @@ const NewDelivery = ({navigation}) => {
               />
             }
             customtext="Schedule Delivery"
-            onPress={() =>
-              navigation.navigate('SelectDeliveryType', {type: 'scheduled'})
-            }
+            onPress={() => {
+              saveDeliverySchedule('scheduled');
+              navigation.navigate('SelectDeliveryType', {type: 'scheduled'});
+            }}
           />
         </View>
       </ScrollView>
@@ -61,4 +66,18 @@ const NewDelivery = ({navigation}) => {
   );
 };
 
-export default NewDelivery;
+// const mapStateToProps = (state) => {
+//   const {
+//     account: {selectedBusinessAccount, walletInflowOutflow},
+//   } = state;
+//   return {
+//     selectedBusinessAccount,
+//     walletInflowOutflow,
+//   };
+// };
+
+const mapDispatchToProps = {
+  saveDeliverySchedule,
+};
+
+export default connect(null, mapDispatchToProps)(NewDelivery);

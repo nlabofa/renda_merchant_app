@@ -19,6 +19,7 @@ import {connect} from 'react-redux';
 import {
   saveDeliveryData,
   submitDeliveryRequest,
+  clearDeliveryData,
 } from '../../actions/delivery.action';
 import styles from './payment-styles';
 import PaystackWebView from '../../components/PaystackWebView/PaystackWebView';
@@ -48,6 +49,7 @@ const SelectDeliveryType = ({
   deliverydata,
   deliveryimage,
   user_info,
+  clearDeliveryData,
   submitDeliveryRequest,
 }) => {
   const childRef = useRef();
@@ -96,9 +98,19 @@ const SelectDeliveryType = ({
       }
     } catch (error) {
       setIsLoading(false);
-      console.log(error.message);
+      setTimeout(() => {
+        alert(error.message);
+      }, 1000);
+      //console.log(error.message);
       //alert(error.message);
     }
+  };
+  const goHome = () => {
+    setsuccessmodal(false);
+    clearDeliveryData();
+    setTimeout(() => {
+      navigation.navigate('HomeDrawer');
+    }, 1000);
   };
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
@@ -145,12 +157,7 @@ const SelectDeliveryType = ({
             </Text>
           </View>
           <TouchableOpacity
-            onPress={() => {
-              setsuccessmodal(false);
-              setTimeout(() => {
-                navigation.navigate('HomeDrawer');
-              }, 1000);
-            }}
+            onPress={() => goHome()}
             style={styles.message_bottom}>
             <Text style={styles.continue_btn}>Continue</Text>
           </TouchableOpacity>
@@ -185,7 +192,7 @@ const SelectDeliveryType = ({
               customtext={label}
               onPress={() =>
                 route === 'PayCard'
-                  ? performAction()
+                  ? childRef.current.StartTransaction()
                   : navigation.navigate(route)
               }
             />
@@ -232,6 +239,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = {
   saveDeliveryData,
+  clearDeliveryData,
   submitDeliveryRequest,
 };
 

@@ -6,8 +6,6 @@ import {
   retrieveUserData,
 } from '../helpers/auth';
 //import {getBusinessAccounts, resetStore} from './account';
-import AsyncStorage from '@react-native-community/async-storage';
-import {Platform} from 'react-native';
 import NavigationService from '../helpers/NavigationService';
 //import store from '../store/index';
 //import { alertModal } from '../actions/alert';
@@ -29,6 +27,12 @@ export const saveUserRoles = (data) => {
     data,
   };
 };
+export const saveCategories = (data) => {
+  return {
+    type: actionTypes.SAVE_CATEGORIES,
+    data,
+  };
+};
 export const clearUserInfo = () => ({
   type: actionTypes.RESET_USER_INFO,
 });
@@ -47,6 +51,11 @@ export const getRoles = () => async (dispatch) => {
   const response = await AuthRequest.getRoles();
   //console.log(response);
   dispatch(saveUserRoles(response.data));
+  return response;
+};
+export const getCategories = () => async (dispatch) => {
+  const response = await AuthRequest.getCategories();
+  dispatch(saveCategories(response.data));
   return response;
 };
 export const getBusinessTypes = () => async (dispatch) => {

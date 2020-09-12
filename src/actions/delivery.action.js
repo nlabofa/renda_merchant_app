@@ -32,6 +32,17 @@ export const saveDeliveryData = (data) => {
     data,
   };
 };
+export const saveDeliverySchedule = (data) => {
+  return {
+    type: actionTypes.SAVE_DELIVERY_SCHEDULE,
+    data,
+  };
+};
+export const clearDeliveryData = () => {
+  return {
+    type: actionTypes.CLEAR_DELIVERY_DATA,
+  };
+};
 export const saveUploadedImage = (data) => {
   return {
     type: actionTypes.SAVE_UPLOADED_IMAGE,

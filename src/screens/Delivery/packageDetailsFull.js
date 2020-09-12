@@ -32,7 +32,7 @@ const PackageDetailsFull = ({
   navigation,
   deliverydata,
   submitDeliveryRequest,
-  delievery_loading,
+  categories,
   route,
 }) => {
   const scrollViewRef = useRef(null);
@@ -43,6 +43,13 @@ const PackageDetailsFull = ({
   const handleNext = () => {
     //submitDeliveryRequest(deliverydata);
     navigation.navigate('SelectPaymentType');
+  };
+  const getCatId = (id) => {
+    if (categories.some((el) => el._id === id)) {
+      const updatedInfo = categories.filter((el) => el._id === id);
+      //console.log(updatedInfo);
+      return updatedInfo[0].name;
+    }
   };
 
   return (
@@ -192,7 +199,7 @@ const PackageDetailsFull = ({
                       style={styles.small_icon}
                     />
                     <Text numberOfLines={2} style={styles.small_icon_text}>
-                      {deliverydata && deliverydata.package.details.description}
+                      {deliverydata && deliverydata.deliveryInstructions}
                     </Text>
                   </View>
                 </View>
@@ -228,7 +235,9 @@ const PackageDetailsFull = ({
                   </View>
                   <View style={{width: '36%'}}>
                     <Text style={[styles.small_icon_text2]}>Category :</Text>
-                    <Text style={[styles.small_icon_text3]}>Clothing</Text>
+                    <Text style={[styles.small_icon_text3]}>
+                      {getCatId(deliverydata && deliverydata.category)}
+                    </Text>
                   </View>
                 </View>
                 <View style={[Basestyle.row_space_between, {marginBottom: 10}]}>
@@ -253,13 +262,13 @@ const PackageDetailsFull = ({
               </View>
             </View>
           </View>
-          {productimage && (
+          {/* {productimage && (
             <Image
               source={productimage}
               resizeMode="contain"
               style={styles.sliderview}
             />
-          )}
+          )} */}
 
           {/* {contents && contents.length !== 0 && (
             <ImageSlider
@@ -293,13 +302,13 @@ const PackageDetailsFull = ({
 
 const mapStateToProps = (state) => {
   const {
-    delivery: {deliverydata, deliveryinfo, delievery_loading},
-    auth: {user_info},
+    delivery: {deliverydata, deliveryinfo},
+    auth: {user_info, categories},
   } = state;
   return {
     deliverydata,
     deliveryinfo,
-    delievery_loading,
+    categories,
     user_info,
   };
 };

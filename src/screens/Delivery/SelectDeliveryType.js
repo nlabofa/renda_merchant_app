@@ -13,21 +13,25 @@ const LIST_DELIVERY = [
   {
     index: 0,
     label: 'Motor Bike',
+    title: 'Motorbike',
     imgsrc: require('../../assets/images/motorbike.png'),
   },
   {
     index: 1,
     label: 'Car',
+    title: 'Car',
     imgsrc: require('../../assets/images/motorcar.png'),
   },
   {
     index: 2,
     label: 'Mini van',
+    title: 'Minivan',
     imgsrc: require('../../assets/images/minivan.png'),
   },
   {
     index: 3,
     label: 'Truck',
+    title: 'Truck',
     imgsrc: require('../../assets/images/minitruck.png'),
   },
 ];
@@ -52,7 +56,7 @@ const SelectDeliveryType = ({navigation, saveDeliveryData}) => {
           <Text style={[styles.opaq3, {color: '#557993', paddingBottom: 15}]}>
             Please select a delivery method
           </Text>
-          {LIST_DELIVERY.map(({label, index, imgsrc}) => (
+          {LIST_DELIVERY.map(({label, title, index, imgsrc}) => (
             <ItemBox
               key={index}
               customicon={
@@ -65,7 +69,7 @@ const SelectDeliveryType = ({navigation, saveDeliveryData}) => {
               customtext={label}
               onPress={() => {
                 saveDeliveryData({
-                  deliveryMethod: label,
+                  deliveryMethod: title,
                 });
                 navigation.navigate('SetLocation');
               }}

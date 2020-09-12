@@ -9,8 +9,14 @@ import GradientHeader from '../../components/GradientHeader';
 import AsyncStorage from '@react-native-community/async-storage';
 import {processFontSize} from '../../helpers/fonts';
 import {connect} from 'react-redux';
-import {saveUserInfo} from '../../actions/auth.action';
-const Landing = ({navigation, saveUserInfo, user_info}) => {
+import {saveUserInfo, getCategories} from '../../actions/auth.action';
+const Landing = ({
+  navigation,
+  saveUserInfo,
+  categories,
+  getCategories,
+  user_info,
+}) => {
   useEffect(() => {
     const checkUser = async () => {
       const userData = await AsyncStorage.getItem('user_stats');
@@ -18,6 +24,8 @@ const Landing = ({navigation, saveUserInfo, user_info}) => {
       saveUserInfo(data);
     };
     !user_info && checkUser();
+    !categories && getCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveUserInfo, user_info]);
   return (
     <View style={Basestyle.container}>
@@ -99,15 +107,17 @@ const Landing = ({navigation, saveUserInfo, user_info}) => {
 
 const mapStateToProps = (state) => {
   const {
-    auth: {user_info},
+    auth: {user_info, categories},
   } = state;
   return {
     user_info,
+    categories,
   };
 };
 
 const mapDispatchToProps = {
   saveUserInfo,
+  getCategories,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);
