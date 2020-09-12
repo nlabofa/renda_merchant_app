@@ -17,8 +17,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [GMSServices provideAPIKey:@"AIzaSyAczjio3ggIXRlQmxoqyW_DdAEAjGjyiDg"];
-  [GMSPlacesClient provideAPIKey:@"AIzaSyAczjio3ggIXRlQmxoqyW_DdAEAjGjyiDg"];
+  [GMSServices provideAPIKey:@"AIzaSyBOgHa4zTMJAy8vZFAVFibBB-_bDXmSAKw"];
+  [GMSPlacesClient provideAPIKey:@"AIzaSyBOgHa4zTMJAy8vZFAVFibBB-_bDXmSAKw"];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"RendaMerchant"

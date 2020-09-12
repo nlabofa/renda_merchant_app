@@ -54,21 +54,7 @@ export const uploadImage = (data) => async (dispatch) => {
   return response;
 };
 export const submitDeliveryRequest = (data) => async (dispatch) => {
-  dispatch(loadStart());
   const response = await DeliveryRequest.submitDeliveryRequest(data);
-  if (response.status === 201) {
-    console.log('request successful');
-    dispatch(loadStop());
-    // const userData = {
-    //   token: response.data.accessToken,
-    //   ...response.data.user,
-    // };
-    //console.log(userData);
-    //dispatch(saveUserInfo(userData));
-    // NavigationService.reset('Dashboard');
-  } else {
-    dispatch(loadStop());
-  }
   console.log(response);
   return response;
 };

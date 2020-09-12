@@ -76,7 +76,6 @@ const PackageDetails = ({
   uploadImage,
   user_info,
   deliverydata,
-  deliveryimage,
   imageloading,
   saveDeliveryData,
 }) => {
@@ -175,7 +174,6 @@ const PackageDetails = ({
       },
     );
   };
-  console.log(avatar.uri);
   const handleNext = () => {
     setState((state) => ({
       ...state,
@@ -189,23 +187,17 @@ const PackageDetails = ({
           details: {
             quantity: parseInt(inputValues.quantity),
             description: inputValues.description,
-            image: (deliveryimage && deliveryimage.url) || '',
+            // image: (deliveryimage && deliveryimage.url) || '',
             estimatedWorth: parseInt(inputValues.estimatedWorth),
           },
         },
         deliveryDate: moment(inputValues.deliveryDate).format('YYYY-MM-DD'),
         category: '5f4f6219c57af2edb475b90e', // inputValues.category,
-        //extras
-        user: user_info._id,
-        // distance: 20,
-        // estimatedTime: 120,
-        // paymentMode: 'Card',
-        // paymentAmount: 1000,
         priority: inputValues.priority,
       };
-      console.log(data);
+      //  console.log(data);
       saveDeliveryData(data);
-      navigation.navigate('PackageDetailsFull', {avatar: avatar.uri});
+      navigation.navigate('PackageDetailsFull', {avatar: avatar});
     }
   };
   const dateString = moment(inputValues.deliveryDate).format('DD MMMM, YYYY');
@@ -428,12 +420,11 @@ const PackageDetails = ({
 
 const mapStateToProps = (state) => {
   const {
-    delivery: {deliverydata, deliveryimage, imageloading},
+    delivery: {deliverydata, imageloading},
     auth: {user_info},
   } = state;
   return {
     deliverydata,
-    deliveryimage,
     imageloading,
     user_info,
   };
