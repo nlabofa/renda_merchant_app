@@ -2,7 +2,7 @@
 /* eslint-disable radix */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-shadow */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {
   View,
@@ -25,7 +25,11 @@ import CustomDropdown from '../../components/CustomDropdown';
 import styles from './styles/delivery_styles';
 import InputContainer from '../../components/InputContainer';
 import {connect} from 'react-redux';
-import {saveDeliveryData, uploadImage} from '../../actions/delivery.action';
+import {
+  saveDeliveryData,
+  uploadImage,
+  checkPrice,
+} from '../../actions/delivery.action';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import DatePicker from '../../components/DatePicker/DatePicker';
 const addressFields = [
@@ -65,9 +69,21 @@ const PackageDetails = ({
   deliveryschedule,
   categories,
   deliverydata,
+  checkPrice,
   imageloading,
   saveDeliveryData,
 }) => {
+  useEffect(() => {
+    const fetchPrice = async () => {
+      const data = {
+        pickup: deliverydata.pickUpLandmark, //'Ikoyi',
+        dropoff: deliverydata.dropOffLandmark, // 'Ikota'
+      };
+      await checkPrice(data);
+    };
+    fetchPrice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [avatar, setAvatar] = useState('');
   const [{errors}, setState] = useState({
     errors: initialErrorState,
@@ -433,6 +449,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = {
   saveDeliveryData,
+  checkPrice,
   uploadImage,
 };
 

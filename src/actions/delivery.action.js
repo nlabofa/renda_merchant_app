@@ -2,7 +2,7 @@ import * as actionTypes from '../types/delivery-types';
 import {DeliveryRequest} from '../api/index';
 //import {getBusinessAccounts, resetStore} from './account';
 import NavigationService from '../helpers/NavigationService';
-//import store from '../store/index';
+import store from '../store/index';
 //import { alertModal } from '../actions/alert';
 
 const loadStart = () => {
@@ -67,5 +67,22 @@ export const uploadImage = (data) => async (dispatch) => {
 export const submitDeliveryRequest = (data) => async (dispatch) => {
   const response = await DeliveryRequest.submitDeliveryRequest(data);
   console.log(response);
+  return response;
+};
+
+export const checkPrice = (data) => async (dispatch) => {
+  const {deliverydata} = store.getState().delivery;
+
+  console.log(data);
+  const response = await DeliveryRequest.checkPrice(data);
+  console.log(response);
+  if (response.status === 200) {
+    dispatch(
+      saveDeliveryData({
+        ...deliverydata,
+        paymentAmount: response.data.estimate[0].price,
+      }),
+    );
+  }
   return response;
 };

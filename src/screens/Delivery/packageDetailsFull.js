@@ -19,6 +19,7 @@ import {
   submitDeliveryRequest,
 } from '../../actions/delivery.action';
 import ButtonMain from '../../components/Button/ButtonMain';
+import {formatMoney} from '../../helpers/libs';
 
 const contents = [
   {
@@ -49,7 +50,6 @@ const PackageDetailsFull = ({
       ...deliverydata,
       distance: _getPreciseDistance(), //in KM,
       estimatedTime: _getBareEstimate(),
-      //paymentAmount: 1000,
       //extras
     };
     console.log(data);
@@ -121,7 +121,7 @@ const PackageDetailsFull = ({
               Estimated Fee:
             </Text>
             <Text style={[styles.row_top_text, {fontSize: 25, paddingTop: 5}]}>
-              N 2,500
+              {formatMoney(deliverydata && deliverydata.paymentAmount)}
             </Text>
           </View>
           <Text

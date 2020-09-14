@@ -77,7 +77,9 @@ const SelectDeliveryType = ({
       // extras
       user: user_info._id,
       paymentMode: 'Card',
-      paymentAmount: 1000,
+      paymentAmount: deliverydata.paymentAmount
+        ? deliverydata.paymentAmount
+        : 1000,
       //extras
     };
     console.log(data);
@@ -203,7 +205,7 @@ const SelectDeliveryType = ({
           showPayButton={false}
           paystackKey={PAYSTACK_TEST}
           paystackSecretKey={PAYSTACK_TEST_SECRET}
-          amount={19500}
+          amount={(deliverydata && deliverydata.paymentAmount) || 1000}
           billingEmail={user_info && user_info.email}
           billingMobile={user_info && user_info.phoneNumber}
           //unreg_ref_id={unreg_ref} //cusom meta_data passed

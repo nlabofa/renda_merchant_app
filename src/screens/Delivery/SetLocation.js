@@ -64,13 +64,9 @@ const SetLocation = ({
       // );
       RNGooglePlaces.getCurrentPlace(['placeID', 'location', 'name', 'address'])
         .then((results) => {
-          //console.log(results);
+          console.log(results);
           if (!pickupData) {
             setActiveLocation(results[0]); //set users default location when location isn't specified
-            saveDeliveryData({
-              ...deliverydata,
-              endUserGpsLocation: [results[0].location],
-            });
           }
         })
         .catch((error) => console.log(error.message));
@@ -125,8 +121,8 @@ const SetLocation = ({
         const lookupdropoffLocation = await lookUpPlaceById(
           dropoffData.placeID,
         );
-        // console.log(lookupPickup);
-        //console.log(dropoffPickup);
+        console.log(lookupPickupLocation);
+        console.log(lookupdropoffLocation);
         setActiveLocation(lookupPickupLocation);
         setDropOffLocation(lookupdropoffLocation);
         // console.log(formattedropoff);
@@ -187,6 +183,7 @@ const SetLocation = ({
       ...deliverydata,
       pickUpLocation: [activeLocation.location],
       deliveryLocation: [dropoffLocation.location],
+      endUserGpsLocation: [activeLocation.location],
     };
     // console.log(formdata);
     saveDeliveryData(formdata);
@@ -276,7 +273,7 @@ const SetLocation = ({
             provider={PROVIDER_GOOGLE}
             style={{width: '100%', height: '60%'}}
             initialRegion={defaultregion}
-            onRegionChangeComplete={(region) => console.log(region)}
+            // onRegionChangeComplete={(region) => console.log(region)}
             region={getMapRegion()}
             // customMapStyle={{width: '100%', height: '100%'}}
           >

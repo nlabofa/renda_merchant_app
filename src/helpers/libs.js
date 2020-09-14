@@ -11,3 +11,53 @@ export const getMinDate = () => {
 };
 
 export const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export const formatMoney = (amount = '') => {
+  amount = amount.toString();
+  if (amount.length === 0) {
+    return amount;
+  }
+
+  const currency = '\u20A6';
+  let newString = amount;
+  if (isNaN(Number(amount[0])) || amount[0] === '0') {
+    newString = newString.substring(1, newString.length);
+    if (newString === '') {
+      return newString;
+    }
+  }
+
+  const dotPosition = amount.indexOf('.');
+  if (dotPosition !== -1) {
+    if (amount.length - dotPosition > 3) {
+      newString = Number(amount).toFixed(2);
+    }
+  }
+
+  if (amount.length < 4) {
+    return currency + newString;
+  }
+
+  let mainText = newString;
+  if (dotPosition !== -1) {
+    mainText = newString.substring(0, dotPosition);
+  }
+
+  let processedStr = '';
+  let count = 0;
+  for (let i = mainText.length - 1; i >= 0; i--) {
+    processedStr = mainText[i] + processedStr;
+    count += 1;
+    if (count === 3 && i > 0) {
+      processedStr = ',' + processedStr;
+      count = 0;
+    }
+  }
+
+  if (dotPosition !== -1) {
+    const decimals = newString.substring(dotPosition, amount.length);
+    return currency + processedStr + decimals;
+  }
+
+  return currency + processedStr;
+};

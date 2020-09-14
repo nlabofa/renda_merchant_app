@@ -24,7 +24,7 @@ const LIST_DELIVERY = [
   },
   {
     index: 2,
-    label: 'Mini van',
+    label: 'Mini Van',
     title: 'Minivan',
     imgsrc: require('../../assets/images/minivan.png'),
   },
@@ -69,7 +69,7 @@ const SelectDeliveryType = ({navigation, saveDeliveryData}) => {
               customtext={label}
               onPress={() => {
                 saveDeliveryData({
-                  deliveryMethod: title,
+                  deliveryMethod: label,
                 });
                 navigation.navigate('SetLocation');
               }}

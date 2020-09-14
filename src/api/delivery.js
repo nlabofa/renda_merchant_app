@@ -39,4 +39,15 @@ export default class Auth extends RendaRequest {
       return this.handleError(err);
     }
   };
+  checkPrice = async (payload) => {
+    try {
+      const response = await this.requestInstance.post(
+        '/pricing/check',
+        payload,
+      );
+      return response;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
 }
