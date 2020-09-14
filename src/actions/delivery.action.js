@@ -55,6 +55,12 @@ export const saveLocationInfo = (data) => {
     data,
   };
 };
+export const saveDeliveryHistory = (data) => {
+  return {
+    type: actionTypes.SAVE_DELIVERY_HISTORY,
+    data,
+  };
+};
 export const uploadImage = (data) => async (dispatch) => {
   console.log('uploading');
   dispatch(imageUploadStart());
@@ -66,6 +72,13 @@ export const uploadImage = (data) => async (dispatch) => {
 };
 export const submitDeliveryRequest = (data) => async (dispatch) => {
   const response = await DeliveryRequest.submitDeliveryRequest(data);
+  console.log(response);
+  return response;
+};
+export const fetchDeliveryHistory = () => async (dispatch) => {
+  const {_id} = store.getState().auth.user_info;
+  const response = await DeliveryRequest.fetchDeliveryHistory(_id);
+  dispatch(saveDeliveryHistory(response.data));
   console.log(response);
   return response;
 };

@@ -1,19 +1,58 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+console.disableYellowBox = true;
+
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StatusBar,
   TouchableOpacity,
+  FlatList,
+  Text,
   Image,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
-import {Basestyle, Images} from '../../helpers/BaseThemes';
+import {Basestyle, colors, Images} from '../../helpers/BaseThemes';
+import moment from 'moment';
 import ItemBox from '../../components/ItemBox';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ReuseHeader from '../../components/Header/index';
+import {connect} from 'react-redux';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
+import {fetchDeliveryHistory} from '../../actions/delivery.action';
 
-const DeliveryHistory = ({navigation, route}) => {
+const DeliveryHistory = ({
+  navigation,
+  deliveryhistory,
+  fetchDeliveryHistory,
+  route,
+}) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      await fetchDeliveryHistory();
+      setIsLoading(false);
+      //console.log(response);
+    };
+    fetchHistory();
+  }, []);
+  const _renderItem = ({item, index}) => (
+    <ItemBox
+      idnumber={item._id}
+      status={item.status.status}
+      destination={item.dropOffLandmark}
+      duedate={moment(item.deliveryDate).format('Do, MMM YYYY')}
+      onPress={() =>
+        navigation.navigate('DispatchDetailHistory', {
+          completed: false,
+          item,
+        })
+      }
+    />
+  );
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
       <StatusBar
@@ -63,24 +102,31 @@ const DeliveryHistory = ({navigation, route}) => {
             </View>
           </View>
           <View style={{marginTop: 40}}>
-            <ItemBox
-              idnumber="RA0492859"
-              status="accepted"
-              destination="Lagos Island"
-              duedate="22, July 2020"
-              onPress={() =>
-                navigation.navigate('DispatchDetailHistory', {completed: false})
-              }
-            />
-            <ItemBox
-              idnumber="RA0492859"
-              status="accepted"
-              destination="Lagos Island"
-              duedate="22, July 2020"
-              onPress={() =>
-                navigation.navigate('DispatchDetailHistory', {completed: true})
-              }
-            />
+            {isLoading ? (
+              <ActivityIndicator
+                size="small"
+                color={colors.PRIMARY_PURPLE}
+                style={{marginTop: 30}}
+              />
+            ) : (
+              <View>
+                <FlatList
+                  ListEmptyComponent={
+                    <Text
+                      style={[
+                        Basestyle.regular_13,
+                        {color: colors.PRIMARY_BLUE, textAlign: 'center'},
+                      ]}>
+                      You have no history at the moment!
+                    </Text>
+                  }
+                  showsVerticalScrollIndicator={false}
+                  data={deliveryhistory}
+                  renderItem={_renderItem}
+                  keyExtractor={(item, index) => `list-item-${index}`}
+                />
+              </View>
+            )}
           </View>
         </View>
       </ScrollView>
@@ -88,4 +134,17 @@ const DeliveryHistory = ({navigation, route}) => {
   );
 };
 
-export default DeliveryHistory;
+const mapStateToProps = (state) => {
+  const {
+    delivery: {deliverydata, deliveryhistory},
+  } = state;
+  return {
+    deliverydata,
+    deliveryhistory,
+  };
+};
+const mapDispatchToProps = {
+  fetchDeliveryHistory,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeliveryHistory);

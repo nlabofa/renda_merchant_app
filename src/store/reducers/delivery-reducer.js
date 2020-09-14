@@ -6,6 +6,7 @@ const initialState = {
   deliveryschedule: '',
   deliveryinfo: null,
   deliveryimage: '',
+  deliveryhistory: null,
   imageloading: false,
 };
 
@@ -35,6 +36,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         deliverydata: action.data,
+      };
+    case actionTypes.SAVE_DELIVERY_HISTORY:
+      return {
+        ...state,
+        deliveryhistory: action.data,
       };
     case actionTypes.SAVE_DELIVERY_SCHEDULE:
       return {

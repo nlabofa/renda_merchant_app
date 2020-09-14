@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {
   heightPercentageToDP as hp,
-  //widthPercentageToDP as wp,
+  widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {colors, Basestyle} from '../../../helpers/BaseThemes';
 import {processFontSize} from '../../../helpers/fonts';
@@ -14,6 +14,13 @@ export default StyleSheet.create({
     borderTopColor: 'rgba(27, 84, 128, 0.2)',
     marginLeft: 5,
     flex: 1,
+  },
+  sliderview: {
+    width: wp(91),
+    alignItems: 'center',
+    height: 200,
+    marginTop: 10,
+    //overflow: 'hidden',
   },
   delivery_bottom: {
     borderTopWidth: 1.5,

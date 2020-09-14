@@ -39,6 +39,26 @@ export default class Auth extends RendaRequest {
       return this.handleError(err);
     }
   };
+  fetchDeliveryHistory = async (id) => {
+    try {
+      const {data} = await this.requestInstance.get(
+        `/requests?user=${id}&$populate=status user dispatch&$sort=-1`,
+      );
+      return data;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
+  // trackDeliveryHistory = async (id) => {
+  //   try {
+  //     const {data} = await this.requestInstance.get(
+  //       `/requests?user=${id}&$populate=status user dispatch&$sort=-1`,
+  //     );
+  //     return data;
+  //   } catch (err) {
+  //     return this.handleError(err);
+  //   }
+  // };
   checkPrice = async (payload) => {
     try {
       const response = await this.requestInstance.post(

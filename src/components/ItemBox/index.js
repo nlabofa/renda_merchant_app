@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {TouchableOpacity, Text, Image, View} from 'react-native';
@@ -23,11 +24,11 @@ const ItemBox = ({
   let custom_status_div = {};
   custom_status_div = {
     backgroundColor:
-      status === 'accepted'
+      status == 'accepted'
         ? colors.PRIMARY_GREEN
-        : status === 'in progress'
+        : status == 'in progress'
         ? colors.SECONDARY_ORANGE
-        : status === 'completed'
+        : status == 'completed'
         ? colors.SECONDARY_GREY
         : colors.SECONDARY_RED,
   };
@@ -125,9 +126,14 @@ const ItemBox = ({
       <View style={styles.row}>
         <View style={styles.div_view}>
           <View style={styles.row_center}>
-            <Text style={[Basestyle.bold_16, {color: colors.PRIMARY_BLUE}]}>
-              # {idnumber}
-            </Text>
+            <View style={{width: '50%'}}>
+              <Text
+                numberOfLines={1}
+                style={[Basestyle.bold_16, {color: colors.PRIMARY_BLUE}]}>
+                # {idnumber}
+              </Text>
+            </View>
+
             <View style={[styles.status_div, custom_status_div]}>
               <Text style={[styles.status_text, custom_status_text]}>
                 {status}

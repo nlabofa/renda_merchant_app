@@ -134,27 +134,27 @@ const Dashboard = ({navigation, user_info}) => {
               status="completed"
               destination="Ikeja"
               duedate="22, July 2020"
-              onPress={() =>
-                navigation.navigate('DispatchDetailHistory', {completed: false})
-              }
+              // onPress={() =>
+              //   navigation.navigate('DispatchDetailHistory', {completed: false})
+              // }
             />
             <ItemBox
               idnumber="RA0492859"
               status="failed"
               destination="Ikeja"
               duedate="22, July 2020"
-              onPress={() =>
-                navigation.navigate('DispatchDetailHistory', {completed: false})
-              }
+              // onPress={() =>
+              //   navigation.navigate('DispatchDetailHistory', {completed: false})
+              // }
             />
             <ItemBox
               idnumber="RA0492859"
               status="in progress"
               destination="Ikeja"
               duedate="22, July 2020"
-              onPress={() =>
-                navigation.navigate('DispatchDetailHistory', {completed: false})
-              }
+              // onPress={() =>
+              //   navigation.navigate('DispatchDetailHistory', {completed: false})
+              // }
             />
           </View>
         </View>

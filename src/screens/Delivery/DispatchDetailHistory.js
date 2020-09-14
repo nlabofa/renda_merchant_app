@@ -7,6 +7,8 @@ import {Basestyle, Images, colors} from '../../helpers/BaseThemes';
 import SafeAreaView from 'react-native-safe-area-view';
 import ReuseHeader from '../../components/Header/index';
 import ImageSlider from '../../components/ImageSlider';
+import moment from 'moment';
+import {connect} from 'react-redux';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 
 const contents = [
@@ -19,10 +21,17 @@ const contents = [
     imgsrc: Images.show_download,
   },
 ];
-const DispatchDetailHistory = ({navigation, route}) => {
-  const scrollViewRef = useRef(null);
-  const {completed} = route.params;
 
+const DispatchDetailHistory = ({navigation, categories, route}) => {
+  const scrollViewRef = useRef(null);
+  const {completed, item} = route.params;
+  const getCatId = (id) => {
+    if (categories.some((el) => el._id === id)) {
+      const updatedInfo = categories.filter((el) => el._id === id);
+      //console.log(updatedInfo);
+      return updatedInfo[0].name;
+    }
+  };
   return (
     <SafeAreaView
       forceInset={{bottom: 'never'}}
@@ -74,7 +83,7 @@ const DispatchDetailHistory = ({navigation, route}) => {
                     style={styles.location_icon}
                   />
                   <Text numberOfLines={2} style={styles.address}>
-                    9 Jinadu Street, Igboefon, Lagos State
+                    {item && item.pickUpAddress}
                   </Text>
                 </View>
                 <View style={{marginTop: 20}}>
@@ -84,7 +93,9 @@ const DispatchDetailHistory = ({navigation, route}) => {
                       resizeMode="contain"
                       style={styles.small_icon}
                     />
-                    <Text style={styles.small_icon_text}>Tobi Afolabi</Text>
+                    <Text style={styles.small_icon_text}>
+                      {item && item.sender.details.name}
+                    </Text>
                   </View>
                   <View style={styles.small_icon_view}>
                     <Image
@@ -92,7 +103,9 @@ const DispatchDetailHistory = ({navigation, route}) => {
                       resizeMode="contain"
                       style={styles.small_icon}
                     />
-                    <Text style={styles.small_icon_text}>09027371303</Text>
+                    <Text style={styles.small_icon_text}>
+                      {item && item.sender.details.phone}
+                    </Text>
                   </View>
                   <View style={styles.small_icon_view}>
                     <Image
@@ -101,7 +114,7 @@ const DispatchDetailHistory = ({navigation, route}) => {
                       style={styles.small_icon}
                     />
                     <Text numberOfLines={2} style={styles.small_icon_text}>
-                      Call recipient once you are 3 bustops away
+                      {item && item.package.details.description}
                     </Text>
                   </View>
                 </View>
@@ -121,7 +134,7 @@ const DispatchDetailHistory = ({navigation, route}) => {
                     style={styles.location_icon}
                   />
                   <Text numberOfLines={2} style={styles.address}>
-                    9 Jinadu Street, Igboefon, Lagos State
+                    {item && item.deliveryAddress}
                   </Text>
                 </View>
 
@@ -132,7 +145,9 @@ const DispatchDetailHistory = ({navigation, route}) => {
                       resizeMode="contain"
                       style={styles.small_icon}
                     />
-                    <Text style={styles.small_icon_text}>Tobi Afolabi</Text>
+                    <Text style={styles.small_icon_text}>
+                      {item && item.receiver.details.name}
+                    </Text>
                   </View>
                   <View style={styles.small_icon_view}>
                     <Image
@@ -140,7 +155,9 @@ const DispatchDetailHistory = ({navigation, route}) => {
                       resizeMode="contain"
                       style={styles.small_icon}
                     />
-                    <Text style={styles.small_icon_text}>09027371303</Text>
+                    <Text style={styles.small_icon_text}>
+                      {item && item.receiver.details.phone}
+                    </Text>
                   </View>
                   <View style={styles.small_icon_view}>
                     <Image
@@ -149,7 +166,7 @@ const DispatchDetailHistory = ({navigation, route}) => {
                       style={styles.small_icon}
                     />
                     <Text numberOfLines={2} style={styles.small_icon_text}>
-                      Call recipient once you are 3 bustops away
+                      {item && item.deliveryInstructions}
                     </Text>
                   </View>
                 </View>
@@ -163,31 +180,40 @@ const DispatchDetailHistory = ({navigation, route}) => {
                         styles.small_icon_text3,
                         {color: colors.PRIMARY_ORANGE},
                       ]}>
-                      In Progress
+                      {item.status.status}
                     </Text>
                   </View>
                   <View style={{width: '36%'}}>
                     <Text style={[styles.small_icon_text2]}>Date :</Text>
                     <Text style={[styles.small_icon_text3]}>
-                      12th July 2020.
+                      {moment(item.deliveryDate).format('Do, MMM YYYY')}
                     </Text>
                   </View>
                 </View>
                 <View style={[Basestyle.row_space_between, {marginBottom: 10}]}>
                   <View>
                     <Text style={[styles.small_icon_text2]}>Quantity :</Text>
-                    <Text style={[styles.small_icon_text3]}>20 pcs</Text>
+                    <Text style={[styles.small_icon_text3]}>
+                      {item && item.package.details.quantity} pcs
+                    </Text>
                   </View>
                   <View style={{width: '36%'}}>
                     <Text style={[styles.small_icon_text2]}>Category :</Text>
-                    <Text style={[styles.small_icon_text3]}>Clothing</Text>
+                    <Text style={[styles.small_icon_text3]}>
+                      {getCatId(item && item.category)}
+                    </Text>
                   </View>
                 </View>
                 <Text style={[styles.small_icon_text4]}>Product Image</Text>
               </View>
             </View>
           </View>
-          {contents && contents.length !== 0 && (
+          <Image
+            source={{uri: item && item.package.details.image}}
+            resizeMode="cover"
+            style={styles.sliderview}
+          />
+          {/* {contents && contents.length !== 0 && (
             <ImageSlider
               customwrapperstyle={{
                 height: heightPercentageToDP(26),
@@ -204,11 +230,28 @@ const DispatchDetailHistory = ({navigation, route}) => {
               contents={contents}
               delivered={completed ? true : false}
             />
-          )}
+          )} */}
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default DispatchDetailHistory;
+const mapStateToProps = (state) => {
+  const {
+    //delivery: {deliverydata, deliveryinfo},
+    auth: {user_info, categories},
+  } = state;
+  return {
+    // deliverydata,
+    // deliveryinfo,
+    categories,
+    user_info,
+  };
+};
+// const mapDispatchToProps = {
+//   saveDeliveryData,
+//   submitDeliveryRequest,
+// };
+
+export default connect(mapStateToProps, null)(DispatchDetailHistory);
