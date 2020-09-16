@@ -133,12 +133,13 @@ const ItemBox = ({
                 # {idnumber}
               </Text>
             </View>
-
-            <View style={[styles.status_div, custom_status_div]}>
-              <Text style={[styles.status_text, custom_status_text]}>
-                {status}
-              </Text>
-            </View>
+            {status && (
+              <View style={[styles.status_div, custom_status_div]}>
+                <Text style={[styles.status_text, custom_status_text]}>
+                  {status}
+                </Text>
+              </View>
+            )}
           </View>
           {/* bottom row */}
 
