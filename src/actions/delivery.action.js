@@ -5,16 +5,6 @@ import NavigationService from '../helpers/NavigationService';
 import store from '../store/index';
 //import { alertModal } from '../actions/alert';
 
-const loadStart = () => {
-  return {
-    type: actionTypes.LOAD_START,
-  };
-};
-const loadStop = () => {
-  return {
-    type: actionTypes.LOAD_END,
-  };
-};
 const imageUploadStart = () => {
   return {
     type: actionTypes.IMAGE_LOAD_START,

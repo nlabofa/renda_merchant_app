@@ -23,7 +23,7 @@ const ViewNotification = ({navigation}) => {
         <View style={{marginTop: 30}}>
           <Text style={[styles.opaq3]}>Today</Text>
           <View style={{marginTop: 15}}>
-            <ItemBox
+            {/* <ItemBox
               type="notification"
               status="neworder"
               destination="Lagos Island"
@@ -33,7 +33,7 @@ const ViewNotification = ({navigation}) => {
                   order_no: '2344555',
                 })
               }
-            />
+            /> */}
             <ItemBox
               type="notification"
               status="newmessage"
@@ -51,7 +51,7 @@ const ViewNotification = ({navigation}) => {
         <View style={{marginTop: 30}}>
           <Text style={[styles.opaq3]}>Yesterday</Text>
           <View style={{marginTop: 15}}>
-            <ItemBox
+            {/* <ItemBox
               type="notification"
               status="oldorder"
               destination="Lagos Island"
@@ -61,7 +61,7 @@ const ViewNotification = ({navigation}) => {
                   order_no: '2344555',
                 })
               }
-            />
+            /> */}
             <ItemBox
               type="notification"
               status="oldmessage"

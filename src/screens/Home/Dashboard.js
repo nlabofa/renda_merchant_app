@@ -1,29 +1,78 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StatusBar,
   TouchableOpacity,
-  ScrollView,
+  FlatList,
+  Image,
   Text,
+  ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import styles from './styles/dashboard_styles';
-import {Basestyle, colors} from '../../helpers/BaseThemes';
+import {Basestyle, colors, Images} from '../../helpers/BaseThemes';
 import GradientHeader from '../../components/GradientHeader';
+import moment from 'moment';
 import {processFontSize} from '../../helpers/fonts';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import ItemBox from '../../components/ItemBox';
 import {connect} from 'react-redux';
 import {logout} from '../../actions/auth.action';
+import {fetchDeliveryHistory} from '../../actions/delivery.action';
 
-const Dashboard = ({navigation, user_info}) => {
+const Dashboard = ({
+  navigation,
+  deliveryhistory,
+  fetchDeliveryHistory,
+  user_info,
+}) => {
   const {firstName} = user_info;
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      await fetchDeliveryHistory();
+      setIsLoading(false);
+      //console.log(response);
+    };
+    fetchHistory();
+  }, []);
+  const _renderItem = ({item, index}) => (
+    <ItemBox
+      idnumber={item._id}
+      status={item.status.status}
+      destination={item.dropOffLandmark}
+      duedate={moment(item.deliveryDate).format('Do, MMM YYYY')}
+      onPress={() =>
+        navigation.navigate('DispatchDetailHistory', {
+          completed: false,
+          item,
+        })
+      }
+    />
+  );
+  const EmptyView = () => (
+    <View style={styles.empty_view}>
+      <Image
+        source={Images.empty_bag}
+        style={{width: 109, height: 141}}
+        resizeMode="contain"
+      />
+      <Text style={[styles.empty_text]}>
+        You have made no deliveries yet{'\n'} Make a request to get started
+      </Text>
+    </View>
+  );
 
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={[1]}
       style={Basestyle.container}>
       <StatusBar
         barStyle="light-content"
@@ -54,7 +103,7 @@ const Dashboard = ({navigation, user_info}) => {
             <View style={{width: '55%'}}>
               <Text style={[styles.opaq1]}>Wallet Balance</Text>
               <Text numberOfLines={1} style={Basestyle.bold_35}>
-                N 23,000
+                N 0
               </Text>
             </View>
             <LinearGradient
@@ -78,7 +127,7 @@ const Dashboard = ({navigation, user_info}) => {
             <View style={{width: '55%'}}>
               <Text style={[styles.opaq1]}>Total Deliveries</Text>
               <Text numberOfLines={1} style={Basestyle.bold_35}>
-                1500
+                {(deliveryhistory && deliveryhistory.length) || 0}
               </Text>
             </View>
             <LinearGradient
@@ -102,7 +151,7 @@ const Dashboard = ({navigation, user_info}) => {
             <View style={{width: '55%'}}>
               <Text style={[styles.opaq1]}>Inventory</Text>
               <Text numberOfLines={1} style={Basestyle.bold_35}>
-                5431
+                0
               </Text>
             </View>
             <LinearGradient
@@ -129,33 +178,23 @@ const Dashboard = ({navigation, user_info}) => {
             <Text style={[styles.opaq2]}>Recent Deliveries</Text>
           </View>
           <View style={{marginTop: 15}}>
-            <ItemBox
-              idnumber="RA0492859"
-              status="completed"
-              destination="Ikeja"
-              duedate="22, July 2020"
-              // onPress={() =>
-              //   navigation.navigate('DispatchDetailHistory', {completed: false})
-              // }
-            />
-            <ItemBox
-              idnumber="RA0492859"
-              status="failed"
-              destination="Ikeja"
-              duedate="22, July 2020"
-              // onPress={() =>
-              //   navigation.navigate('DispatchDetailHistory', {completed: false})
-              // }
-            />
-            <ItemBox
-              idnumber="RA0492859"
-              status="in progress"
-              destination="Ikeja"
-              duedate="22, July 2020"
-              // onPress={() =>
-              //   navigation.navigate('DispatchDetailHistory', {completed: false})
-              // }
-            />
+            {isLoading ? (
+              <ActivityIndicator
+                size="small"
+                color={colors.PRIMARY_PURPLE}
+                style={{marginTop: 30}}
+              />
+            ) : (
+              <View>
+                <FlatList
+                  ListEmptyComponent={EmptyView()}
+                  showsVerticalScrollIndicator={false}
+                  data={deliveryhistory}
+                  renderItem={_renderItem}
+                  keyExtractor={(item, index) => `list-item-${index}`}
+                />
+              </View>
+            )}
           </View>
         </View>
       </View>
@@ -166,14 +205,18 @@ const Dashboard = ({navigation, user_info}) => {
 const mapStateToProps = (state) => {
   const {
     auth: {user_info},
+    delivery: {deliveryhistory, trackdelivery},
   } = state;
   return {
     user_info,
+    deliveryhistory,
+    trackdelivery,
   };
 };
 
 const mapDispatchToProps = {
   logout,
+  fetchDeliveryHistory,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

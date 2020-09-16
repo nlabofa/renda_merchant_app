@@ -33,7 +33,7 @@ const ITEM_LIST = [
   {
     title: 'Wallet',
     imgsrc: require('../../assets/images/wallet_icon.png'),
-    screen: 'ViewNotification',
+    screen: '',
   },
   {
     title: 'Notifications',
@@ -43,13 +43,13 @@ const ITEM_LIST = [
   {
     title: 'Profile',
     imgsrc: require('../../assets/images/profile_plain.png'),
-    screen: 'ViewNotification',
+    screen: '',
     //customstyle: {width: 50},
   },
   {
     title: 'Support',
     imgsrc: require('../../assets/images/support.png'),
-    screen: 'ViewNotification',
+    screen: '',
   },
 ];
 const DrawerComponent = ({navigation, logout, user_info}) => {
@@ -103,7 +103,7 @@ const DrawerComponent = ({navigation, logout, user_info}) => {
           <View style={{marginTop: 25}}>
             {ITEM_LIST.map(({title, screen, customstyle = {}, imgsrc}) => (
               <TouchableOpacity
-                onPress={() => gotoScreen(screen, title)}
+                onPress={() => screen && gotoScreen(screen, title)}
                 key={title}
                 activeOpacity={0.7}
                 style={[

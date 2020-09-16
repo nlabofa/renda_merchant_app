@@ -19,6 +19,8 @@ import {Basestyle, colors, Images} from '../../helpers/BaseThemes';
 import ItemBox from '../../components/ItemBox';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import moment from 'moment';
+import styles from '../Home/styles/dashboard_styles';
+
 import ReuseHeader from '../../components/Header/index';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import {connect} from 'react-redux';
@@ -48,6 +50,18 @@ const TrackDelivery = ({navigation, trackdelivery, fetchTrackDelivery}) => {
         })
       }
     />
+  );
+  const EmptyView = () => (
+    <View style={styles.empty_view}>
+      <Image
+        source={Images.empty_bag}
+        style={{width: 109, height: 141}}
+        resizeMode="contain"
+      />
+      <Text style={[styles.empty_text]}>
+        You have made no deliveries yet{'\n'} Make a request to get started
+      </Text>
+    </View>
   );
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
@@ -90,15 +104,7 @@ const TrackDelivery = ({navigation, trackdelivery, fetchTrackDelivery}) => {
             ) : (
               <View>
                 <FlatList
-                  ListEmptyComponent={
-                    <Text
-                      style={[
-                        Basestyle.regular_13,
-                        {color: colors.PRIMARY_BLUE, textAlign: 'center'},
-                      ]}>
-                      You have no history at the moment!
-                    </Text>
-                  }
+                  ListEmptyComponent={EmptyView()}
                   showsVerticalScrollIndicator={false}
                   data={trackdelivery}
                   renderItem={_renderItem}

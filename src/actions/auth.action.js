@@ -10,17 +10,6 @@ import NavigationService from '../helpers/NavigationService';
 //import store from '../store/index';
 //import { alertModal } from '../actions/alert';
 
-const loadStart = () => {
-  return {
-    type: actionTypes.LOAD_START,
-  };
-};
-
-const loadEnd = () => {
-  return {
-    type: actionTypes.LOAD_END,
-  };
-};
 export const saveUserRoles = (data) => {
   return {
     type: actionTypes.SAVE_USER_ROLES,

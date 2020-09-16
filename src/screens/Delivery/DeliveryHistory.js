@@ -19,6 +19,7 @@ import moment from 'moment';
 import ItemBox from '../../components/ItemBox';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ReuseHeader from '../../components/Header/index';
+import styles from '../Home/styles/dashboard_styles';
 import {connect} from 'react-redux';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import {fetchDeliveryHistory} from '../../actions/delivery.action';
@@ -26,8 +27,8 @@ import {fetchDeliveryHistory} from '../../actions/delivery.action';
 const DeliveryHistory = ({
   navigation,
   deliveryhistory,
+  trackdelivery,
   fetchDeliveryHistory,
-  route,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -52,6 +53,18 @@ const DeliveryHistory = ({
         })
       }
     />
+  );
+  const EmptyView = () => (
+    <View style={styles.empty_view}>
+      <Image
+        source={Images.empty_bag}
+        style={{width: 109, height: 141}}
+        resizeMode="contain"
+      />
+      <Text style={[styles.empty_text]}>
+        You have made no deliveries yet{'\n'} Make a request to get started
+      </Text>
+    </View>
   );
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
@@ -111,15 +124,7 @@ const DeliveryHistory = ({
             ) : (
               <View>
                 <FlatList
-                  ListEmptyComponent={
-                    <Text
-                      style={[
-                        Basestyle.regular_13,
-                        {color: colors.PRIMARY_BLUE, textAlign: 'center'},
-                      ]}>
-                      You have no history at the moment!
-                    </Text>
-                  }
+                  ListEmptyComponent={EmptyView()}
                   showsVerticalScrollIndicator={false}
                   data={deliveryhistory}
                   renderItem={_renderItem}
@@ -136,10 +141,11 @@ const DeliveryHistory = ({
 
 const mapStateToProps = (state) => {
   const {
-    delivery: {deliverydata, deliveryhistory},
+    delivery: {deliverydata, trackdelivery, deliveryhistory},
   } = state;
   return {
     deliverydata,
+    trackdelivery,
     deliveryhistory,
   };
 };
