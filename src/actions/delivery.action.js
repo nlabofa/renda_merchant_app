@@ -89,7 +89,7 @@ export const checkPrice = (data) => async (dispatch) => {
   console.log(data);
   const response = await DeliveryRequest.checkPrice(data);
   console.log(response);
-  if (response.status === 200) {
+  if (response.data.status === 200) {
     dispatch(
       saveDeliveryData({
         ...deliverydata,

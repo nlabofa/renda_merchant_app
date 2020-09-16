@@ -64,7 +64,7 @@ const SetLocation = ({
       // );
       RNGooglePlaces.getCurrentPlace(['placeID', 'location', 'name', 'address'])
         .then((results) => {
-          console.log(results);
+          console.log(results[0]);
           if (!pickupData) {
             setActiveLocation(results[0]); //set users default location when location isn't specified
           }

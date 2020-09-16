@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useRef, useState} from 'react';
@@ -56,16 +57,16 @@ const SelectDeliveryType = ({
   const [isLoading, setIsLoading] = useState(false);
   const [successmodal, setsuccessmodal] = useState(false);
   const checkpayment = (e) => {
-    // console.log(e);
+    // console.log(e.data);
     if (e.data && e.data.status === 'success') {
-      performAction();
+      performAction(e.data.trxref);
     } else {
       setTimeout(() => {
         alert('Cancelled Transaction');
       }, 1000);
     }
   };
-  const performAction = async () => {
+  const performAction = async (trxf) => {
     const data = {
       ...deliverydata,
       package: {
@@ -77,6 +78,7 @@ const SelectDeliveryType = ({
       // extras
       user: user_info._id,
       paymentMode: 'Card',
+      paymentRef: trxf,
       paymentAmount: deliverydata.paymentAmount
         ? deliverydata.paymentAmount
         : 1000,
@@ -88,7 +90,7 @@ const SelectDeliveryType = ({
       setIsLoading(true);
       const response = await submitDeliveryRequest(data);
       setIsLoading(false);
-      console.log(response);
+      //console.log(response);
       if (response.status === 201) {
         setTimeout(() => {
           setsuccessmodal(true);

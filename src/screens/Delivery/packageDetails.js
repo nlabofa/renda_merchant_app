@@ -76,8 +76,8 @@ const PackageDetails = ({
   useEffect(() => {
     const fetchPrice = async () => {
       const data = {
-        pickup: deliverydata.pickUpLandmark, //'Ikoyi',
-        dropoff: deliverydata.dropOffLandmark, // 'Ikota'
+        pickup: deliverydata.pickUpAddress, //'Ikoyi',
+        dropoff: deliverydata.deliveryAddress, // 'Ikota'
       };
       await checkPrice(data);
     };
