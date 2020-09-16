@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "91081549853-02niko4jen5q1n6v1um2jft99g0e3a88.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rendamerchant",
+            "certificate_hash": "782fef25d651c559fc4d1e6fd67fba2c1f08e75a"
+          }
+        },
+        {
           "client_id": "91081549853-g80o3i2v6ejbcfhi6vic5chmgs79ra8d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

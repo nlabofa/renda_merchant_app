@@ -31,7 +31,7 @@ const Dashboard = ({
   fetchDeliveryHistory,
   user_info,
 }) => {
-  const {firstName} = user_info;
+  const firstName = user_info && user_info.firstName;
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const Dashboard = ({
         resizeMode="contain"
       />
       <Text style={[styles.empty_text]}>
-        You have made no deliveries yet{'\n'} Make a request to get started
+        You have made no delivery request yet{'\n'}
       </Text>
     </View>
   );
