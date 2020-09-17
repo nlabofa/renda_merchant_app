@@ -59,7 +59,7 @@ const TrackDelivery = ({navigation, trackdelivery, fetchTrackDelivery}) => {
         resizeMode="contain"
       />
       <Text style={[styles.empty_text]}>
-        You have made no delivery request yet{'\n'}
+        You have made no request to track{'\n'}
       </Text>
     </View>
   );

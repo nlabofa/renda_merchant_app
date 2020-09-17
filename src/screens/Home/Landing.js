@@ -47,7 +47,7 @@ const Landing = ({
             onPress={() => navigation.toggleDrawer()}
           />
         }
-        title="DASHBOARD">
+        title="HOME">
         <View style={styles.middle_content}>
           <Text style={[Basestyle.bold_17, {fontSize: 20}]}>
             Welcome {user_info && user_info.firstName}

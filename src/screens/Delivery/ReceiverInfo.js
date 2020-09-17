@@ -86,7 +86,7 @@ const ReceiverInfo = ({
   deliveryinfo,
   saveDeliveryData,
 }) => {
-  const {dropoffLocation} = deliveryinfo;
+  const dropoffLocation = deliveryinfo && deliveryinfo.dropoffLocation;
 
   const [{errors}, setState] = useState({
     errors: initialErrorState,

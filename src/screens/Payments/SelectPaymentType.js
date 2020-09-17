@@ -109,7 +109,7 @@ const SelectDeliveryType = ({
   };
   const goHome = () => {
     setsuccessmodal(false);
-    clearDeliveryData();
+    //clearDeliveryData();
     setTimeout(() => {
       navigation.navigate('HomeDrawer');
     }, 1000);

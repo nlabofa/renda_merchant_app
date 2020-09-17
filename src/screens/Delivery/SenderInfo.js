@@ -80,7 +80,7 @@ const SenderInfo = ({
   deliveryinfo,
   saveDeliveryData,
 }) => {
-  const {activeLocation} = deliveryinfo;
+  const activeLocation = deliveryinfo && deliveryinfo.activeLocation;
   const [{errors}, setState] = useState({
     errors: initialErrorState,
   });

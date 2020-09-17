@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, StatusBar, Image, Text} from 'react-native';
@@ -7,7 +8,8 @@ import {Basestyle, Images} from '../../helpers/BaseThemes';
 import {connect} from 'react-redux';
 import GradientHeader from '../../components/GradientHeader';
 import ItemBox from '../../components/ItemBox';
-const Landing = ({navigation, user_info}) => {
+import {clearDeliveryData} from '../../actions/delivery.action';
+const Landing = ({navigation, user_info, clearDeliveryData}) => {
   const {firstName} = user_info;
   return (
     <View style={Basestyle.container}>
@@ -47,7 +49,10 @@ const Landing = ({navigation, user_info}) => {
               />
             }
             customtext="Request Delivery"
-            onPress={() => navigation.navigate('NewDelivery')}
+            onPress={() => {
+              clearDeliveryData();
+              navigation.navigate('NewDelivery');
+            }}
           />
           <ItemBox
             customicon={
@@ -86,8 +91,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-// const mapDispatchToProps = {
-//   logout,
-// };
+const mapDispatchToProps = {
+  clearDeliveryData,
+};
 
-export default connect(mapStateToProps, null)(Landing);
+export default connect(mapStateToProps, mapDispatchToProps)(Landing);

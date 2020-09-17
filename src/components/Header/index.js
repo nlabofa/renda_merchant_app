@@ -18,7 +18,7 @@ const ReuseHeader = ({
 }) => {
   const header2 = {
     ...styles.header2,
-    marginTop: Platform.OS === 'android' ? getStatusBarHeight() + 10 : 10,
+    marginTop: Platform.OS === 'android' ? getStatusBarHeight() : 10,
   };
   return leftheader ? (
     <View style={[header2, containerstyle]}>
