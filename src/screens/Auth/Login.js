@@ -22,6 +22,7 @@ import {GoogleSignin} from '@react-native-community/google-signin';
 import {processFontSize} from '../../helpers/fonts';
 import {handleLogin} from '../../actions/auth.action';
 import {connect} from 'react-redux';
+import {emailRegex} from '../../helpers/libs';
 
 const addressFields = [
   {
@@ -100,6 +101,19 @@ const Login = ({navigation, handleLogin, route}) => {
           },
         }));
         break;
+      } else if (
+        requiredField === 'email' &&
+        !emailRegex.test(inputValues[requiredField])
+      ) {
+        const message = 'Please enter a valid email';
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        return false;
       } else {
         continue;
       }
@@ -175,6 +189,7 @@ const Login = ({navigation, handleLogin, route}) => {
     }
   };
   return (
+    // <ScrollView>
     <ImageBackground
       source={Images.login_bg}
       resizeMode="stretch"
@@ -193,7 +208,7 @@ const Login = ({navigation, handleLogin, route}) => {
       <KeyboardAwareScrollView
         enableOnAndroid={true}
         showsVerticalScrollIndicator={false}
-        style={{marginTop: hp(19), overflow: 'hidden'}}>
+        style={{marginTop: hp(19), overflow: 'visible'}}>
         <Image
           source={Images.flat_logo}
           resizeMode="contain"
@@ -207,28 +222,28 @@ const Login = ({navigation, handleLogin, route}) => {
             value={inputValues.email}
             handleInputChange={(text) => handleInputChange('email', text)}
             errorMessage={errors.email || ''}
-            cutomwrapperInputStyle={{marginBottom: 30}}
           />
-          <FloatingTextInput
-            label="Password"
-            placeholder="* * * * "
-            value={inputValues.password}
-            handleInputChange={(text) => handleInputChange('password', text)}
-            errorMessage={errors.password || ''}
-            secureTextEntry={!hidePassword ? true : false}
-            rightElement={
-              <TouchableOpacity
-                onPress={() => managePasswordVisibility()}
-                style={{right: '80%'}}>
-                <Entypo
-                  name={hidePassword ? 'eye' : 'eye-with-line'}
-                  size={25}
-                  color={colors.PRIMARY_GREY_02}
-                />
-              </TouchableOpacity>
-            }
-            cutomwrapperInputStyle={{marginBottom: 20}}
-          />
+          <View style={{marginTop: 30}}>
+            <FloatingTextInput
+              label="Password"
+              placeholder="* * * * "
+              value={inputValues.password}
+              handleInputChange={(text) => handleInputChange('password', text)}
+              errorMessage={errors.password || ''}
+              secureTextEntry={!hidePassword ? true : false}
+              rightElement={
+                <TouchableOpacity
+                  onPress={() => managePasswordVisibility()}
+                  style={{right: '80%'}}>
+                  <Entypo
+                    name={hidePassword ? 'eye' : 'eye-with-line'}
+                    size={25}
+                    color={colors.PRIMARY_GREY_02}
+                  />
+                </TouchableOpacity>
+              }
+            />
+          </View>
           <Text
             onPress={() => navigation.navigate('ResetPassword')}
             style={styles.forgot_pass}>
@@ -270,11 +285,12 @@ const Login = ({navigation, handleLogin, route}) => {
             //   />
             // }
             btnTextStyles={{color: colors.PRIMARY_BLUE}}
-            btnContainerStyle={{marginTop: processFontSize(20)}}
+            btnContainerStyle={{marginVertical: processFontSize(20)}}
           />
         </View>
       </KeyboardAwareScrollView>
     </ImageBackground>
+    // </ScrollView>
   );
 };
 

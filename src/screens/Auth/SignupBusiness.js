@@ -19,6 +19,7 @@ import {
   getBusinessTypes,
   createAccount,
 } from '../../actions/auth.action';
+import {emailRegex, phoneNumberRegex} from '../../helpers/libs';
 const CYCLES = [
   {
     title: 'Information Technology',
@@ -85,7 +86,7 @@ const addressFields = [
   {
     index: 3,
     label: 'Address',
-    placeholder: '12 Wole Ariyo Street Lekki Phase 1',
+    placeholder: '',
     name: 'address',
     keyboardType: '',
   },
@@ -191,6 +192,32 @@ const SignUpBusiness = ({
           },
         }));
         break;
+      } else if (
+        requiredField === 'email' &&
+        !emailRegex.test(inputValues.email)
+      ) {
+        const message = 'Please enter a valid email';
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        return false;
+      } else if (
+        requiredField === 'phoneNumber' &&
+        !phoneNumberRegex.test(inputValues.phoneNumber)
+      ) {
+        const message = 'Please enter a valid phone number';
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        return false;
       } else {
         continue;
       }
@@ -253,9 +280,11 @@ const SignUpBusiness = ({
         leftheader
         textStyle={{letterSpacing: 0.9}}
       />
-      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-        <View style={{marginTop: 30}}>
-          <View style={{marginTop: 0}}>
+      <KeyboardAwareScrollView
+        style={{marginTop: 30}}
+        showsVerticalScrollIndicator={false}>
+        <View>
+          <View>
             {addressFields.map(
               ({index, label, placeholder, type, name, keyboardType}) => {
                 if (type === 'textarea') {
@@ -281,66 +310,68 @@ const SignUpBusiness = ({
                   );
                 } else if (type === 'dropdown') {
                   return (
-                    <CustomDropdown
-                      key={index}
-                      containerStyle={{marginBottom: 20}}
-                      defaultLabel={label}
-                      // inputTextStyle={styles.dropdown_inputext}
-                      selectedOption={inputValues[name]}
-                      options={[
-                        {
-                          name: 'Choose category..',
-                          value: null,
-                        },
-                        ...CYCLES,
-                      ]}
-                      handleDropdownChange={(value) => {
-                        if (value !== null) {
-                          handleInputChange(name, value);
-                        }
-                      }}
-                      labelKey="title"
-                      valueKey="type"
-                      placeholder={placeholder}
-                      errorMessage={errors[name] || ''}
-                    />
+                    <View style={{marginTop: 20}} key={index}>
+                      <CustomDropdown
+                        // containerStyle={{marginBottom: 20}}
+                        defaultLabel={label}
+                        // inputTextStyle={styles.dropdown_inputext}
+                        selectedOption={inputValues[name]}
+                        options={[
+                          {
+                            name: 'Choose category..',
+                            value: null,
+                          },
+                          ...CYCLES,
+                        ]}
+                        handleDropdownChange={(value) => {
+                          if (value !== null) {
+                            handleInputChange(name, value);
+                          }
+                        }}
+                        labelKey="title"
+                        valueKey="type"
+                        placeholder={placeholder}
+                        errorMessage={errors[name] || ''}
+                      />
+                    </View>
                   );
                 } else {
                   return (
-                    <FloatingTextInput
-                      key={index}
-                      express
-                      label={label}
-                      placeholder={placeholder}
-                      keyboardType={keyboardType || 'default'}
-                      value={inputValues[name]}
-                      handleInputChange={(text) =>
-                        handleInputChange(name, text)
-                      }
-                      secureTextEntry={
-                        name === 'password' && !hidePassword ? true : false
-                      }
-                      rightElement={
-                        name === 'password' && (
-                          <TouchableOpacity
-                            onPress={() => managePasswordVisibility()}
-                            style={{right: '80%'}}>
-                            <Entypo
-                              name={hidePassword ? 'eye' : 'eye-with-line'}
-                              size={25}
-                              color={colors.PRIMARY_GREY_02}
-                            />
-                          </TouchableOpacity>
-                        )
-                      }
-                      errorMessage={errors[name] || ''}
-                      cutomwrapperInputStyle={{marginBottom: 20}}
-                    />
+                    <View key={index} style={{marginTop: 20}}>
+                      <FloatingTextInput
+                        express
+                        label={label}
+                        placeholder={placeholder}
+                        keyboardType={keyboardType || 'default'}
+                        value={inputValues[name]}
+                        handleInputChange={(text) =>
+                          handleInputChange(name, text)
+                        }
+                        secureTextEntry={
+                          name === 'password' && !hidePassword ? true : false
+                        }
+                        rightElement={
+                          name === 'password' && (
+                            <TouchableOpacity
+                              onPress={() => managePasswordVisibility()}
+                              style={{right: '80%'}}>
+                              <Entypo
+                                name={hidePassword ? 'eye' : 'eye-with-line'}
+                                size={25}
+                                color={colors.PRIMARY_GREY_02}
+                              />
+                            </TouchableOpacity>
+                          )
+                        }
+                        errorMessage={errors[name] || ''}
+                        //cutomwrapperInputStyle={{marginBottom: 20}}
+                      />
+                    </View>
                   );
                 }
               },
             )}
-            <View style={[Basestyle.row_space_between, {marginBottom: 30}]}>
+            <View style={[Basestyle.row_space_between, {marginVertical: 20}]}>
               <View style={{width: '48%'}}>
                 <FloatingTextInput
                   label="L.G.A"

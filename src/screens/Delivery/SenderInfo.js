@@ -53,14 +53,14 @@ const addressFields = [
   {
     index: 3,
     label: 'Pick Up Address',
-    placeholder: '12 Wole Ariyo Street Lekki Phase 1',
+    placeholder: '',
     keyboardType: '',
     name: 'pickUpAddress',
   },
   {
     index: 33,
     label: 'Closest Landmark',
-    placeholder: '12 Wole Ariyo Street Lekki Phase 1',
+    placeholder: '',
     keyboardType: '',
     name: 'pickUpLandmark',
   },

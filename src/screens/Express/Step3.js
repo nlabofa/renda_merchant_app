@@ -1,12 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, StatusBar, TouchableOpacity} from 'react-native';
-import styles from './styles/dashboard_styles';
+import {View, StatusBar} from 'react-native';
+//import styles from './styles/dashboard_styles';
 import {Basestyle, colors} from '../../helpers/BaseThemes';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import SafeAreaView from 'react-native-safe-area-view';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+//import Ionicons from 'react-native-vector-icons/Ionicons';
 import ReuseHeader from '../../components/Header/index';
 import ButtonMain from '../../components/Button/ButtonMain';
 
@@ -26,7 +26,7 @@ const addressFields = [
   {
     index: 3,
     label: 'Drop Off Address',
-    placeholder: '12 Wole Ariyo Street Lekki Phase 1',
+    placeholder: '',
     keyboardType: '',
   },
   {

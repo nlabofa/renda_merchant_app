@@ -66,7 +66,7 @@ const InputContainer = ({
             style={[
               {
                 ...textinputstyle,
-                top: 5,
+                top: -3,
                 color: !value ? colors.PRIMARY_GREY_03 : '#000',
               },
               textinputcustomstyle,

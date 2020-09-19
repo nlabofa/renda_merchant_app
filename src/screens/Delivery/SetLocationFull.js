@@ -142,7 +142,7 @@ const SetLocationFull = ({navigation, route}) => {
                 </Text>
                 <FloatingTextInput
                   label=""
-                  placeholder="12 Wole Ariyo Street Lekki Phase 1"
+                  placeholder=""
                   onChangeText={(text) =>
                     handleInputChange('pickupAddress', text)
                   }
@@ -188,7 +188,7 @@ const SetLocationFull = ({navigation, route}) => {
                 </Text>
                 <FloatingTextInput
                   label=""
-                  placeholder="12 Ikate street, Thomas"
+                  placeholder=""
                   onChangeText={(text) =>
                     handleInputChange('dropoffAddress', text)
                   }

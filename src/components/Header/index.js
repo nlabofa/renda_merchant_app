@@ -18,7 +18,7 @@ const ReuseHeader = ({
 }) => {
   const header2 = {
     ...styles.header2,
-    marginTop: Platform.OS === 'android' ? getStatusBarHeight() : 10,
+    marginTop: Platform.OS === 'android' ? getStatusBarHeight() + 15 : 10,
   };
   return leftheader ? (
     <View style={[header2, containerstyle]}>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header2: {
-    marginTop: 10,
+    // marginTop: 10,
     //backgroundColor: 'red',
     flexDirection: 'row',
     justifyContent: 'flex-start',

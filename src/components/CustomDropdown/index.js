@@ -79,9 +79,10 @@ const CustomDropdown = ({
                 keyExtractor={({item}, index) => `${item}-${index}`}
                 showsVerticalScrollIndicator={false}
                 data={options}
-                ItemSeparatorComponent={() => {
-                  return <View style={styles.separator} />;
-                }}
+                style={{width: '100%'}}
+                // ItemSeparatorComponent={() => {
+                //   return <View style={styles.separator} />;
+                // }}
                 renderItem={({item}) => (
                   <TouchableOpacity
                     onPress={() => {
@@ -154,9 +155,11 @@ const styles = StyleSheet.create({
   itemStyle: {
     flex: 1,
     width: '100%',
+    // backgroundColor: 'red',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
+    paddingVertical: 10,
   },
   separator: {height: 15, width: '100%'},
   arrowStyle: {

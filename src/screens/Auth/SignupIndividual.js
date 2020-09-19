@@ -22,6 +22,7 @@ import {
   getBusinessTypes,
 } from '../../actions/auth.action';
 import {connect} from 'react-redux';
+import {emailRegex, phoneNumberRegex} from '../../helpers/libs';
 const addressFields = [
   {
     index: 0,
@@ -62,7 +63,7 @@ const addressFields = [
     index: 3,
     label: 'Address',
     name: 'address',
-    placeholder: '12 Wole Ariyo Street Lekki Phase 1',
+    placeholder: '',
     keyboardType: '',
   },
 ];
@@ -191,6 +192,32 @@ const SignUpIndividual = ({
           },
         }));
         break;
+      } else if (
+        requiredField === 'email' &&
+        !emailRegex.test(inputValues.email)
+      ) {
+        const message = 'Please enter a valid email';
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        return false;
+      } else if (
+        requiredField === 'phoneNumber' &&
+        !phoneNumberRegex.test(inputValues.phoneNumber)
+      ) {
+        const message = 'Please enter a valid phone number';
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        return false;
       } else {
         continue;
       }
@@ -259,8 +286,9 @@ const SignUpIndividual = ({
       />
       <KeyboardAwareScrollView
         ref={scrollViewRef}
+        style={{marginTop: 30}}
         showsVerticalScrollIndicator={false}>
-        <View style={{marginTop: 30}}>
+        <View>
           <View style={{marginTop: 15}}>
             <ButtonMain
               btnwhite
@@ -285,7 +313,7 @@ const SignUpIndividual = ({
             </Text>
             <View style={styles.hr_sm} />
           </View>
-          <View style={{marginTop: 30}}>
+          <View>
             {addressFields.map(
               ({index, label, placeholder, name, type, keyboardType}) => {
                 if (type === 'textarea') {
@@ -311,40 +339,40 @@ const SignUpIndividual = ({
                   );
                 } else {
                   return (
-                    <FloatingTextInput
-                      key={index}
-                      express
-                      label={label}
-                      placeholder={placeholder}
-                      keyboardType={keyboardType || 'default'}
-                      value={inputValues.name}
-                      handleInputChange={(text) =>
-                        handleInputChange(name, text)
-                      }
-                      secureTextEntry={
-                        name === 'password' && !hidePassword ? true : false
-                      }
-                      rightElement={
-                        name === 'password' && (
-                          <TouchableOpacity
-                            onPress={() => managePasswordVisibility()}
-                            style={{right: '80%'}}>
-                            <Entypo
-                              name={hidePassword ? 'eye' : 'eye-with-line'}
-                              size={25}
-                              color={colors.PRIMARY_GREY_02}
-                            />
-                          </TouchableOpacity>
-                        )
-                      }
-                      errorMessage={errors[name] || ''}
-                      cutomwrapperInputStyle={{marginBottom: 20}}
-                    />
+                    <View key={index} style={{marginTop: 20}}>
+                      <FloatingTextInput
+                        express
+                        label={label}
+                        placeholder={placeholder}
+                        keyboardType={keyboardType || 'default'}
+                        value={inputValues.name}
+                        handleInputChange={(text) =>
+                          handleInputChange(name, text)
+                        }
+                        secureTextEntry={
+                          name === 'password' && !hidePassword ? true : false
+                        }
+                        rightElement={
+                          name === 'password' && (
+                            <TouchableOpacity
+                              onPress={() => managePasswordVisibility()}
+                              style={{right: '80%'}}>
+                              <Entypo
+                                name={hidePassword ? 'eye' : 'eye-with-line'}
+                                size={25}
+                                color={colors.PRIMARY_GREY_02}
+                              />
+                            </TouchableOpacity>
+                          )
+                        }
+                        errorMessage={errors[name] || ''}
+                      />
+                    </View>
                   );
                 }
               },
             )}
-            <View style={[Basestyle.row_space_between, {marginBottom: 30}]}>
+            <View style={[Basestyle.row_space_between, {marginVertical: 20}]}>
               <View style={{width: '48%'}}>
                 <FloatingTextInput
                   label="L.G.A"

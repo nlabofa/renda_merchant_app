@@ -30,6 +30,7 @@ export default StyleSheet.create({
   forgot_pass: {
     ...Basestyle.nunito_bold_13,
     alignSelf: 'flex-end',
+    paddingTop: 20,
     color: colors.PRIMARY_RED,
   },
   modal_content: {

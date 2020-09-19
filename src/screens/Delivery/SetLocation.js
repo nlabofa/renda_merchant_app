@@ -338,7 +338,7 @@ const SetLocation = ({
                   <InputContainer
                     label=""
                     handlePress={() => viewFullLocation()}
-                    placeholder="12 Wole Ariyo Street Lekki Phase 1"
+                    placeholder=""
                     value={dropoffLocation && dropoffLocation.address}
                     rightElement={
                       <TouchableOpacity style={{right: '80%'}}>

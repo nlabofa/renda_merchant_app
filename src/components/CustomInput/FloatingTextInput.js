@@ -117,8 +117,8 @@ const FloatingTextInput = ({
 };
 const styles = StyleSheet.create({
   errorMessageStyle: {
-    marginTop: -13,
-    paddingBottom: 10,
+    marginTop: processFontSize(6),
+    //paddingBottom: 10,
     fontSize: 13,
     fontFamily: Fontnames.medium,
     color: colors.PRIMARY_RED,

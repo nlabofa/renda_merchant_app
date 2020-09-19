@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, StatusBar, TouchableOpacity} from 'react-native';
-import styles from './styles/dashboard_styles';
+//import styles from './styles/dashboard_styles';
 import {Basestyle, colors} from '../../helpers/BaseThemes';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
@@ -32,7 +32,7 @@ const addressFields = [
   {
     index: 3,
     label: 'Pick Up Address',
-    placeholder: '12 Wole Ariyo Street Lekki Phase 1',
+    placeholder: '',
     keyboardType: '',
   },
   {
