@@ -415,6 +415,7 @@ const SignUpBusiness = ({
           onPress={() => handleNext()}
           text="Continue"
           isLoading={isLoading}
+          isLoadingtext="Signing up...Please wait"
           btnContainerStyle={Basestyle.btn_full}
         />
       </KeyboardAwareScrollView>

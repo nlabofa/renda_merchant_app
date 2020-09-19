@@ -60,10 +60,10 @@ export const createAccount = (data) => async (dispatch) => {
 export const verifyOTP = (data) => async (dispatch) => {
   const response = await AuthRequest.verifyOTP(data);
   console.log(response);
-  if (response.status === 200 && response.data.accessToken) {
+  if (response.data.status === 200) {
     const userData = {
-      token: response.data.accessToken,
-      ...response.data.user,
+      token: response.data.data.accessToken,
+      ...response.data.data.user,
     };
     console.log(userData);
     dispatch(saveUserInfo(userData));

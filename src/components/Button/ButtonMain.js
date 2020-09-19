@@ -10,6 +10,7 @@ const ButtonMain = ({
   isLoading,
   btnwhite,
   errorbtn,
+  isLoadingtext,
   greybtn,
   showicon,
   disabled,
@@ -67,7 +68,14 @@ const ButtonMain = ({
       onPress={onPress}
       disabled={disabled || isLoading}
       style={[styles.container, extrabtnstyle, btnContainerStyle]}>
-      {isLoading ? (
+      {isLoading && isLoadingtext ? (
+        <View style={styles.centerbtn}>
+          <ActivityIndicator color="#fff" style={{marginRight: 5}} />
+          <Text style={[styles.text, textStyles, btnTextStyles]}>
+            {isLoadingtext}
+          </Text>
+        </View>
+      ) : isLoading ? (
         <ActivityIndicator color="#fff" />
       ) : (
         <View style={styles.centerbtn}>
