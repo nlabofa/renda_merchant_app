@@ -1,61 +1,60 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {
-  View,
-  StatusBar,
-  Text,
-  Platform,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import {Basestyle, Fontnames} from '../../helpers/BaseThemes';
+import {View, StatusBar, Text, Platform} from 'react-native';
+import {Basestyle, colors, Fontnames} from '../../helpers/BaseThemes';
 import styles from './styles';
 import Modal from 'react-native-modal';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import SafeAreaView from 'react-native-safe-area-view';
 import ReuseHeader from '../../components/Header/index';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-const SignUpOTP = ({navigation, route}) => {
-  const {email} = route.params;
+import {verifyOTP} from '../../actions/auth.action';
+import {connect} from 'react-redux';
+import {ActivityIndicator} from 'react-native';
+const SignUpOTP = ({navigation, verifyOTP, route}) => {
+  const {email, password} = route.params;
   //console.log(email);
-  const [showmodal, setshowmodal] = useState(false);
-  const goHome = () => {
-    setshowmodal(false);
-    setTimeout(() => {
-      navigation.navigate('Login', {email});
-    }, 1000);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleNext = async (otp) => {
+    const data = {
+      email: email,
+      otp: otp,
+      password: password,
+    };
+    console.log(data);
+    try {
+      setIsLoading(true);
+      await verifyOTP(data);
+      setIsLoading(false);
+    } catch (error) {
+      // navigation.navigate('Auth');
+      setIsLoading(false);
+      console.log(error.message);
+      //alert(error.message);
+    }
   };
 
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
       <Modal
-        isVisible={showmodal}
+        isVisible={isLoading}
         animationType={'fade'}
         transparent={true}
         style={{margin: 0}}
-        onModalHide={() => setshowmodal(false)}
-        onBackdropPress={() => setshowmodal(false)}
-        onBackButtonPress={() => setshowmodal(false)}>
-        <View style={styles.modal_content}>
-          <Image
-            source={require('../../assets/images/like_round.png')}
-            resizeMode="contain"
-            style={styles.message_icon}
-          />
-          <View style={{marginTop: 20, alignItems: 'center'}}>
-            <Text style={[styles.message_text, {paddingTop: 20}]}>
-              Successfull Sign Up !
-            </Text>
-            <Text style={[styles.message_text, {paddingTop: 20}]}>
-              You can now sign in with{' '}
-              <Text style={{color: '#8AA9BF'}}>{email}</Text>
-            </Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => goHome()}
-            style={styles.message_bottom}>
-            <Text style={styles.continue_btn}>Continue</Text>
-          </TouchableOpacity>
+        onModalHide={() => setIsLoading(false)}
+        //onBackdropPress={() => setIsLoading(false)}
+        // onBackButtonPress={() => setIsLoading(false)}
+      >
+        <View
+          style={[
+            styles.modal_content,
+            {alignItems: 'center', justifyContent: 'center'},
+          ]}>
+          <ActivityIndicator size="large" color={colors.PRIMARY_INDIGO} />
+          <Text style={[styles.message_text, {paddingTop: 20}]}>
+            Processing...
+          </Text>
         </View>
       </Modal>
       <StatusBar
@@ -65,7 +64,6 @@ const SignUpOTP = ({navigation, route}) => {
       />
       <ReuseHeader
         title="Sign Up to Renda"
-        showlefticon
         navigation={navigation}
         leftheader
         textStyle={{letterSpacing: 0.9}}
@@ -85,7 +83,8 @@ const SignUpOTP = ({navigation, route}) => {
             codeInputFieldStyle={[Basestyle.otp_input]}
             pinCount={6}
             onCodeFilled={(code) => {
-              setshowmodal(true);
+              // setshowmodal(true);
+              handleNext(code);
             }}
           />
         </View>
@@ -94,4 +93,18 @@ const SignUpOTP = ({navigation, route}) => {
   );
 };
 
-export default SignUpOTP;
+const mapStateToProps = (state) => {
+  const {
+    auth: {user_roles},
+  } = state;
+
+  return {
+    user_roles,
+  };
+};
+
+const mapDispatchToProps = {
+  verifyOTP,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpOTP);

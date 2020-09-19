@@ -38,6 +38,17 @@ export default class Auth extends RendaRequest {
       return this.handleError(err);
     }
   };
+  verifyOTP = async (payload) => {
+    try {
+      const response = await this.noTokenRequestInstance.post(
+        '/users/verify',
+        payload,
+      );
+      return response;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
 
   getRoles = async () => {
     try {

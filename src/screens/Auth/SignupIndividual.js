@@ -258,7 +258,10 @@ const SignUpIndividual = ({
         setIsLoading(false);
         console.log(response);
         if (response.status === 201) {
-          navigation.navigate('SignUpOTP', {email: response.data.email});
+          navigation.navigate('SignUpOTP', {
+            email: response.data.email,
+            password: inputValues.password,
+          });
         } else {
           alert('error occured');
         }

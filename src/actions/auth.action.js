@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import * as actionTypes from '../types/auth-types';
 import {AuthRequest} from '../api/index';
 import {
@@ -54,6 +55,24 @@ export const getBusinessTypes = () => async (dispatch) => {
 };
 export const createAccount = (data) => async (dispatch) => {
   const response = await AuthRequest.createAccount(data);
+  return response;
+};
+export const verifyOTP = (data) => async (dispatch) => {
+  const response = await AuthRequest.verifyOTP(data);
+  console.log(response);
+  if (response.status === 200 && response.data.accessToken) {
+    const userData = {
+      token: response.data.accessToken,
+      ...response.data.user,
+    };
+    console.log(userData);
+    dispatch(saveUserInfo(userData));
+    await storeUserLoginData(userData);
+    NavigationService.navigate('MainApp');
+  } else {
+    alert(response.data.message);
+    //NavigationService.navigate('Login');
+  }
   return response;
 };
 
