@@ -26,7 +26,7 @@ const Landing = ({
     !user_info && checkUser();
     !categories && getCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [saveUserInfo, user_info]);
+  }, []);
   return (
     <View style={Basestyle.container}>
       <StatusBar

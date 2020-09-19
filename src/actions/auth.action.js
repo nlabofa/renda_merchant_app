@@ -57,6 +57,14 @@ export const createAccount = (data) => async (dispatch) => {
   const response = await AuthRequest.createAccount(data);
   return response;
 };
+export const forgotPassword = (data) => async (dispatch) => {
+  const response = await AuthRequest.forgotPassword(data);
+  return response;
+};
+export const resetPassword = (data) => async (dispatch) => {
+  const response = await AuthRequest.resetPassword(data);
+  return response;
+};
 export const verifyOTP = (data) => async (dispatch) => {
   const response = await AuthRequest.verifyOTP(data);
   console.log(response);

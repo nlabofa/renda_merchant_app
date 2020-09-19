@@ -38,6 +38,28 @@ export default class Auth extends RendaRequest {
       return this.handleError(err);
     }
   };
+  forgotPassword = async (payload) => {
+    try {
+      const response = await this.noTokenRequestInstance.post(
+        '/user/forgot-password',
+        payload,
+      );
+      return response;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
+  resetPassword = async (payload) => {
+    try {
+      const response = await this.noTokenRequestInstance.post(
+        '/user/reset-password',
+        payload,
+      );
+      return response;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
   verifyOTP = async (payload) => {
     try {
       const response = await this.noTokenRequestInstance.post(
