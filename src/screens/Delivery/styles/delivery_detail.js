@@ -20,6 +20,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     height: 200,
     marginTop: 10,
+    marginBottom: 30,
     //overflow: 'hidden',
   },
   delivery_bottom: {

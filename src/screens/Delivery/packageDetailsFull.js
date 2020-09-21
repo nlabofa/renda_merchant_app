@@ -302,13 +302,13 @@ const PackageDetailsFull = ({
               </View>
             </View>
           </View>
-          {/* {productimage && (
+          {productimage && (
             <Image
               source={productimage}
-              resizeMode="contain"
+              resizeMode="cover"
               style={styles.sliderview}
             />
-          )} */}
+          )}
 
           {/* {contents && contents.length !== 0 && (
             <ImageSlider

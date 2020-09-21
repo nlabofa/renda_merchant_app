@@ -42,7 +42,7 @@ export default class Auth extends RendaRequest {
   fetchDeliveryHistory = async (id) => {
     try {
       const {data} = await this.requestInstance.get(
-        `/requests?user=${id}&$populate=status user dispatch&$sort=-1`,
+        `/requests?user=${id}&$populate=status user dispatch&$sort[createdAt]=-1`,
       );
       return data;
     } catch (err) {
@@ -52,7 +52,7 @@ export default class Auth extends RendaRequest {
   trackDeliveryHistory = async (id) => {
     try {
       const {data} = await this.requestInstance.get(
-        `/orders?user=${id}&$populate=status user dispatch&$sort=-1`,
+        `/orders?user=${id}&$populate=status user dispatch&$sort[createdAt]=-1`,
       );
       return data;
     } catch (err) {

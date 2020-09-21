@@ -113,7 +113,6 @@ const SetLocation = ({
       return false;
     };
     getLocation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickupData]);
   useEffect(() => {
     const parseFullLocation = async () => {
@@ -192,14 +191,10 @@ const SetLocation = ({
     navigation.navigate('SenderInfo');
   };
   const viewFullLocation = () => {
-    if (!activeLocation) {
-      return false;
-    } else {
-      navigation.navigate('SetLocationFull', {
-        pickupPrev: activeLocation,
-        dropoffPrev: dropoffLocation,
-      });
-    }
+    navigation.navigate('SetLocationFull', {
+      pickupPrev: activeLocation,
+      dropoffPrev: dropoffLocation,
+    });
   };
   const defaultregion = {
     latitude: 6.599033,
@@ -315,13 +310,13 @@ const SetLocation = ({
                 />
                 <View style={{width: '90%'}}>
                   <Text style={styles.row_top_text}>Pick up location</Text>
-                  <Text numberOfLines={1} style={styles.small_icon_text}>
-                    {activeLocation && activeLocation.address}
-                  </Text>
                   <Text
                     onPress={() => viewFullLocation()}
                     style={[styles.small_icon_text2]}>
                     Change Location
+                  </Text>
+                  <Text numberOfLines={1} style={styles.small_icon_text}>
+                    {activeLocation && activeLocation.address}
                   </Text>
                 </View>
               </View>
@@ -355,7 +350,7 @@ const SetLocation = ({
                 }
                 cutomwrapperInputStyle={[
                   styles.boxicon,
-                  {marginBottom: 10, width: '100%'},
+                  {marginBottom: 10, alignSelf: 'center', width: '90%'},
                 ]}
               />
               <ButtonMain
@@ -367,7 +362,7 @@ const SetLocation = ({
                 text="Proceed"
                 btnContainerStyle={[
                   Basestyle.btn_full,
-                  {marginBottom: 10, alignSelf: 'flex-end', width: '100%'},
+                  {marginBottom: 10, alignSelf: 'center', width: '90%'},
                 ]}
               />
             </View>

@@ -41,7 +41,10 @@ export default StyleSheet.create({
     marginTop: processFontSize(20),
   },
   extraheight: {
-    height: isIphoneX() ? hp(48) : hp(60),
+    flex: 1,
+    flexGrow: 1,
+    paddingBottom: 20,
+    height: '100%',
   },
   opaq1: {...Basestyle.bold_15, opacity: 0.5},
   opaq2: {...Basestyle.bold_16, color: colors.PRIMARY_BLUE, opacity: 0.5},

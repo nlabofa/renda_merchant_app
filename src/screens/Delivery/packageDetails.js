@@ -162,7 +162,11 @@ const PackageDetails = ({
   };
   const chooseImage = () => {
     ImagePicker.showImagePicker(
-      {title: 'Upload image', mediaType: 'photo', quality: 0.4},
+      {
+        title: 'Upload image',
+        mediaType: 'photo',
+        quality: Platform.OS === 'ios' ? 0.4 : 1,
+      },
       (response) => {
         console.log('Response = ', response);
 
@@ -409,7 +413,7 @@ const PackageDetails = ({
             ) : null}
             <Image
               source={avatar}
-              resizeMode="contain"
+              resizeMode="cover"
               style={styles.sliderview}
             />
           </TouchableOpacity>

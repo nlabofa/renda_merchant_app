@@ -26,7 +26,9 @@ const SetLocationFull = ({navigation, route}) => {
   //console.log(dropoffPrev);
   const [predictions, setPredictions] = useState([]);
   const [pickupData, setpickUpData] = useState(pickupPrev);
-  const [pickupAddress, setpickupAddress] = useState(pickupPrev.address);
+  const [pickupAddress, setpickupAddress] = useState(
+    pickupPrev && pickupPrev.address,
+  );
   const [dropoffAddress, setdropoffAddress] = useState(
     dropoffPrev && dropoffPrev.address,
   );
