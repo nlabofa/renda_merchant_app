@@ -45,7 +45,7 @@ const DispatchDetailHistory = ({navigation, categories, route}) => {
         title="Delivery History"
         navigation={navigation}
         leftheader
-        showlefticon
+        //showlefticon
         textStyle={{letterSpacing: 0.9}}
       />
       <ScrollView

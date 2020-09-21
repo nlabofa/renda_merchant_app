@@ -20,7 +20,7 @@ const NewDelivery = ({navigation, saveDeliverySchedule}) => {
       <ReuseHeader
         title="New Delivery"
         leftheader
-        showlefticon
+        // showlefticon
         navigation={navigation}
         containerstyle={{marginTop: 10}}
         textStyle={{letterSpacing: 0.9}}

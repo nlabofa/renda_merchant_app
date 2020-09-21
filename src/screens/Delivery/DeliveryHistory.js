@@ -17,7 +17,7 @@ import {
 import {Basestyle, colors, Images} from '../../helpers/BaseThemes';
 import moment from 'moment';
 import ItemBox from '../../components/ItemBox';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import SafeAreaView from 'react-native-safe-area-view';
 import ReuseHeader from '../../components/Header/index';
 import styles from '../Home/styles/dashboard_styles';
 import {connect} from 'react-redux';
@@ -75,7 +75,7 @@ const DeliveryHistory = ({
       />
       <ReuseHeader
         title="Delivery History"
-        showlefticon
+        //showlefticon
         leftheader
         navigation={navigation}
         textStyle={{letterSpacing: 0.9}}

@@ -4,6 +4,7 @@ import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import {colors, Basestyle, Fontnames} from '../../helpers/BaseThemes/';
 import {processFontSize} from '../../helpers/fonts';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {Platform} from 'react-native';
 
 const InputContainer = ({
   handleInputChange,
@@ -66,7 +67,7 @@ const InputContainer = ({
             style={[
               {
                 ...textinputstyle,
-                top: -3,
+                top: Platform.OS === 'android' ? -3 : 5,
                 color: !value ? colors.PRIMARY_GREY_03 : '#000',
               },
               textinputcustomstyle,

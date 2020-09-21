@@ -94,7 +94,7 @@ const Dashboard = ({
           />
         }
         title="DASHBOARD">
-        <View style={{marginTop: 40}}>
+        <View style={{marginTop: 30}}>
           <Text
             style={[Basestyle.bold_17, {fontSize: 20, textAlign: 'center'}]}>
             Welcome {firstName}

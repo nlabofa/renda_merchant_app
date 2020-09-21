@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import {Basestyle, colors, Images} from '../../helpers/BaseThemes';
 import ItemBox from '../../components/ItemBox';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import SafeAreaView from 'react-native-safe-area-view';
 import moment from 'moment';
 import styles from '../Home/styles/dashboard_styles';
 
@@ -73,7 +73,7 @@ const TrackDelivery = ({navigation, trackdelivery, fetchTrackDelivery}) => {
       <ReuseHeader
         title="Track Delivery"
         leftheader
-        showlefticon
+        //showlefticon
         navigation={navigation}
         textStyle={{letterSpacing: 0.9}}
       />

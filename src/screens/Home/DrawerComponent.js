@@ -18,6 +18,7 @@ import {Basestyle, Images, colors} from '../../helpers/BaseThemes';
 import {processFontSize} from '../../helpers/fonts';
 import {connect} from 'react-redux';
 import {logout} from '../../actions/auth.action';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 
 const ITEM_LIST = [
   {
@@ -68,7 +69,9 @@ const DrawerComponent = ({navigation, logout, user_info}) => {
         backgroundColor="transparent"
       />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={[isIphoneX() ? null : {marginTop: 30}]}
+        showsVerticalScrollIndicator={false}>
         <View style={{marginHorizontal: 15}}>
           <Ionicons
             name="close"

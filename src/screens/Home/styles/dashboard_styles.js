@@ -38,10 +38,10 @@ export default StyleSheet.create({
     //backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: processFontSize(30),
+    marginTop: processFontSize(20),
   },
   extraheight: {
-    height: isIphoneX() || Platform.OS === 'android' ? hp(52) : hp(60),
+    height: isIphoneX() ? hp(48) : hp(60),
   },
   opaq1: {...Basestyle.bold_15, opacity: 0.5},
   opaq2: {...Basestyle.bold_16, color: colors.PRIMARY_BLUE, opacity: 0.5},

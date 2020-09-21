@@ -46,7 +46,7 @@ const SelectDeliveryType = ({navigation, saveDeliveryData}) => {
       <ReuseHeader
         title="Delivery"
         leftheader
-        showlefticon
+        // showlefticon
         navigation={navigation}
         containerstyle={{marginTop: 10}}
         textStyle={{letterSpacing: 0.9}}
