@@ -9,11 +9,11 @@ import {
   Image,
   ToastAndroid,
   Platform,
-  TouchableOpacity,
+  ActivityIndicator,
   PermissionsAndroid,
   Text,
 } from 'react-native';
-import {Basestyle, Images} from '../../helpers/BaseThemes';
+import {Basestyle, colors, Images} from '../../helpers/BaseThemes';
 import SafeAreaView from 'react-native-safe-area-view';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import RNGooglePlaces from 'react-native-google-places';
@@ -40,6 +40,7 @@ const SetLocation = ({
 }) => {
   const [activeLocation, setActiveLocation] = useState(null);
   const [dropoffLocation, setDropOffLocation] = useState(null);
+  const [lookuploading, setlookuploading] = useState(false);
   const pickupData = route && route.params && route.params.pickupData;
   const dropoffData = route && route.params && route.params.dropoffData;
   useEffect(() => {
@@ -161,12 +162,15 @@ const SetLocation = ({
     return false;
   };
   const lookUpPlaceById = async (placeId) => {
+    setlookuploading(true);
     const lookupData = await RNGooglePlaces.lookUpPlaceByID(placeId, [
       'placeID',
       'location',
       'name',
       'address',
     ]);
+    setlookuploading(false);
+
     return lookupData;
     //OR
     // RNGooglePlaces.lookUpPlaceByID(placeId)
@@ -335,18 +339,18 @@ const SetLocation = ({
               </View>
               <InputContainer
                 label=""
+                editable={!lookuploading}
                 handlePress={() => viewFullLocation()}
                 placeholder=""
                 value={dropoffLocation && dropoffLocation.address}
                 rightElement={
-                  <TouchableOpacity style={{right: '80%'}}>
-                    <Ionicons
-                      name="location-sharp"
-                      size={30}
-                      color="transparent"
-                      //style={styles.location_icon}
-                    />
-                  </TouchableOpacity>
+                  <ActivityIndicator
+                    size="small"
+                    color={
+                      lookuploading ? colors.PRIMARY_PURPLE : 'transparent'
+                    }
+                    style={{right: '80%'}}
+                  />
                 }
                 cutomwrapperInputStyle={[
                   styles.boxicon,

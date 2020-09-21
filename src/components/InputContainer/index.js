@@ -50,7 +50,11 @@ const InputContainer = ({
   };
 
   return (
-    <TouchableOpacity activeOpacity={0.7} style={{}} onPress={handlePress}>
+    <TouchableOpacity
+      disabled={!editable}
+      activeOpacity={0.7}
+      style={{}}
+      onPress={handlePress}>
       <Text style={[labelstyle]}>{label}</Text>
       <View
         style={[
