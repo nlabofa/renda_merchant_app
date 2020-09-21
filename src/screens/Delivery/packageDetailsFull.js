@@ -100,7 +100,7 @@ const PackageDetailsFull = ({
         backgroundColor="transparent"
       />
       <ReuseHeader
-        title="New Request"
+        title="Order Summary"
         navigation={navigation}
         leftheader
         // showlefticon
@@ -302,13 +302,13 @@ const PackageDetailsFull = ({
               </View>
             </View>
           </View>
-          {productimage && (
+          {productimage ? (
             <Image
               source={productimage}
               resizeMode="cover"
               style={styles.sliderview}
             />
-          )}
+          ) : null}
 
           {/* {contents && contents.length !== 0 && (
             <ImageSlider

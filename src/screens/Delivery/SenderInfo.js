@@ -286,7 +286,7 @@ const SenderInfo = ({
           </View>
           <View style={[Basestyle.row_center, {marginTop: 20}]}>
             <Text style={[styles.row_top_text, styles.rowleft]}>
-              Saved as default address
+              Save as pickup address
             </Text>
             <Switch
               trackColor={{

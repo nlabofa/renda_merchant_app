@@ -95,7 +95,7 @@ const PackageDetails = ({
     quantity: '',
     description: '',
     estimatedWorth: '',
-    priority: true,
+    priority: false,
     image: '',
   });
   const handleInputChange = (name, value) => {
@@ -390,7 +390,7 @@ const PackageDetails = ({
                   false: '#E6EDF2',
                   true: '#0FB8BC',
                 }}
-                style={{marginRight: 3}}
+                style={{marginLeft: 5, marginRight: 0}}
                 thumbColor="#fff"
                 ios_backgroundColor={'#E6EDF2'}
                 onValueChange={(value) => handleInputChange('priority', value)}

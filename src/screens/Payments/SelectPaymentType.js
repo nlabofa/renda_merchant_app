@@ -63,7 +63,7 @@ const SelectDeliveryType = ({
     } else {
       setTimeout(() => {
         alert('Cancelled Transaction');
-      }, 1000);
+      }, 500);
     }
   };
   const performAction = async (trxf) => {
@@ -94,7 +94,7 @@ const SelectDeliveryType = ({
       if (response.status === 201) {
         setTimeout(() => {
           setsuccessmodal(true);
-        }, 1000);
+        }, 500);
       } else {
         console.log('error occured');
       }
@@ -102,7 +102,7 @@ const SelectDeliveryType = ({
       setIsLoading(false);
       setTimeout(() => {
         alert(error.message);
-      }, 1000);
+      }, 500);
       //console.log(error.message);
       //alert(error.message);
     }
@@ -112,7 +112,7 @@ const SelectDeliveryType = ({
     //clearDeliveryData();
     setTimeout(() => {
       navigation.navigate('HomeDrawer');
-    }, 1000);
+    }, 500);
   };
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
@@ -152,10 +152,10 @@ const SelectDeliveryType = ({
           />
           <View style={{marginTop: 20, alignItems: 'center'}}>
             <Text style={styles.message_text}>
-              Your delivery has been Successfully logged
+              Your delivery has been Successfully sent
             </Text>
             <Text style={[styles.message_text, {paddingTop: 20}]}>
-              You will recieve updates on the state of your delivery shortly
+              You will recieve updates on the status of your delivery shortly
             </Text>
           </View>
           <TouchableOpacity
