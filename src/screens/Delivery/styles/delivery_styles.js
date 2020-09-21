@@ -213,7 +213,7 @@ export default StyleSheet.create({
     // height: '40%',
     borderBottomColor: 'green',
     //borderBottomWidth: 1,
-    // backgroundColor: 'red',
+    //backgroundColor: 'red',
   },
   location_icon: {marginRight: 10},
   small_icon_text: {
