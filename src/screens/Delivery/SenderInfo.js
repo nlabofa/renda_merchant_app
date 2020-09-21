@@ -12,6 +12,8 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
 import {connect} from 'react-redux';
+import {emailRegex, phoneNumberRegex} from '../../helpers/libs';
+
 import {saveDeliveryData} from '../../actions/delivery.action';
 import styles from './styles/delivery_styles';
 const CYCLES = [
@@ -130,6 +132,32 @@ const SenderInfo = ({
           },
         }));
         break;
+      } else if (
+        requiredField === 'email' &&
+        !emailRegex.test(inputValues.email)
+      ) {
+        const message = 'Please enter a valid email';
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        return false;
+      } else if (
+        requiredField === 'phone' &&
+        !phoneNumberRegex.test(inputValues.phone)
+      ) {
+        const message = 'Please enter a valid phone number';
+        console.log(message);
+        setState((state) => ({
+          ...state,
+          errors: {
+            [requiredField]: message,
+          },
+        }));
+        return false;
       } else {
         continue;
       }
@@ -174,8 +202,10 @@ const SenderInfo = ({
         leftheader
         textStyle={{letterSpacing: 0.9}}
       />
-      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-        <View style={{marginTop: 30}}>
+      <KeyboardAwareScrollView
+        style={{marginTop: 30}}
+        showsVerticalScrollIndicator={false}>
+        <View>
           <Text style={[styles.row_top_text, {color: colors.PRIMARY_BLUE}]}>
             Sender's Information
           </Text>
@@ -187,7 +217,7 @@ const SenderInfo = ({
             unfilledColor={'#D8D8D8'}
             borderWidth={0}
             //strokeCap="square"
-            style={{marginBottom: 50, borderRadius: 6}}
+            style={{marginBottom: 20, borderRadius: 6}}
           />
           <View style={{marginTop: 0}}>
             {addressFields.map(
@@ -235,25 +265,26 @@ const SenderInfo = ({
                   );
                 } else {
                   return (
-                    <FloatingTextInput
-                      key={index}
-                      express
-                      label={label}
-                      placeholder={placeholder}
-                      value={inputValues[name]}
-                      handleInputChange={(text) =>
-                        handleInputChange(name, text)
-                      }
-                      errorMessage={errors[name] || ''}
-                      keyboardType={keyboardType || 'default'}
-                      cutomwrapperInputStyle={{marginBottom: 20}}
-                    />
+                    <View key={index} style={{marginTop: 20}}>
+                      <FloatingTextInput
+                        express
+                        label={label}
+                        placeholder={placeholder}
+                        value={inputValues[name]}
+                        handleInputChange={(text) =>
+                          handleInputChange(name, text)
+                        }
+                        errorMessage={errors[name] || ''}
+                        keyboardType={keyboardType || 'default'}
+                        //cutomwrapperInputStyle={{marginBottom: 20}}
+                      />
+                    </View>
                   );
                 }
               },
             )}
           </View>
-          <View style={Basestyle.row_center}>
+          <View style={[Basestyle.row_center, {marginTop: 20}]}>
             <Text style={[styles.row_top_text, styles.rowleft]}>
               Saved as default address
             </Text>
@@ -273,7 +304,7 @@ const SenderInfo = ({
           <ButtonMain
             greybtn
             onPress={() => navigation.goBack()}
-            text="Cancel"
+            text="Back"
             btnContainerStyle={[Basestyle.btn_small]}
           />
           <ButtonMain

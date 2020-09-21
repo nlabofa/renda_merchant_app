@@ -1,4 +1,3 @@
-/* eslint-disable no-dupe-keys */
 /* eslint-disable radix */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-shadow */
@@ -9,6 +8,7 @@ import {
   Text,
   Image,
   Switch,
+  Platform,
   StatusBar,
   ActivityIndicator,
 } from 'react-native';
@@ -61,7 +61,7 @@ const initialErrorState = {
   quantity: '',
   estimatedWorth: '',
 };
-const requiredFields = ['category', 'quantity', 'estimatedWorth'];
+const requiredFields = ['category', 'quantity'];
 const PackageDetails = ({
   navigation,
   uploadImage,
@@ -201,7 +201,7 @@ const PackageDetails = ({
             quantity: parseInt(inputValues.quantity),
             description: inputValues.description,
             // image: (deliveryimage && deliveryimage.url) || '',
-            estimatedWorth: parseInt(inputValues.estimatedWorth),
+            estimatedWorth: parseInt(inputValues.estimatedWorth || 500),
           },
         },
         deliveryDate: moment(inputValues.deliveryDate).format('YYYY-MM-DD'),
@@ -229,8 +229,10 @@ const PackageDetails = ({
         leftheader
         textStyle={{letterSpacing: 0.9}}
       />
-      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-        <View style={{marginTop: 30}}>
+      <KeyboardAwareScrollView
+        style={{marginTop: 30}}
+        showsVerticalScrollIndicator={false}>
+        <View>
           <Text style={[styles.row_top_text, {color: colors.PRIMARY_BLUE}]}>
             Package Details
           </Text>
@@ -242,7 +244,7 @@ const PackageDetails = ({
             unfilledColor={'#D8D8D8'}
             borderWidth={0}
             //strokeCap="square"
-            style={{marginBottom: 50, borderRadius: 6}}
+            style={{marginBottom: 20, borderRadius: 6}}
           />
           <View style={{marginTop: 0}}>
             {deliveryschedule === 'scheduled' && (
@@ -250,11 +252,12 @@ const PackageDetails = ({
                 label="Set Delivery Date"
                 //handlePress={() => navigation.navigate('SenderInfo')}
                 placeholder="14 Feb. 2018"
-                textinputcustomstyle={{paddingLeft: 40}}
+                textinputcustomstyle={{color: 'transparent'}}
                 disabled
                 value={dateString}
                 leftElement={
-                  <TouchableOpacity style={{position: 'absolute', left: 0}}>
+                  <TouchableOpacity
+                    style={[Platform.OS === 'android' ? {top: -5} : null]}>
                     <Ionicons
                       name="calendar"
                       size={27}
@@ -270,7 +273,9 @@ const PackageDetails = ({
                   minimumDate={new Date()}
                   containerStyle={styles.datepicker}
                   labelElement={
-                    <Text style={{color: 'transparent'}}>{dateString}</Text>
+                    <Text style={{paddingLeft: 50, paddingTop: 5}}>
+                      {dateString}
+                    </Text>
                   }
                 />
               </InputContainer>
@@ -280,73 +285,72 @@ const PackageDetails = ({
               ({index, label, placeholder, name, type, keyboardType}) => {
                 if (type === 'textarea') {
                   return (
-                    <FloatingTextInput
-                      key={index}
-                      express
-                      label={label}
-                      multiline={true}
-                      numberOfLines={4}
-                      placeholder={placeholder}
-                      value={inputValues.name}
-                      handleInputChange={(text) =>
-                        handleInputChange(name, text)
-                      }
-                      errorMessage={errors[name] || ''}
-                      keyboardType={keyboardType || 'default'}
-                      cutomwrapperInputStyle={[
-                        Basestyle.textarea,
-                        {marginBottom: 20},
-                      ]}
-                    />
+                    <View style={{marginTop: 20}} key={index}>
+                      <FloatingTextInput
+                        express
+                        label={label}
+                        multiline={true}
+                        numberOfLines={4}
+                        placeholder={placeholder}
+                        value={inputValues.name}
+                        handleInputChange={(text) =>
+                          handleInputChange(name, text)
+                        }
+                        errorMessage={errors[name] || ''}
+                        keyboardType={keyboardType || 'default'}
+                        cutomwrapperInputStyle={[Basestyle.textarea]}
+                      />
+                    </View>
                   );
                 } else if (type === 'dropdown') {
                   return (
-                    <CustomDropdown
-                      key={index}
-                      containerStyle={{marginBottom: 20}}
-                      defaultLabel={label}
-                      // inputTextStyle={styles.dropdown_inputext}
-                      selectedOption={inputValues.category}
-                      options={[
-                        {
-                          name: 'Choose category..',
-                          name: '',
-                        },
-                        ...(categories && categories),
-                      ]}
-                      handleDropdownChange={(value) => {
-                        if (value !== '') {
-                          handleInputChange(name, value);
-                        }
-                      }}
-                      errorMessage={errors[name] || ''}
-                      labelKey="name"
-                      valueKey="name"
-                      placeholder={placeholder}
-                    />
+                    <View key={index}>
+                      <CustomDropdown
+                        defaultLabel={label}
+                        // inputTextStyle={styles.dropdown_inputext}
+                        containerStyle={{marginBottom: 20}}
+                        selectedOption={inputValues.category}
+                        options={[
+                          {
+                            name: 'Choose category..',
+                            value: null,
+                          },
+                          ...(categories && categories),
+                        ]}
+                        handleDropdownChange={(value) => {
+                          if (value !== 'Choose category..') {
+                            handleInputChange(name, value);
+                          }
+                        }}
+                        errorMessage={errors[name] || ''}
+                        labelKey="name"
+                        valueKey="name"
+                        placeholder={placeholder}
+                      />
+                    </View>
                   );
                 } else {
                   return (
-                    <FloatingTextInput
-                      key={index}
-                      express
-                      label={label}
-                      placeholder={placeholder}
-                      keyboardType={keyboardType || 'default'}
-                      cutomwrapperInputStyle={{marginBottom: 20}}
-                      value={inputValues.name}
-                      handleInputChange={(text) =>
-                        handleInputChange(name, text)
-                      }
-                      errorMessage={errors[name] || ''}
-                    />
+                    <View key={index}>
+                      <FloatingTextInput
+                        express
+                        label={label}
+                        placeholder={placeholder}
+                        keyboardType={keyboardType || 'default'}
+                        value={inputValues.name}
+                        handleInputChange={(text) =>
+                          handleInputChange(name, text)
+                        }
+                        errorMessage={errors[name] || ''}
+                      />
+                    </View>
                   );
                 }
               },
             )}
           </View>
           <Text
-            style={[styles.delivery_extra, {paddingBottom: 15, marginTop: -5}]}>
+            style={[styles.delivery_extra, {paddingBottom: 20, marginTop: 10}]}>
             Products should not weigh more than{' '}
             <Text style={{fontFamily: Fontnames.nunito_bold}}>10 kg</Text> in
             total.
@@ -367,21 +371,29 @@ const PackageDetails = ({
             <Text
               style={[
                 styles.delivery_extra,
-                {fontFamily: Fontnames.nunito_bold, paddingRight: 10},
+                {
+                  fontFamily: Fontnames.nunito_bold,
+                  fontSize: 14,
+                  paddingRight: 10,
+                },
               ]}>
               Would you like to prioritize this delivery?
             </Text>
-            <Switch
-              trackColor={{
-                false: '#E6EDF2',
-                true: '#0FB8BC',
-              }}
-              //style={{marginTop: 16}}
-              thumbColor="#fff"
-              ios_backgroundColor={'#E6EDF2'}
-              onValueChange={(value) => handleInputChange('priority', value)}
-              value={inputValues.priority}
-            />
+            <View style={Basestyle.row_center}>
+              <Text style={[Basestyle.regular_13, {color: '#000'}]}>N</Text>
+              <Switch
+                trackColor={{
+                  false: '#E6EDF2',
+                  true: '#0FB8BC',
+                }}
+                style={{marginRight: 3}}
+                thumbColor="#fff"
+                ios_backgroundColor={'#E6EDF2'}
+                onValueChange={(value) => handleInputChange('priority', value)}
+                value={inputValues.priority}
+              />
+              <Text style={[Basestyle.regular_13, {color: '#000'}]}>Y</Text>
+            </View>
           </View>
         </View>
         {avatar ? (
@@ -419,7 +431,7 @@ const PackageDetails = ({
           <ButtonMain
             greybtn
             onPress={() => navigation.goBack()}
-            text="Cancel"
+            text="Back"
             btnContainerStyle={[Basestyle.btn_small]}
           />
           <ButtonMain

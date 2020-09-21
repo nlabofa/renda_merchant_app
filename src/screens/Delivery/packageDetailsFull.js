@@ -73,7 +73,7 @@ const PackageDetailsFull = ({
       return totalMinutes + ' mins';
     } else {
       let minutes = (totalMinutes % 60).toString();
-      minutes = minutes.length == 1 ? '0' + minutes : minutes;
+      minutes = minutes.length === 1 ? '0' + minutes : minutes;
       console.log(totalMinutes / 60 + ' hour ' + minutes + 'mins');
       return totalMinutes / 60 + ' hour ' + minutes + 'mins';
     }
@@ -332,7 +332,7 @@ const PackageDetailsFull = ({
             onPress={() => handleNext()}
             //isLoading={delievery_loading}
             text="Continue to Payment"
-            btnContainerStyle={Basestyle.btn_full}
+            btnContainerStyle={[Basestyle.btn_full, {marginTop: 20}]}
           />
         </View>
       </ScrollView>
