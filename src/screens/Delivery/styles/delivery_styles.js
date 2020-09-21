@@ -193,7 +193,7 @@ export default StyleSheet.create({
     borderRadius: 12,
   },
   selection_box2: {
-    height: '40%',
+    height: '45%',
     paddingTop: processFontSize(20),
     //backgroundColor: 'red',
     //flexDirection: 'row',
@@ -204,16 +204,16 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
   },
   boxicon: {
-    marginBottom: 20,
-    marginTop: -5,
+    // marginBottom: 20,
+    marginTop: 0,
     width: '90%',
   },
   address_row: {
     flexDirection: 'row',
-    height: '47%',
+    // height: '40%',
     borderBottomColor: 'green',
     //borderBottomWidth: 1,
-    //backgroundColor: 'red',
+    // backgroundColor: 'red',
   },
   location_icon: {marginRight: 10},
   small_icon_text: {

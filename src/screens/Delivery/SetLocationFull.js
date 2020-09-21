@@ -108,14 +108,14 @@ const SetLocationFull = ({navigation, route}) => {
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
       <StatusBar
-        barStyle="light-content"
+        barStyle="dark-content"
         translucent={true}
         backgroundColor="transparent"
       />
       <ReuseHeader
         title="Set Location"
         leftheader
-        showlefticon
+        //showlefticon
         navigation={navigation}
         textStyle={{letterSpacing: 0.9}}
       />
@@ -146,7 +146,7 @@ const SetLocationFull = ({navigation, route}) => {
                   onChangeText={(text) =>
                     handleInputChange('pickupAddress', text)
                   }
-                  customtextinputstyle={{width: '96%'}}
+                  customtextinputstyle={{width: '94%'}}
                   value={pickupAddress}
                   onFocus={() => setactiveinput('pickupAddress')}
                   rightElement={
@@ -192,7 +192,7 @@ const SetLocationFull = ({navigation, route}) => {
                   onChangeText={(text) =>
                     handleInputChange('dropoffAddress', text)
                   }
-                  customtextinputstyle={{width: '96%'}}
+                  customtextinputstyle={{width: '94%'}}
                   value={dropoffAddress}
                   onFocus={() => setactiveinput('dropoffAddress')}
                   rightElement={

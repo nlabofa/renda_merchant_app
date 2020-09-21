@@ -29,6 +29,7 @@ import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import InputContainer from '../../components/InputContainer';
 import Geolocation from 'react-native-geolocation-service';
 import ButtonMain from '../../components/Button/ButtonMain';
+import {processFontSize} from '../../helpers/fonts';
 
 const SetLocation = ({
   navigation,
@@ -261,7 +262,7 @@ const SetLocation = ({
         <ReuseHeader
           title="Set Location"
           leftheader
-          showlefticon
+          // showlefticon
           navigation={navigation}
           textStyle={{letterSpacing: 0.9}}
         />
@@ -271,7 +272,7 @@ const SetLocation = ({
         <View>
           <MapView
             provider={PROVIDER_GOOGLE}
-            style={{width: '100%', height: '60%'}}
+            style={{width: '100%', height: '55%'}}
             initialRegion={defaultregion}
             // onRegionChangeComplete={(region) => console.log(region)}
             region={getMapRegion()}
@@ -303,7 +304,7 @@ const SetLocation = ({
               <Image
                 source={Images.dashed_line}
                 resizeMode="center"
-                style={styles.dashed_line2}
+                style={[styles.dashed_line2, {height: '38%'}]}
               />
               <View style={styles.address_row}>
                 <Ionicons
@@ -331,29 +332,32 @@ const SetLocation = ({
                   color="#4964D8"
                   style={styles.location_icon}
                 />
-                <View>
+                <View style={{marginTop: processFontSize(20)}}>
                   <Text style={[styles.row_top_text, {paddingBottom: 0}]}>
                     Drop off location
                   </Text>
-                  <InputContainer
-                    label=""
-                    handlePress={() => viewFullLocation()}
-                    placeholder=""
-                    value={dropoffLocation && dropoffLocation.address}
-                    rightElement={
-                      <TouchableOpacity style={{right: '80%'}}>
-                        <Ionicons
-                          name="location-sharp"
-                          size={30}
-                          color="transparent"
-                          //style={styles.location_icon}
-                        />
-                      </TouchableOpacity>
-                    }
-                    cutomwrapperInputStyle={styles.boxicon}
-                  />
                 </View>
               </View>
+              <InputContainer
+                label=""
+                handlePress={() => viewFullLocation()}
+                placeholder=""
+                value={dropoffLocation && dropoffLocation.address}
+                rightElement={
+                  <TouchableOpacity style={{right: '80%'}}>
+                    <Ionicons
+                      name="location-sharp"
+                      size={30}
+                      color="transparent"
+                      //style={styles.location_icon}
+                    />
+                  </TouchableOpacity>
+                }
+                cutomwrapperInputStyle={[
+                  styles.boxicon,
+                  {marginBottom: 10, width: '100%'},
+                ]}
+              />
               <ButtonMain
                 onPress={() => {
                   handleNext();
@@ -363,7 +367,7 @@ const SetLocation = ({
                 text="Proceed"
                 btnContainerStyle={[
                   Basestyle.btn_full,
-                  {marginBottom: 0, alignSelf: 'flex-end', width: '91%'},
+                  {marginBottom: 10, alignSelf: 'flex-end', width: '100%'},
                 ]}
               />
             </View>

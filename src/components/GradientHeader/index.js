@@ -50,9 +50,9 @@ const GradientHeader = ({
 
 const styles = StyleSheet.create({
   dashboard_container: {
-    height: isIphoneX() || Platform.OS === 'android' ? hp(25) : hp(30),
+    height: hp(30),
     width: '100%',
-    paddingTop: isIphoneX() ? 50 : 25,
+    paddingTop: isIphoneX() ? 50 : 35,
     paddingHorizontal: 20,
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
