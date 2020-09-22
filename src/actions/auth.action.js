@@ -65,6 +65,24 @@ export const resetPassword = (data) => async (dispatch) => {
   const response = await AuthRequest.resetPassword(data);
   return response;
 };
+export const googleSignUp = (data) => async (dispatch) => {
+  const response = await AuthRequest.googleSignUp(data);
+  console.log(response);
+  if (response.data.status === 200) {
+    const userData = {
+      token: response.data.data.accessToken,
+      ...response.data.data.user,
+    };
+    console.log(userData);
+    dispatch(saveUserInfo(userData));
+    await storeUserLoginData(userData);
+    NavigationService.navigate('MainApp');
+  } else {
+    alert(response.data.message);
+    //NavigationService.navigate('Login');
+  }
+  return response;
+};
 export const verifyOTP = (data) => async (dispatch) => {
   const response = await AuthRequest.verifyOTP(data);
   console.log(response);
@@ -99,37 +117,21 @@ export const handleLogin = (data) => async (dispatch) => {
   }
   return response;
 };
+export const googleLogin = (data) => async (dispatch) => {
+  const response = await AuthRequest.googleLogin(data);
 
-// export const grantAccessWithPin = (pin) => async (dispatch) => {
-//   try {
-//     dispatch(loadStart());
-//     const userInfo = await retrieveUserData();
-//     const payload = {
-//       access_code: pin,
-//       rep_email: userInfo.email,
-//     };
-//     const response = await AuthRequest.grantAccessWithPin(payload);
-//     return await postLoginCheck(response, dispatch);
-//   } catch (e) {
-//     return Promise.reject(e);
-//   }
-// };
-
-// export const createPin = (newPin) => async () => {
-//   const payload = {
-//     access_code: newPin,
-//   };
-//   return await AuthRequest.createPin(payload);
-// };
-
-// export const changePin = (newPin) => async () => {
-//   try {
-//     const response = await AuthRequest.changePin(newPin);
-//     return response.data;
-//   } catch (error) {
-//     return Promise.reject(error);
-//   }
-// };
+  if (response.status === 200) {
+    const userData = {
+      token: response.data.data.accessToken,
+      ...response.data.data.user,
+    };
+    console.log(userData);
+    dispatch(saveUserInfo(userData));
+    await storeUserLoginData(userData);
+    // NavigationService.reset('Dashboard');
+  }
+  return response;
+};
 export const resetStore = () => (dispatch) => {
   dispatch(clearUserInfo());
 };

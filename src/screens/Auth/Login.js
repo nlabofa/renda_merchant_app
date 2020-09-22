@@ -20,7 +20,7 @@ import styles from './styles';
 import {GoogleSignin} from '@react-native-community/google-signin';
 
 import {processFontSize} from '../../helpers/fonts';
-import {handleLogin} from '../../actions/auth.action';
+import {handleLogin, googleLogin} from '../../actions/auth.action';
 import {connect} from 'react-redux';
 import {emailRegex} from '../../helpers/libs';
 
@@ -46,7 +46,7 @@ const initialErrorState = {
 };
 const requiredFields = ['email', 'password'];
 
-const Login = ({navigation, handleLogin, route}) => {
+const Login = ({navigation, googleLogin, handleLogin, route}) => {
   const preemail = route.params && route.params.email;
   const initialInputState = {
     email: preemail || '',
@@ -130,9 +130,26 @@ const Login = ({navigation, handleLogin, route}) => {
     });
   }, []);
 
-  const handleOAUTHLogin = (data) => {
+  const handleOAUTHLogin = async (data) => {
     console.log(data);
-    setIsLoading(true);
+    try {
+      setIsLoading(true);
+      const response = await googleLogin(data);
+      setIsLoading(false);
+      console.log(response);
+      if (response.status === 200) {
+        handleInputChange('email', '');
+        handleInputChange('password', '');
+
+        navigation.navigate('MainApp');
+      } else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error.message);
+      alert(error.message);
+    }
   };
   const googleSignInHandler = () => {
     GoogleSignin.hasPlayServices()
@@ -306,6 +323,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   handleLogin,
+  googleLogin,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

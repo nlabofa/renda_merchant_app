@@ -16,6 +16,28 @@ export default class Auth extends RendaRequest {
       return this.handleError(err);
     }
   };
+  googleLogin = async (userData) => {
+    try {
+      const response = await this.noTokenRequestInstance.post(
+        '/google/sign-in',
+        userData,
+      );
+      return response;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
+  googleSignUp = async (userData) => {
+    try {
+      const response = await this.noTokenRequestInstance.post(
+        '/google/sign-up',
+        userData,
+      );
+      return response;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
 
   logout = async () => {
     try {

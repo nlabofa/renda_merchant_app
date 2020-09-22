@@ -19,6 +19,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {
   getRoles,
   createAccount,
+  googleSignUp,
   getBusinessTypes,
 } from '../../actions/auth.action';
 import {connect} from 'react-redux';
@@ -98,6 +99,7 @@ const SignUpIndividual = ({
   getRoles,
   createAccount,
   getBusinessTypes,
+  googleSignUp,
   user_roles,
 }) => {
   const scrollViewRef = useRef(null);
@@ -124,7 +126,9 @@ const SignUpIndividual = ({
             console.log(res);
             let userDetails = {
               email: res.user.email.toLowerCase(),
-              // access_token: "12345"
+              firstName: res.user.familyName,
+              lastName: res.user.givenName,
+              role: getRoleId(),
             };
             //console.log(userDetails);
             handleOAUTHLogin(userDetails);
@@ -225,12 +229,22 @@ const SignUpIndividual = ({
 
     return isValid;
   };
-  const handleOAUTHLogin = (data) => {
-    console.log(data);
+  const handleOAUTHLogin = async (data) => {
+    // console.log(data);
     setTimeout(() => {
       scrollViewRef.current.scrollToEnd({animated: true});
     }, 500);
     setIsLoading(true);
+    try {
+      setIsLoading(true);
+      const response = await googleSignUp(data);
+      setIsLoading(false);
+      console.log(response);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error.message);
+      // alert(error.message);
+    }
   };
   const handleNext = async () => {
     setState((state) => ({
@@ -437,6 +451,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   getRoles,
   getBusinessTypes,
+  googleSignUp,
   createAccount,
 };
 
