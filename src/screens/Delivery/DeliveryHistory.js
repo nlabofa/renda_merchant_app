@@ -42,7 +42,7 @@ const DeliveryHistory = ({
   }, []);
   const _renderItem = ({item, index}) => (
     <ItemBox
-      idnumber={item._id}
+      idnumber={item.trackingId || item._id}
       // status={item.status.status}
       destination={item.dropOffLandmark}
       duedate={moment(item.deliveryDate).format('Do, MMM YYYY')}

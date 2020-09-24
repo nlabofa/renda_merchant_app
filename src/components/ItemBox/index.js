@@ -24,11 +24,11 @@ const ItemBox = ({
   let custom_status_div = {};
   custom_status_div = {
     backgroundColor:
-      status == 'accepted'
+      status == 'Accepted'
         ? colors.PRIMARY_GREEN
-        : status == 'in progress'
+        : status == 'Enroute'
         ? colors.SECONDARY_ORANGE
-        : status == 'completed'
+        : status == 'Completed'
         ? colors.SECONDARY_GREY
         : colors.SECONDARY_RED,
   };
@@ -36,11 +36,11 @@ const ItemBox = ({
   let custom_status_text = {};
   custom_status_text = {
     color:
-      status === 'accepted'
+      status === 'Accepted'
         ? colors.SECONDARY_GREEN
-        : status === 'in progress'
+        : status === 'Enroute'
         ? colors.PRIMARY_ORANGE
-        : status === 'completed'
+        : status === 'Completed'
         ? colors.PRIMARY_GREY
         : colors.PRIMARY_RED,
   };
