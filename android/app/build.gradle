@@ -131,9 +131,9 @@ android {
         applicationId "com.rendamerchant"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 1.1
         multiDexEnabled true
-        versionName "1.0"
+        versionName "1.1"
     }
     splits {
         abi {
