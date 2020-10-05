@@ -45,7 +45,7 @@ const InputContainer = ({
   };
   const labelstyle = {
     ...Basestyle.nunito_bold_13,
-    color: express ? '#203659' : colors.PRIMARY_BLUE,
+    color: '#203659',
     paddingBottom: 8,
   };
 

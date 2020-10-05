@@ -11,7 +11,8 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
 import {connect} from 'react-redux';
-import {emailRegex, phoneNumberRegex} from '../../helpers/libs';
+import Countries from '../../helpers/countries.json';
+import {emailRegex, formatPhoneNumber} from '../../helpers/libs';
 import {saveDeliveryData} from '../../actions/delivery.action';
 import styles from './styles/delivery_styles';
 const CYCLES = [
@@ -96,6 +97,7 @@ const ReceiverInfo = ({
     fullname: '',
     phone: '',
     email: '',
+    countrycode: '+234',
     deliveryAddress: dropoffLocation.address || '',
     dropOffLandmark: dropoffLocation.name || '',
     description: '',
@@ -152,20 +154,22 @@ const ReceiverInfo = ({
           },
         }));
         return false;
-      } else if (
-        requiredField === 'phone' &&
-        !phoneNumberRegex.test(inputValues.phone)
-      ) {
-        const message = 'Please enter a valid phone number';
-        console.log(message);
-        setState((state) => ({
-          ...state,
-          errors: {
-            [requiredField]: message,
-          },
-        }));
-        return false;
-      } else {
+      }
+      // else if (
+      //   requiredField === 'phone' &&
+      //   !phoneNumberRegex.test(inputValues.phone)
+      // ) {
+      //   const message = 'Please enter a valid phone number';
+      //   console.log(message);
+      //   setState((state) => ({
+      //     ...state,
+      //     errors: {
+      //       [requiredField]: message,
+      //     },
+      //   }));
+      //   return false;
+      // }
+      else {
         continue;
       }
     }
@@ -184,7 +188,10 @@ const ReceiverInfo = ({
         receiver: {
           details: {
             name: inputValues.fullname,
-            phone: inputValues.phone,
+            phone: formatPhoneNumber(
+              inputValues.countrycode,
+              inputValues.phone,
+            ),
             email: inputValues.email,
           },
         },
@@ -247,6 +254,39 @@ const ReceiverInfo = ({
                         errorMessage={errors[name] || ''}
                         cutomwrapperInputStyle={[Basestyle.textarea]}
                       />
+                    </View>
+                  );
+                } else if (name === 'phone') {
+                  return (
+                    <View
+                      key={index}
+                      style={[Basestyle.row_space_between, {marginTop: 20}]}>
+                      <View style={{width: '30%'}}>
+                        <CustomDropdown
+                          defaultLabel="Country Code"
+                          selectedOption={inputValues.countrycode}
+                          options={Countries}
+                          handleDropdownChange={(value) =>
+                            handleInputChange('countrycode', value)
+                          }
+                          labelKey="name"
+                          valueKey="dial_code"
+                          // containerStyle={{width: '45%'}}
+                        />
+                      </View>
+                      <View style={{width: '65%'}}>
+                        <FloatingTextInput
+                          express
+                          label={label}
+                          placeholder={placeholder}
+                          keyboardType={keyboardType || 'default'}
+                          value={inputValues.name}
+                          handleInputChange={(text) =>
+                            handleInputChange(name, text)
+                          }
+                          errorMessage={errors[name] || ''}
+                        />
+                      </View>
                     </View>
                   );
                 } else if (type === 'dropdown') {

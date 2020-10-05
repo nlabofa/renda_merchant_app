@@ -12,7 +12,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
 import {connect} from 'react-redux';
-import {emailRegex, phoneNumberRegex} from '../../helpers/libs';
+import {emailRegex} from '../../helpers/libs';
 
 import {saveDeliveryData} from '../../actions/delivery.action';
 import styles from './styles/delivery_styles';
@@ -43,7 +43,7 @@ const addressFields = [
     label: 'Phone Number',
     placeholder: '08189798881',
     name: 'phone',
-    keyboardType: 'number-pad',
+    keyboardType: 'phone-pad',
   },
   {
     index: 2,
@@ -145,20 +145,22 @@ const SenderInfo = ({
           },
         }));
         return false;
-      } else if (
-        requiredField === 'phone' &&
-        !phoneNumberRegex.test(inputValues.phone)
-      ) {
-        const message = 'Please enter a valid phone number';
-        console.log(message);
-        setState((state) => ({
-          ...state,
-          errors: {
-            [requiredField]: message,
-          },
-        }));
-        return false;
-      } else {
+      }
+      //  else if (
+      //   requiredField === 'phone' &&
+      //   !phoneNumberRegex.test(inputValues.phone)
+      // ) {
+      //   const message = 'Please enter a valid phone number';
+      //   console.log(message);
+      //   setState((state) => ({
+      //     ...state,
+      //     errors: {
+      //       [requiredField]: message,
+      //     },
+      //   }));
+      //   return false;
+      // }
+      else {
         continue;
       }
     }

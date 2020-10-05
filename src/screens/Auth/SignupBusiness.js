@@ -12,6 +12,8 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import CustomDropdown from '../../components/CustomDropdown';
 import statesList from '../../helpers/statelist';
+import Countries from '../../helpers/countries.json';
+import Lga from '../../helpers/LGA.json';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {connect} from 'react-redux';
 import {
@@ -19,7 +21,7 @@ import {
   getBusinessTypes,
   createAccount,
 } from '../../actions/auth.action';
-import {emailRegex, phoneNumberRegex} from '../../helpers/libs';
+import {emailRegex, formatPhoneNumber} from '../../helpers/libs';
 const CYCLES = [
   {
     title: 'Information Technology',
@@ -114,6 +116,7 @@ const initialInputState = {
   lastName: '',
   businessName: '',
   phoneNumber: '',
+  countrycode: '+234',
   email: '',
   businessType: '',
   password: '',
@@ -129,6 +132,7 @@ const SignUpBusiness = ({
   createAccount,
   user_roles,
 }) => {
+  const [activeLGA, setActiveLGA] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       await getRoles();
@@ -162,6 +166,17 @@ const SignUpBusiness = ({
       //console.log(updatedInfo);
       return updatedInfo[0]._id;
     }
+  };
+  const getLGA = (id) => {
+    const updatedInfo = Lga.filter((el) => el.state.id === id);
+    // console.log(updatedInfo);
+    setActiveLGA(updatedInfo[0].state.locals);
+  };
+  const handleStateOfOriginChange = (value) => {
+    handleInputChange('lga', '');
+    handleInputChange('stateoforigin', value);
+    const selectedstate = statesList.filter((el) => el.name === value);
+    getLGA(selectedstate[0].id);
   };
   const managePasswordVisibility = () => {
     sethidePassword(!hidePassword);
@@ -205,20 +220,22 @@ const SignUpBusiness = ({
           },
         }));
         return false;
-      } else if (
-        requiredField === 'phoneNumber' &&
-        !phoneNumberRegex.test(inputValues.phoneNumber)
-      ) {
-        const message = 'Please enter a valid phone number';
-        console.log(message);
-        setState((state) => ({
-          ...state,
-          errors: {
-            [requiredField]: message,
-          },
-        }));
-        return false;
-      } else {
+      }
+      //  else if (
+      //   requiredField === 'phoneNumber' &&
+      //   !phoneNumberRegex.test(inputValues.phoneNumber)
+      // ) {
+      //   const message = 'Please enter a valid phone number';
+      //   console.log(message);
+      //   setState((state) => ({
+      //     ...state,
+      //     errors: {
+      //       [requiredField]: message,
+      //     },
+      //   }));
+      //   return false;
+      // }
+      else {
         continue;
       }
     }
@@ -238,7 +255,10 @@ const SignUpBusiness = ({
         firstName: inputValues.firstName,
         lastName: inputValues.lastName,
         businessName: inputValues.businessName,
-        phoneNumber: inputValues.phoneNumber,
+        phoneNumber: formatPhoneNumber(
+          inputValues.countrycode,
+          inputValues.phoneNumber,
+        ),
         email: inputValues.email,
         businessType: inputValues.businessType,
         address: inputValues.address,
@@ -338,6 +358,38 @@ const SignUpBusiness = ({
                       />
                     </View>
                   );
+                } else if (name === 'phoneNumber') {
+                  return (
+                    <View
+                      key={index}
+                      style={[Basestyle.row_space_between, {marginTop: 20}]}>
+                      <View style={{width: '30%'}}>
+                        <CustomDropdown
+                          defaultLabel="Country Code"
+                          selectedOption={inputValues.countrycode}
+                          options={Countries}
+                          handleDropdownChange={(value) =>
+                            handleInputChange('countrycode', value)
+                          }
+                          labelKey="name"
+                          valueKey="dial_code"
+                        />
+                      </View>
+                      <View style={{width: '65%'}}>
+                        <FloatingTextInput
+                          express
+                          label={label}
+                          placeholder={placeholder}
+                          keyboardType={keyboardType || 'default'}
+                          value={inputValues.name}
+                          handleInputChange={(text) =>
+                            handleInputChange(name, text)
+                          }
+                          errorMessage={errors[name] || ''}
+                        />
+                      </View>
+                    </View>
+                  );
                 } else {
                   return (
                     <View key={index} style={{marginTop: 20}}>
@@ -376,16 +428,6 @@ const SignUpBusiness = ({
             )}
             <View style={[Basestyle.row_space_between, {marginVertical: 20}]}>
               <View style={{width: '48%'}}>
-                <FloatingTextInput
-                  label="L.G.A"
-                  placeholder="Eti Osa"
-                  value={inputValues.lga}
-                  handleInputChange={(text) => handleInputChange('lga', text)}
-                  //cutomwrapperInputStyle={{width: '48%'}}
-                />
-              </View>
-
-              <View style={{width: '48%'}}>
                 <CustomDropdown
                   // containerStyle={{backgroundColor: 'red'}}
                   defaultLabel="State"
@@ -399,13 +441,34 @@ const SignUpBusiness = ({
                     ...statesList,
                   ]}
                   handleDropdownChange={(value) => {
-                    if (value !== null) {
-                      handleInputChange('stateoforigin', value);
+                    if (value !== 'Choose state...') {
+                      handleStateOfOriginChange(value);
                     }
                   }}
                   labelKey="name"
                   valueKey="name"
                   placeholder="Choose state..."
+                />
+              </View>
+              <View style={{width: '48%'}}>
+                <CustomDropdown
+                  defaultLabel="L.G.A"
+                  selectedOption={inputValues.lga}
+                  options={[
+                    {
+                      name: 'Choose LGA...',
+                      value: null,
+                    },
+                    ...activeLGA,
+                  ]}
+                  handleDropdownChange={(value) => {
+                    if (value !== 'Choose LGA...') {
+                      handleInputChange('lga', value);
+                    }
+                  }}
+                  labelKey="name"
+                  valueKey="name"
+                  placeholder="Choose LGA..."
                 />
               </View>
             </View>

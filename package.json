@@ -26,6 +26,7 @@
     "react": "16.9.0",
     "react-native": "0.61.0",
     "react-native-app-intro-slider": "^4.0.4",
+    "react-native-fix-image": "^2.0.1",
     "react-native-geolocation-service": "^5.0.0",
     "react-native-gesture-handler": "^1.7.0",
     "react-native-google-places": "^3.1.2",
