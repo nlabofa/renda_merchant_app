@@ -13,6 +13,7 @@ import LoadingScreen from './src/screens/LoadingScreen';
 import Store from './src/store/index';
 import {Provider} from 'react-redux';
 import {navigationRef} from './src/helpers/NavigationService';
+import SplashScreen from 'react-native-splash-screen';
 
 import OneSignal from 'react-native-onesignal';
 import {saveDeviceId} from './src/actions/auth.action';
@@ -164,7 +165,7 @@ const DeepStackScreen = () => (
 const RootStack = createStackNavigator();
 const RootStackScreen = () => {
   useEffect(() => {
-    //SplashScreen.hide();
+    SplashScreen.hide();
     OneSignal.addEventListener('ids', onIds);
     OneSignal.addEventListener('opened', onOpened);
     OneSignal.addEventListener('received', onReceived);
