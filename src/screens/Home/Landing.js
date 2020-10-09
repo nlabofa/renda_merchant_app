@@ -9,12 +9,18 @@ import GradientHeader from '../../components/GradientHeader';
 import AsyncStorage from '@react-native-community/async-storage';
 import {processFontSize} from '../../helpers/fonts';
 import {connect} from 'react-redux';
-import {saveUserInfo, getCategories} from '../../actions/auth.action';
+import {
+  saveUserInfo,
+  updateUserInfo,
+  getCategories,
+} from '../../actions/auth.action';
 const Landing = ({
   navigation,
   saveUserInfo,
   categories,
   getCategories,
+  device_id,
+  updateUserInfo,
   user_info,
 }) => {
   useEffect(() => {
@@ -25,6 +31,7 @@ const Landing = ({
     };
     !user_info && checkUser();
     !categories && getCategories();
+    device_id && updateUserInfo({oneSignalPlayerId: device_id});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -37,7 +44,7 @@ const Landing = ({
       <GradientHeader
         gradient_colors={['#1B5480', '#3990BB']}
         navigation={navigation}
-        showrighticon
+        //showrighticon
         lefticon={
           <Feather
             name="menu"
@@ -107,10 +114,11 @@ const Landing = ({
 
 const mapStateToProps = (state) => {
   const {
-    auth: {user_info, categories},
+    auth: {user_info, device_id, categories},
   } = state;
   return {
     user_info,
+    device_id,
     categories,
   };
 };
@@ -118,6 +126,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   saveUserInfo,
   getCategories,
+  updateUserInfo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);

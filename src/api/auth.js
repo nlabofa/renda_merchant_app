@@ -82,6 +82,17 @@ export default class Auth extends RendaRequest {
       return this.handleError(err);
     }
   };
+  updateUserInfo = async (userData) => {
+    try {
+      const response = await this.requestInstance.patch(
+        '/users/' + this.userId,
+        userData,
+      );
+      return response;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
   verifyOTP = async (payload) => {
     try {
       const response = await this.noTokenRequestInstance.post(

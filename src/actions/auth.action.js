@@ -8,6 +8,7 @@ import {
 } from '../helpers/auth';
 //import {getBusinessAccounts, resetStore} from './account';
 import NavigationService from '../helpers/NavigationService';
+import store from '../store';
 //import store from '../store/index';
 //import { alertModal } from '../actions/alert';
 
@@ -17,6 +18,10 @@ export const saveUserRoles = (data) => {
     data,
   };
 };
+export const saveDeviceId = (data) => ({
+  type: actionTypes.SAVE_DEVICE_ID,
+  data,
+});
 export const saveCategories = (data) => {
   return {
     type: actionTypes.SAVE_CATEGORIES,
@@ -63,6 +68,21 @@ export const forgotPassword = (data) => async (dispatch) => {
 };
 export const resetPassword = (data) => async (dispatch) => {
   const response = await AuthRequest.resetPassword(data);
+  return response;
+};
+export const updateUserInfo = (data) => async (dispatch) => {
+  const response = await AuthRequest.updateUserInfo(data);
+  const olduserdata = store.getState().auth.user_info;
+  //console.log(response);
+  if (response.status === 200) {
+    const userData = {
+      ...olduserdata,
+      ...response.data,
+    };
+    //console.log(userData);
+    dispatch(saveUserInfo(userData));
+    await storeUserLoginData(userData);
+  }
   return response;
 };
 export const googleSignUp = (data) => async (dispatch) => {

@@ -82,7 +82,7 @@ const Dashboard = ({
       <GradientHeader
         gradient_colors={['#1B5480', '#3990BB']}
         containerstyle={styles.extraheight}
-        showrighticon
+        //showrighticon
         navigation={navigation}
         lefticon={
           <Feather

@@ -4,6 +4,7 @@ const initialState = {
   user_roles: [],
   user_info: null,
   business_types: [],
+  device_id: null,
   categories: null,
   auth_loading: false,
 };
@@ -14,6 +15,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         auth_loading: true,
+      };
+    case actionTypes.SAVE_DEVICE_ID:
+      return {
+        ...state,
+        device_id: action.data,
       };
     case actionTypes.LOAD_END:
       return {
