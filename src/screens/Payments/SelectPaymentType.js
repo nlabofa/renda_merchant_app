@@ -110,9 +110,10 @@ const SelectDeliveryType = ({
   const goHome = () => {
     setsuccessmodal(false);
     //clearDeliveryData();
-    setTimeout(() => {
-      navigation.navigate('HomeDrawer');
-    }, 500);
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'HomeDrawer'}],
+    });
   };
   return (
     <SafeAreaView style={Basestyle.container_with_space}>

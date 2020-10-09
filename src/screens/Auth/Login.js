@@ -193,8 +193,10 @@ const Login = ({navigation, googleLogin, handleLogin, route}) => {
         if (response.status === 201) {
           handleInputChange('email', '');
           handleInputChange('password', '');
-
-          navigation.navigate('MainApp');
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'MainApp'}],
+          });
         } else {
           alert('error occured');
         }
