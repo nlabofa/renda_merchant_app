@@ -132,6 +132,7 @@ const SignUpIndividual = ({
               email: res.user.email.toLowerCase(),
               firstName: res.user.familyName,
               lastName: res.user.givenName,
+              profileImage: res.user.photo,
               role: getRoleId(),
             };
             //console.log(userDetails);

@@ -82,11 +82,19 @@ const DrawerComponent = ({navigation, logout, user_info}) => {
           />
           <View style={styles.sidebar_top}>
             <View style={[styles.profile_pic_view]}>
-              <Image
-                resizeMode="contain"
-                style={styles.profile_pic_icon}
-                source={Images.profileicon}
-              />
+              {user_info && user_info.profileImage ? (
+                <Image
+                  resizeMode="contain"
+                  style={styles.profile_pic_icon}
+                  source={{uri: user_info.profileImage}}
+                />
+              ) : (
+                <Image
+                  resizeMode="contain"
+                  style={styles.profile_pic_icon}
+                  source={Images.profileicon}
+                />
+              )}
             </View>
             <View style={styles.sidebar_topright}>
               <Text numberOfLines={1} style={[styles.opaq5]}>

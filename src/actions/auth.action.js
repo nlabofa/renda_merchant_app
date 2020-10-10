@@ -1,11 +1,7 @@
 /* eslint-disable no-alert */
 import * as actionTypes from '../types/auth-types';
 import {AuthRequest} from '../api/index';
-import {
-  storeUserLoginData,
-  removeUserData,
-  retrieveUserData,
-} from '../helpers/auth';
+import {storeUserLoginData, removeUserData} from '../helpers/auth';
 //import {getBusinessAccounts, resetStore} from './account';
 import NavigationService from '../helpers/NavigationService';
 import store from '../store';
@@ -96,7 +92,8 @@ export const googleSignUp = (data) => async (dispatch) => {
     console.log(userData);
     dispatch(saveUserInfo(userData));
     await storeUserLoginData(userData);
-    NavigationService.navigate('MainApp');
+    // NavigationService.navigate('MainApp');
+    NavigationService.navigate('UpdatePhone');
   } else {
     alert(response.data.message);
     //NavigationService.navigate('Login');
@@ -114,9 +111,12 @@ export const verifyOTP = (data) => async (dispatch) => {
     console.log(userData);
     dispatch(saveUserInfo(userData));
     await storeUserLoginData(userData);
-    NavigationService.navigate('MainApp');
+    NavigationService.reset('MainApp');
   } else {
-    alert(response.data.message);
+    setTimeout(() => {
+      alert(response.data.message);
+    }, 500);
+
     //NavigationService.navigate('Login');
   }
   return response;

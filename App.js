@@ -72,6 +72,7 @@ const AuthStackScreen = () => (
       name="SignUpBusiness"
       component={AuthScreens.SignUpBusiness}
     />
+    <AuthStack.Screen name="UpdatePhone" component={AuthScreens.UpdatePhone} />
     <AuthStack.Screen name="SignUpOTP" component={AuthScreens.SignUpOTP} />
   </AuthStack.Navigator>
 );
