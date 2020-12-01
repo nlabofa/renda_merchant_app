@@ -96,6 +96,10 @@ const DeepStackScreen = () => (
       component={HomeScreens.ViewNotification}
     />
     <DeepStack.Screen
+      name="ViewRateRider"
+      component={HomeScreens.ViewRateRider}
+    />
+    <DeepStack.Screen
       name="NotificationDetail"
       component={HomeScreens.NotificationDetail}
     />

@@ -2,6 +2,7 @@ import Dashboard from '../../screens/Home/Dashboard';
 import Landing from '../../screens/Home/Landing';
 import DrawerComponent from '../../screens/Home/DrawerComponent';
 import ViewNotification from '../../screens/Home/ViewNotification';
+import ViewRateRider from '../../screens/Home/RateRider';
 import ListAll from '../../screens/Home/ListAll';
 import DispatchDetail from '../../screens/Home/DispatchDetail';
 import NotificationDetail from '../../screens/Home/NotificationDetail';
@@ -16,6 +17,7 @@ export {
   ViewNotification,
   DispatchDetail,
   NotificationDetail,
+  ViewRateRider,
   SignatureCapture,
   SubmitComplaint,
 };

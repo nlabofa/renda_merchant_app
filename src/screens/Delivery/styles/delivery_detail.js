@@ -15,6 +15,12 @@ export default StyleSheet.create({
     marginLeft: 5,
     flex: 1,
   },
+  delivery_text: {
+    flexDirection: 'row',
+    marginBottom: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   sliderview: {
     width: wp(91),
     alignItems: 'center',

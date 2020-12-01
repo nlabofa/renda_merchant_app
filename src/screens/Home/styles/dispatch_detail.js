@@ -12,6 +12,17 @@ export default StyleSheet.create({
     marginLeft: 5,
     flex: 1,
   },
+  delivered: {
+    width: 150,
+    height: 150,
+    alignSelf: 'center',
+  },
+  delivery_text: {
+    flexDirection: 'row',
+    marginBottom: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   content: {
     marginBottom: 20,
   },

@@ -62,6 +62,10 @@ export const forgotPassword = (data) => async (dispatch) => {
   const response = await AuthRequest.forgotPassword(data);
   return response;
 };
+export const rateDispatch = (data) => async () => {
+  const response = await AuthRequest.rateDispatch(data);
+  return response;
+};
 export const resetPassword = (data) => async (dispatch) => {
   const response = await AuthRequest.resetPassword(data);
   return response;

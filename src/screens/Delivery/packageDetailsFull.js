@@ -165,7 +165,7 @@ const PackageDetailsFull = ({
                       style={styles.small_icon}
                     />
                     <Text numberOfLines={1} style={styles.small_icon_text}>
-                      {deliverydata && deliverydata.sender.details.name}
+                      {deliverydata?.sender?.details?.name}
                     </Text>
                   </View>
                   <View style={styles.small_icon_view}>
@@ -175,7 +175,7 @@ const PackageDetailsFull = ({
                       style={styles.small_icon}
                     />
                     <Text style={styles.small_icon_text}>
-                      {deliverydata && deliverydata.sender.details.phone}
+                      {deliverydata?.sender?.details?.phone}
                     </Text>
                   </View>
                   <View style={styles.small_icon_view}>
@@ -185,7 +185,7 @@ const PackageDetailsFull = ({
                       style={styles.small_icon}
                     />
                     <Text numberOfLines={2} style={styles.small_icon_text}>
-                      {deliverydata && deliverydata.package.details.description}
+                      {deliverydata?.package?.details?.description}
                     </Text>
                   </View>
                 </View>
@@ -217,7 +217,7 @@ const PackageDetailsFull = ({
                       style={styles.small_icon}
                     />
                     <Text style={styles.small_icon_text}>
-                      {deliverydata && deliverydata.receiver.details.name}
+                      {deliverydata?.receiver?.details?.name}
                     </Text>
                   </View>
                   <View style={styles.small_icon_view}>
@@ -227,7 +227,7 @@ const PackageDetailsFull = ({
                       style={styles.small_icon}
                     />
                     <Text style={styles.small_icon_text}>
-                      {deliverydata && deliverydata.receiver.details.phone}
+                      {deliverydata?.receiver?.details?.phone}
                     </Text>
                   </View>
                   <View style={styles.small_icon_view}>
@@ -267,8 +267,7 @@ const PackageDetailsFull = ({
                   <View>
                     <Text style={[styles.small_icon_text2]}>Quantity :</Text>
                     <Text style={[styles.small_icon_text3]}>
-                      {deliverydata && deliverydata.package.details.quantity}{' '}
-                      pcs
+                      {deliverydata?.package?.details?.quantity} pcs
                     </Text>
                   </View>
                   <View style={{width: '36%'}}>

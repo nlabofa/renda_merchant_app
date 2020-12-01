@@ -1,15 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useRef} from 'react';
-import {View, StatusBar, Image, ScrollView, Text} from 'react-native';
+import {
+  View,
+  StatusBar,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Text,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles/delivery_detail';
 import {Basestyle, Images, colors} from '../../helpers/BaseThemes';
 import SafeAreaView from 'react-native-safe-area-view';
 import ReuseHeader from '../../components/Header/index';
-import ImageSlider from '../../components/ImageSlider';
+//import ImageSlider from '../../components/ImageSlider';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
 import {connect} from 'react-redux';
-import {heightPercentageToDP} from 'react-native-responsive-screen';
+//import {heightPercentageToDP} from 'react-native-responsive-screen';
+import FontNames from '../../helpers/BaseThemes/fontnames';
 
 const contents = [
   {
@@ -53,10 +62,43 @@ const DispatchDetailHistory = ({navigation, categories, route}) => {
         style={{marginTop: 30}}
         showsVerticalScrollIndicator={false}>
         <View>
-          <Text
-            style={[styles.row_top_text, {paddingTop: 5, paddingBottom: 15}]}>
-            Delivery Details
-          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              //backgroundColor: 'red',
+            }}>
+            <Text
+              style={[styles.row_top_text, {paddingTop: 5, paddingBottom: 15}]}>
+              Delivery Details
+            </Text>
+            {item.status.status === 'Completed' && item.user.rating === 0 && (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ViewRateRider', {
+                    orderid: item?._id,
+                  })
+                }
+                style={[styles.delivery_text, {paddingTop: 15}]}>
+                <Text
+                  style={{
+                    fontFamily: FontNames.medium,
+                    color: colors.PRIMARY_BLUE,
+                    fontSize: 15,
+                  }}>
+                  Rate Dispatch Rider
+                </Text>
+
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={30}
+                  color={colors.PRIMARY_ORANGE}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+
           <View
             style={[
               Basestyle.round_box,

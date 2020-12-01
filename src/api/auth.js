@@ -71,6 +71,17 @@ export default class Auth extends RendaRequest {
       return this.handleError(err);
     }
   };
+  rateDispatch = async (payload) => {
+    try {
+      const response = await this.requestInstance.post(
+        '/order/rating',
+        payload,
+      );
+      return response;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
   resetPassword = async (payload) => {
     try {
       const response = await this.noTokenRequestInstance.post(
