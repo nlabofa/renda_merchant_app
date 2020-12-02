@@ -152,6 +152,10 @@ const DeepStackScreen = () => (
       name="SelectPaymentType"
       component={PaymentScreens.SelectPaymentType}
     />
+    <DeepStack.Screen
+      name="ProcessUSSD"
+      component={PaymentScreens.ProcessUSSD}
+    />
     <DeepStack.Screen name="PayCard" component={PaymentScreens.PayCard} />
     <DeepStack.Screen name="PayUssd" component={PaymentScreens.PayUssd} />
     <DeepStack.Screen

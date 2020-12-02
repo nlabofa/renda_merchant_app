@@ -30,7 +30,7 @@ const LIST_DELIVERY = [
     index: 0,
     label: 'Pay Via USSD',
     imgsrc: require('../../assets/images/pay-ussd.png'),
-    route: 'PayUssd',
+    route: 'ProcessUSSD',
   },
   {
     index: 1,
