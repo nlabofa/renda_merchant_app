@@ -181,7 +181,7 @@ const SelectDeliveryType = ({
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{marginTop: 30}}>
-          <Text style={[styles.opaq3, {paddingBottom: 25}]}>Today</Text>
+          {/* <Text style={[styles.opaq3, {paddingBottom: 25}]}>Today</Text> */}
           {LIST_DELIVERY.map(({label, index, route, imgsrc}) => (
             <ItemBox
               key={index}

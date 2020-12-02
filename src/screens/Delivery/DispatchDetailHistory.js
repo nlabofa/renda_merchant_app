@@ -73,7 +73,7 @@ const DispatchDetailHistory = ({navigation, categories, route}) => {
               style={[styles.row_top_text, {paddingTop: 5, paddingBottom: 15}]}>
               Delivery Details
             </Text>
-            {item.status.status === 'Completed' && item.user.rating === 0 && (
+            {item.status.status === 'Completed' && item.dispatchRating === 0 && (
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('ViewRateRider', {
