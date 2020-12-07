@@ -80,6 +80,11 @@ function Paystack(props, ref) {
                                             display_name:  '${props.billingName}',
                                             variable_name:  '${props.billingName}',
                                             value:'',
+          
+                                            amount: '${props.amount}',
+                                            paymentFor: '${props.paymentFor}',
+                                            userId: '${props.userId}',
+                                            
                                             },
                                     ]
                                     },

@@ -1,5 +1,6 @@
+/* eslint-disable no-alert */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -12,44 +13,42 @@ import {Basestyle, colors} from '../../helpers/BaseThemes';
 import SafeAreaView from 'react-native-safe-area-view';
 import ReuseHeader from '../../components/Header/index';
 import Modal from 'react-native-modal';
+import {connect} from 'react-redux';
+import {saveDeliveryData} from '../../actions/delivery.action';
 import ButtonMain from '../../components/Button/ButtonMain';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import CustomDropdown from '../../components/CustomDropdown';
 import styles from './payment-styles';
-const CYCLES = [
-  {
-    title: 'Information Technology',
-    type: 'Information Technology',
-  },
-  {
-    title: 'Agriculture',
-    type: 'Agriculture',
-  },
-  {
-    title: 'Finance',
-    type: 'Finance',
-  },
-];
-const PayMerchant = ({navigation}) => {
+import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
+import PaystackWebView from '../../components/PaystackWebView/PaystackWebView';
+import {PAYSTACK_TEST, PAYSTACK_TEST_SECRET} from '../../../key';
+
+const PayMerchant = ({navigation, user_info}) => {
+  const childRef = useRef();
+
   const [showmodal, setshowmodal] = useState(false);
   const [successmodal, setsuccessmodal] = useState(false);
-  const [inputValues, setInput] = useState({
-    on_days: '',
-  });
-  const handleInputChange = (name, value) => {
-    setInput((state) => ({
-      ...state,
-      [name]: value,
-    }));
-  };
+  const [amount, setamount] = useState('');
   const handleNext = () => {
-    setshowmodal(true);
-    setTimeout(() => {
-      setshowmodal(false);
-    }, 3000);
-    setTimeout(() => {
-      setsuccessmodal(true);
-    }, 7000);
+    if (amount) {
+      childRef.current.StartTransaction();
+    }
+    // setshowmodal(true);
+    // setTimeout(() => {
+    //   setshowmodal(false);
+    // }, 3000);
+    // setTimeout(() => {
+    //   setsuccessmodal(true);
+    // }, 7000);
+  };
+  const checkPayment = (e) => {
+    console.log(e.data);
+    // if (e.data && e.data.status === 'success') {
+    //   //performAction(e.data.trxref);
+    // } else {
+    //   setTimeout(() => {
+    //     alert('Cancelled Transaction');
+    //   }, 500);
+    // }
   };
   return (
     <SafeAreaView
@@ -110,7 +109,7 @@ const PayMerchant = ({navigation}) => {
         </View>
       </Modal>
       <ReuseHeader
-        title="Pay via Wallet"
+        title="Top up Wallet"
         navigation={navigation}
         leftheader
         textStyle={{letterSpacing: 0.9}}
@@ -118,37 +117,61 @@ const PayMerchant = ({navigation}) => {
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={{marginTop: 30}}>
           <View style={{marginTop: 0}}>
-            <CustomDropdown
-              containerStyle={{marginBottom: 20}}
-              defaultLabel="Select Bank"
-              // inputTextStyle={styles.dropdown_inputext}
-              selectedOption={inputValues.on_days}
-              options={[
-                {
-                  name: 'Choose Banks..',
-                  value: null,
-                },
-                ...CYCLES,
-              ]}
-              handleDropdownChange={(value) => {
-                if (value !== null) {
-                  handleInputChange('on_days', value);
-                }
-              }}
-              labelKey="title"
-              valueKey="type"
-              placeholder="Sterling Bank"
+            <FloatingTextInput
+              express
+              label="Enter Amount"
+              placeholder="1000"
+              keyboardType="number-pad"
+              value={amount}
+              handleInputChange={(text) => setamount(text)}
             />
           </View>
         </View>
       </KeyboardAwareScrollView>
       <ButtonMain
         onPress={() => handleNext()}
-        text="Submit"
+        text="Top Up"
+        disabled={!amount}
         btnContainerStyle={[Basestyle.btn_full, {marginBottom: 10}]}
       />
+      <View>
+        <PaystackWebView
+          buttonText="Pay Now"
+          showPayButton={false}
+          paystackKey={PAYSTACK_TEST}
+          paystackSecretKey={PAYSTACK_TEST_SECRET}
+          amount={amount}
+          billingEmail={user_info && user_info.email}
+          billingMobile={user_info && user_info.phoneNumber}
+          userId={user_info && user_info._id}
+          paymentFor="merchant"
+          billingName={
+            user_info && user_info.firstName + ' ' + user_info.lastName
+          }
+          //ActivityIndicatorColor={colors.PRIMARY_INDIGO}
+          channels={JSON.stringify(['card'])}
+          SafeAreaViewContainer={{marginTop: 5}}
+          SafeAreaViewContainerModal={{marginTop: 5}}
+          onCancel={(e) => checkPayment(e)}
+          onSuccess={(e) => checkPayment(e)}
+          autoStart={false}
+          ref={childRef}
+        />
+      </View>
     </SafeAreaView>
   );
 };
 
-export default PayMerchant;
+const mapStateToProps = (state) => {
+  const {
+    auth: {user_info},
+  } = state;
+  return {
+    user_info,
+  };
+};
+const mapDispatchToProps = {
+  saveDeliveryData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PayMerchant);
