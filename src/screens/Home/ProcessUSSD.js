@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-alert */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
@@ -13,7 +15,13 @@ import {Basestyle, colors} from '../../helpers/BaseThemes';
 import SafeAreaView from 'react-native-safe-area-view';
 import ReuseHeader from '../../components/Header/index';
 import Modal from 'react-native-modal';
+import {connect} from 'react-redux';
+import Toast from 'react-native-simple-toast';
+import Clipboard from '@react-native-community/clipboard';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {getUssdCode} from '../../actions/delivery.action';
 import styles from '../Payments/payment-styles';
+import ButtonMain from '../../components/Button/ButtonMain';
 const banklist = [
   {
     name: 'UBA',
@@ -113,13 +121,56 @@ const banklist = [
   },
 ];
 
-const ProcessUssd = ({navigation}) => {
+const ProcessUssd = ({navigation, getUssdCode, deliverydata, user_info}) => {
   const [showmodal, setshowmodal] = useState(false);
+  const [respdialcode, setrespdialcode] = useState('');
+  const [tempbank, setempbank] = useState('');
+  const [dialcodesuccess, setdialcodesuccess] = useState(false);
 
+  const premcode = '*' + tempbank + '*000*' + respdialcode + '#';
+  const performAction = async (activecode) => {
+    const data = {
+      userId: user_info._id,
+      bankCode: activecode,
+      amount: deliverydata.paymentAmount,
+      request: deliverydata,
+      paymentFor: 'delivery',
+    };
+    console.log(data);
+    try {
+      setshowmodal(true);
+      const response = await getUssdCode(data);
+      setshowmodal(false);
+      if (response.status === 200) {
+        setrespdialcode(response.data.invoice_id);
+        setempbank(activecode);
+        setdialcodesuccess(true);
+      } else {
+        console.log('error occured');
+      }
+    } catch (error) {
+      setshowmodal(false);
+      setTimeout(() => {
+        alert(error.message);
+      }, 500);
+      //console.log(error.message);
+      //alert(error.message);
+    }
+  };
+  const copyToClipboard = (value) => {
+    Clipboard.setString(value);
+    Toast.show('Copied to clipboard');
+  };
+  const handleNext = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'HomeDrawer'}],
+    });
+  };
   const _renderItem = ({item, index}) => (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={() => setshowmodal(true)}
+      onPress={() => performAction(item.code)}
       key={index}
       style={{
         backgroundColor: 'transparent',
@@ -151,7 +202,7 @@ const ProcessUssd = ({navigation}) => {
         transparent={true}
         style={{margin: 0}}
         onModalHide={() => setshowmodal(false)}
-        //onBackdropPress={() => setshowmodal(false)}
+        // onBackdropPress={() => setshowmodal(false)}
         // onBackButtonPress={() => setshowmodal(false)}
       >
         <View
@@ -171,26 +222,81 @@ const ProcessUssd = ({navigation}) => {
         backgroundColor="transparent"
       />
       <ReuseHeader
-        title="Select your bank"
+        title={dialcodesuccess ? 'Pay via USSD' : 'Select your bank'}
         navigation={navigation}
         leftheader
         textStyle={{letterSpacing: 0.9}}
       />
       <View style={{flex: 1}}>
         <View style={{marginTop: 30}}>
-          <View>
-            <FlatList
-              numColumns={3}
-              showsVerticalScrollIndicator={false}
-              data={banklist}
-              renderItem={_renderItem}
-              keyExtractor={(item, index) => `list-item-${index}`}
-            />
-          </View>
+          {dialcodesuccess ? (
+            <View style={[Basestyle.round_box, styles.selection_box2]}>
+              <View style={{marginTop: 20, alignItems: 'center'}}>
+                <Text style={styles.opaq3}>Code to Dial</Text>
+                <Text
+                  style={[
+                    styles.opaq3,
+                    {paddingVertical: 30, fontSize: 18, color: '#307BA8'},
+                  ]}>
+                  {premcode}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => copyToClipboard(premcode)}
+                  style={Basestyle.row_center}>
+                  <Text
+                    style={[
+                      styles.opaq3,
+                      {color: colors.PRIMARY_ORANGE, paddingRight: 5},
+                    ]}>
+                    Tap to Copy
+                  </Text>
+                  <MaterialCommunityIcons
+                    name="content-copy"
+                    color={colors.PRIMARY_ORANGE}
+                    size={25}
+                  />
+                </TouchableOpacity>
+              </View>
+              <ButtonMain
+                onPress={() => handleNext()}
+                text="I have made this transaction"
+                btnContainerStyle={{
+                  marginBottom: 10,
+                  marginTop: 40,
+                  width: '80%',
+                  alignSelf: 'center',
+                }}
+              />
+            </View>
+          ) : (
+            <View>
+              <FlatList
+                numColumns={3}
+                showsVerticalScrollIndicator={false}
+                data={banklist}
+                renderItem={_renderItem}
+                keyExtractor={(item, index) => `list-item-${index}`}
+              />
+            </View>
+          )}
         </View>
       </View>
     </SafeAreaView>
   );
 };
 
-export default ProcessUssd;
+const mapStateToProps = (state) => {
+  const {
+    delivery: {deliverydata},
+    auth: {user_info},
+  } = state;
+  return {
+    deliverydata,
+    user_info,
+  };
+};
+const mapDispatchToProps = {
+  getUssdCode,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProcessUssd);

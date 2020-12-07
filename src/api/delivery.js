@@ -39,6 +39,17 @@ export default class Auth extends RendaRequest {
       return this.handleError(err);
     }
   };
+  getUssdCode = async (payload) => {
+    try {
+      const response = await this.requestInstance.post(
+        '/payment/ussd',
+        payload,
+      );
+      return response;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
   fetchDeliveryHistory = async (id) => {
     try {
       const {data} = await this.requestInstance.get(

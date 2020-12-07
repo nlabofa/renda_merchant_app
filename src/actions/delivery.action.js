@@ -71,6 +71,11 @@ export const submitDeliveryRequest = (data) => async (dispatch) => {
   console.log(response);
   return response;
 };
+export const getUssdCode = (data) => async (dispatch) => {
+  const response = await DeliveryRequest.getUssdCode(data);
+  console.log(response);
+  return response;
+};
 export const fetchDeliveryHistory = () => async (dispatch) => {
   const {_id} = store.getState().auth.user_info;
   const response = await DeliveryRequest.fetchDeliveryHistory(_id);
