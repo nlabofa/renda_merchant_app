@@ -7,6 +7,7 @@ const initialState = {
   deliveryinfo: null,
   deliveryimage: '',
   deliveryhistory: null,
+  upload_img_count: 0,
   trackdelivery: null,
   imageloading: false,
 };
@@ -59,6 +60,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         deliveryimage: action.data,
+      };
+    case actionTypes.SAVE_UPLOADED_IMAGE_COUNT:
+      return {
+        ...state,
+        upload_img_count: action.data,
+      };
+    case actionTypes.RESET_UPLOADED_IMAGE_COUNT:
+      return {
+        ...state,
+        upload_img_count: 0,
       };
     case actionTypes.SAVE_DELIVERY_LOCATION_INFO:
       return {

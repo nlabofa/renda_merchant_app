@@ -1,12 +1,27 @@
 import RendaRequest from './rendaRequest';
 import axios from 'axios';
 import CONFIG from '../config';
+import store from '../store/index';
+import {saveUploadeImgCount} from '../actions/delivery.action';
 export default class Auth extends RendaRequest {
   constructor() {
     super();
   }
 
   uploadImageToBE = async (imagedata) => {
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${this._token}`,
+      },
+      onUploadProgress: function (progressEvent) {
+        var percentCompleted = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total,
+        );
+        console.log(percentCompleted);
+        store.dispatch(saveUploadeImgCount(percentCompleted));
+      },
+    };
     const formData = new FormData();
 
     formData.append('files', {
@@ -16,16 +31,11 @@ export default class Auth extends RendaRequest {
       data: imagedata.data,
     });
     try {
-      const {data} = await axios({
-        method: 'post',
-        url: CONFIG.BASE_URL + 'fileUploader',
-        data: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${this._token}`,
-        },
-      });
-
+      const {data} = await axios.post(
+        CONFIG.BASE_URL + 'fileUploader',
+        formData,
+        config,
+      );
       return data;
     } catch (err) {
       return this.handleError(err);

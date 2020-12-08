@@ -36,22 +36,22 @@ const ITEM_LIST = [
     imgsrc: require('../../assets/images/wallet_icon.png'),
     screen: '',
   },
-  {
-    title: 'Notifications',
-    imgsrc: require('../../assets/images/bell_icon.png'),
-    screen: 'ViewNotification',
-  },
+  // {
+  //   title: 'Notifications',
+  //   imgsrc: require('../../assets/images/bell_icon.png'),
+  //   screen: 'ViewNotification',
+  // },
   {
     title: 'Profile',
     imgsrc: require('../../assets/images/profile_plain.png'),
     screen: '',
     //customstyle: {width: 50},
   },
-  {
-    title: 'Support',
-    imgsrc: require('../../assets/images/support.png'),
-    screen: '',
-  },
+  // {
+  //   title: 'Support',
+  //   imgsrc: require('../../assets/images/support.png'),
+  //   screen: '',
+  // },
 ];
 const DrawerComponent = ({navigation, logout, user_info}) => {
   const [activescreen, setActiveScreen] = useState('Home');

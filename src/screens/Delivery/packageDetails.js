@@ -65,7 +65,7 @@ const requiredFields = ['category', 'quantity'];
 const PackageDetails = ({
   navigation,
   uploadImage,
-  user_info,
+  upload_img_count,
   deliveryschedule,
   categories,
   deliverydata,
@@ -401,22 +401,34 @@ const PackageDetails = ({
           </View>
         </View>
         {avatar ? (
-          <TouchableOpacity
-            disabled={imageloading}
-            onPress={() => chooseImage()}>
-            {imageloading ? (
-              <ActivityIndicator
-                size="large"
-                color="#fff"
-                style={styles.imageloader}
+          <View>
+            <TouchableOpacity
+              disabled={imageloading}
+              onPress={() => chooseImage()}>
+              {imageloading ? (
+                <ActivityIndicator
+                  size="large"
+                  color="#fff"
+                  style={styles.imageloader}
+                />
+              ) : null}
+              <Image
+                source={avatar}
+                resizeMode="cover"
+                style={styles.sliderview}
               />
-            ) : null}
-            <Image
-              source={avatar}
-              resizeMode="cover"
-              style={styles.sliderview}
+            </TouchableOpacity>
+            <ProgressBar
+              width={null}
+              height={7}
+              progress={upload_img_count / 100}
+              color={colors.PRIMARY_ORANGE}
+              unfilledColor={'#D8D8D8'}
+              borderWidth={0}
+              //strokeCap="square"
+              style={{marginBottom: 20, borderRadius: 0}}
             />
-          </TouchableOpacity>
+          </View>
         ) : (
           <TouchableOpacity
             activeOpacity={0.7}
@@ -452,13 +464,14 @@ const PackageDetails = ({
 
 const mapStateToProps = (state) => {
   const {
-    delivery: {deliverydata, deliveryschedule, imageloading},
+    delivery: {deliverydata, deliveryschedule, upload_img_count, imageloading},
     auth: {user_info, categories},
   } = state;
   return {
     deliverydata,
     imageloading,
     categories,
+    upload_img_count,
     deliveryschedule,
     user_info,
   };

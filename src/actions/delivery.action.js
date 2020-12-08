@@ -39,6 +39,17 @@ export const saveUploadedImage = (data) => {
     data,
   };
 };
+export const saveUploadeImgCount = (data) => {
+  return {
+    type: actionTypes.SAVE_UPLOADED_IMAGE_COUNT,
+    data,
+  };
+};
+export const resetUploadeImgCount = () => {
+  return {
+    type: actionTypes.RESET_UPLOADED_IMAGE_COUNT,
+  };
+};
 export const saveLocationInfo = (data) => {
   return {
     type: actionTypes.SAVE_DELIVERY_LOCATION_INFO,
@@ -59,6 +70,7 @@ export const trackDeliveryHistory = (data) => {
 };
 export const uploadImage = (data) => async (dispatch) => {
   console.log('uploading');
+  dispatch(resetUploadeImgCount());
   dispatch(imageUploadStart());
   const response = await DeliveryRequest.uploadImageToBE(data);
   dispatch(saveUploadedImage(response.data[0]));
