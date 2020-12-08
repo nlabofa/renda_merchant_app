@@ -137,7 +137,7 @@ const Login = ({navigation, googleLogin, handleLogin, route}) => {
       const response = await googleLogin(data);
       setIsLoading(false);
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === 200 && response?.data?.data?.accessToken) {
         handleInputChange('email', '');
         handleInputChange('password', '');
 

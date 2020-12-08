@@ -144,7 +144,7 @@ const PayMerchant = ({navigation, user_info}) => {
           billingEmail={user_info && user_info.email}
           billingMobile={user_info && user_info.phoneNumber}
           userId={user_info && user_info._id}
-          paymentFor="merchant"
+          paymentFor="wallet"
           billingName={
             user_info && user_info.firstName + ' ' + user_info.lastName
           }

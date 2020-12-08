@@ -143,8 +143,7 @@ export const handleLogin = (data) => async (dispatch) => {
 };
 export const googleLogin = (data) => async (dispatch) => {
   const response = await AuthRequest.googleLogin(data);
-
-  if (response.status === 200) {
+  if (response.status === 200 && response?.data?.data?.accessToken) {
     const userData = {
       token: response.data.data.accessToken,
       ...response.data.data.user,
