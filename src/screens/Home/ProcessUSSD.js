@@ -121,7 +121,13 @@ const banklist = [
   },
 ];
 
-const ProcessUssd = ({navigation, getUssdCode, deliverydata, user_info}) => {
+const ProcessUssd = ({
+  navigation,
+  getUssdCode,
+  deliveryimage,
+  deliverydata,
+  user_info,
+}) => {
   const [showmodal, setshowmodal] = useState(false);
   const [respdialcode, setrespdialcode] = useState('');
   const [tempbank, setempbank] = useState('');
@@ -133,7 +139,23 @@ const ProcessUssd = ({navigation, getUssdCode, deliverydata, user_info}) => {
       userId: user_info._id,
       bankCode: activecode,
       amount: deliverydata.paymentAmount,
-      request: deliverydata,
+      request: {
+        ...deliverydata,
+        package: {
+          details: {
+            ...deliverydata.package.details,
+            image: (deliveryimage && deliveryimage.url) || '',
+          },
+        },
+        // extras
+        user: user_info._id,
+        paymentRef: '',
+        paymentAmount: deliverydata.paymentAmount
+          ? deliverydata.paymentAmount
+          : 1000,
+        //extras
+        paymentMode: 'Ussd',
+      },
       paymentFor: 'delivery',
     };
     console.log(data);
@@ -287,11 +309,12 @@ const ProcessUssd = ({navigation, getUssdCode, deliverydata, user_info}) => {
 
 const mapStateToProps = (state) => {
   const {
-    delivery: {deliverydata},
+    delivery: {deliverydata, deliveryimage},
     auth: {user_info},
   } = state;
   return {
     deliverydata,
+    deliveryimage,
     user_info,
   };
 };

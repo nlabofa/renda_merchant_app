@@ -15,6 +15,7 @@ const ItemBox = ({
   btnContainerStyle = {},
   customicon,
   subtitle,
+  cusomsubtitlestyle = {},
   customtext,
   status,
   type = '',
@@ -71,10 +72,14 @@ const ItemBox = ({
             <Text style={[Basestyle.bold_16, {color: colors.PRIMARY_BLUE}]}>
               {customtext}
             </Text>
-            {subtitle && (
+            {subtitle && subtitle !== ' ' && (
               <Text
                 numberOfLines={2}
-                style={[Basestyle.regular_13, styles.subtitle]}>
+                style={[
+                  Basestyle.regular_13,
+                  styles.subtitle,
+                  cusomsubtitlestyle,
+                ]}>
                 {subtitle}
               </Text>
             )}

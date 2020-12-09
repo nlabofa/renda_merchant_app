@@ -32,23 +32,25 @@ const PayMerchant = ({navigation, user_info}) => {
     if (amount) {
       childRef.current.StartTransaction();
     }
-    // setshowmodal(true);
-    // setTimeout(() => {
-    //   setshowmodal(false);
-    // }, 3000);
-    // setTimeout(() => {
-    //   setsuccessmodal(true);
-    // }, 7000);
   };
   const checkPayment = (e) => {
     console.log(e.data);
-    // if (e.data && e.data.status === 'success') {
-    //   //performAction(e.data.trxref);
-    // } else {
-    //   setTimeout(() => {
-    //     alert('Cancelled Transaction');
-    //   }, 500);
-    // }
+    if (e.data && e.data.status === 'success') {
+      setsuccessmodal(true);
+    } else {
+      setTimeout(() => {
+        alert('Cancelled Transaction');
+      }, 500);
+    }
+  };
+
+  const goHome = () => {
+    setsuccessmodal(false);
+    //clearDeliveryData();
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'HomeDrawer'}],
+    });
   };
   return (
     <SafeAreaView
@@ -95,14 +97,14 @@ const PayMerchant = ({navigation, user_info}) => {
           />
           <View style={{marginTop: 20, alignItems: 'center'}}>
             <Text style={styles.message_text}>
-              Your delivery has been Successfully logged
+              Your wallet has been topped up Successfully
             </Text>
-            <Text style={[styles.message_text, {paddingTop: 20}]}>
+            {/* <Text style={[styles.message_text, {paddingTop: 20}]}>
               You will recieve updates on the state of your delivery shortly
-            </Text>
+            </Text> */}
           </View>
           <TouchableOpacity
-            onPress={() => setsuccessmodal(false)}
+            onPress={() => goHome()}
             style={styles.message_bottom}>
             <Text style={styles.continue_btn}>Continue</Text>
           </TouchableOpacity>

@@ -25,26 +25,7 @@ import {
 import styles from './payment-styles';
 import PaystackWebView from '../../components/PaystackWebView/PaystackWebView';
 import {PAYSTACK_TEST, PAYSTACK_TEST_SECRET} from '../../../key';
-const LIST_DELIVERY = [
-  {
-    index: 0,
-    label: 'Pay Via USSD',
-    imgsrc: require('../../assets/images/pay-ussd.png'),
-    route: 'ProcessUSSD',
-  },
-  {
-    index: 1,
-    label: 'Pay Via Card',
-    imgsrc: require('../../assets/images/pay-card.png'),
-    route: 'PayCard',
-  },
-  {
-    index: 2,
-    label: 'Pay Via Wallet',
-    imgsrc: require('../../assets/images/pay-merchant.png'),
-    route: 'PayMerchant',
-  },
-];
+import {formatMoney} from '../../helpers/libs';
 const SelectDeliveryType = ({
   navigation,
   deliverydata,
@@ -56,6 +37,28 @@ const SelectDeliveryType = ({
   const childRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
   const [successmodal, setsuccessmodal] = useState(false);
+
+  const wallet_balance = user_info?.wallet?.balance;
+  const LIST_DELIVERY = [
+    {
+      index: 0,
+      label: 'Pay Via USSD',
+      imgsrc: require('../../assets/images/pay-ussd.png'),
+      route: 'ProcessUSSD',
+    },
+    {
+      index: 1,
+      label: 'Pay Via Card',
+      imgsrc: require('../../assets/images/pay-card.png'),
+      route: 'PayCard',
+    },
+    {
+      index: 2,
+      label: wallet_balance ? 'Pay Via Wallet' : 'Top Up Wallet',
+      imgsrc: require('../../assets/images/pay-merchant.png'),
+      route: 'PayMerchant',
+    },
+  ];
   const checkpayment = (e) => {
     // console.log(e.data);
     if (e.data && e.data.status === 'success') {
@@ -86,6 +89,46 @@ const SelectDeliveryType = ({
     };
     console.log(data);
     saveDeliveryData(data);
+    try {
+      setIsLoading(true);
+      const response = await submitDeliveryRequest(data);
+      setIsLoading(false);
+      //console.log(response);
+      if (response.status === 201) {
+        setTimeout(() => {
+          setsuccessmodal(true);
+        }, 500);
+      } else {
+        console.log('error occured');
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setTimeout(() => {
+        alert(error.message);
+      }, 500);
+      //console.log(error.message);
+      //alert(error.message);
+    }
+  };
+  const payViaWallet = async () => {
+    const data = {
+      ...deliverydata,
+      package: {
+        details: {
+          ...deliverydata.package.details,
+          image: (deliveryimage && deliveryimage.url) || '',
+        },
+      },
+      // extras
+      user: user_info._id,
+      paymentMode: 'Wallet',
+      paymentRef: '',
+      paymentAmount: deliverydata.paymentAmount
+        ? deliverydata.paymentAmount
+        : 1000,
+      //extras
+    };
+    console.log(data);
     try {
       setIsLoading(true);
       const response = await submitDeliveryRequest(data);
@@ -193,9 +236,17 @@ const SelectDeliveryType = ({
                 />
               }
               customtext={label}
+              subtitle={
+                index === 2 && wallet_balance
+                  ? `Wallet Balance: ${formatMoney(wallet_balance)}`
+                  : ' '
+              }
+              cusomsubtitlestyle={{width: '100%', fontSize: 15}}
               onPress={() =>
                 route === 'PayCard'
                   ? childRef.current.StartTransaction()
+                  : index === 2 && wallet_balance
+                  ? payViaWallet()
                   : navigation.navigate(route)
               }
             />

@@ -96,7 +96,7 @@ export default class Auth extends RendaRequest {
   updateUserInfo = async (userData) => {
     try {
       const response = await this.requestInstance.patch(
-        '/users/' + this.userId,
+        `/users/${this.userId}?$populate=wallet`,
         userData,
       );
       return response;
