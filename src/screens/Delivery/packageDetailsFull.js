@@ -36,7 +36,7 @@ const kms_per_min = 0.5;
 const PackageDetailsFull = ({
   navigation,
   deliverydata,
-  submitDeliveryRequest,
+  saveDeliveryData,
   categories,
   route,
 }) => {

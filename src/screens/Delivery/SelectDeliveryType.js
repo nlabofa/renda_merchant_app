@@ -9,33 +9,52 @@ import ReuseHeader from '../../components/Header';
 import {connect} from 'react-redux';
 import styles from './styles/delivery_styles';
 import {saveDeliveryData} from '../../actions/delivery.action';
-const LIST_DELIVERY = [
-  {
-    index: 0,
-    label: 'Motor Bike',
-    title: 'Motorbike',
-    imgsrc: require('../../assets/images/motorbike.png'),
-  },
-  {
-    index: 1,
-    label: 'Car',
-    title: 'Car',
-    imgsrc: require('../../assets/images/motorcar.png'),
-  },
-  {
-    index: 2,
-    label: 'Mini Van',
-    title: 'Minivan',
-    imgsrc: require('../../assets/images/minivan.png'),
-  },
-  {
-    index: 3,
-    label: 'Truck',
-    title: 'Truck',
-    imgsrc: require('../../assets/images/minitruck.png'),
-  },
-];
-const SelectDeliveryType = ({navigation, saveDeliveryData}) => {
+
+const SelectDeliveryType = ({navigation, route, saveDeliveryData}) => {
+  const {type} = route.params;
+  let LIST_DELIVERY;
+
+  type === 'sameday'
+    ? (LIST_DELIVERY = [
+        {
+          index: 0,
+          label: 'Motor Bike',
+          title: 'Motorbike',
+          imgsrc: require('../../assets/images/motorbike.png'),
+        },
+        {
+          index: 1,
+          label: 'Car',
+          title: 'Car',
+          imgsrc: require('../../assets/images/motorcar.png'),
+        },
+      ])
+    : (LIST_DELIVERY = [
+        {
+          index: 0,
+          label: 'Motor Bike',
+          title: 'Motorbike',
+          imgsrc: require('../../assets/images/motorbike.png'),
+        },
+        {
+          index: 1,
+          label: 'Car',
+          title: 'Car',
+          imgsrc: require('../../assets/images/motorcar.png'),
+        },
+        {
+          index: 2,
+          label: 'Mini Van',
+          title: 'Minivan',
+          imgsrc: require('../../assets/images/minivan.png'),
+        },
+        {
+          index: 3,
+          label: 'Truck',
+          title: 'Truck',
+          imgsrc: require('../../assets/images/minitruck.png'),
+        },
+      ]);
   return (
     <SafeAreaView style={Basestyle.container_with_space}>
       <StatusBar
@@ -44,7 +63,7 @@ const SelectDeliveryType = ({navigation, saveDeliveryData}) => {
         backgroundColor="transparent"
       />
       <ReuseHeader
-        title="Delivery"
+        title={type === 'sameday' ? 'Same Day Delivery' : 'Scheduled Delivery'}
         leftheader
         // showlefticon
         navigation={navigation}

@@ -6,6 +6,8 @@ import {
   View,
   Text,
   StatusBar,
+  Platform,
+  Linking,
   ActivityIndicator,
   TouchableOpacity,
   Image,
@@ -135,7 +137,7 @@ const ProcessUssd = ({
   const [dialcodesuccess, setdialcodesuccess] = useState(false);
   const {paytype, amount} = route.params;
 
-  const premcode = '*' + tempbank + '*000*' + respdialcode + '#';
+  const premcode = '*' + tempbank + '*000*380' + respdialcode + '#';
   const performAction = async (activecode) => {
     let data = {
       userId: user_info._id,
@@ -188,7 +190,10 @@ const ProcessUssd = ({
   };
   const copyToClipboard = (value) => {
     Clipboard.setString(value);
-    Toast.show('Copied to clipboard');
+    Toast.show(
+      'Ussd code copied. Paste in keypad dialer and dial to complete payment.',
+      Toast.LONG,
+    );
   };
   const handleNext = () => {
     navigation.reset({
@@ -196,6 +201,18 @@ const ProcessUssd = ({
       routes: [{name: 'HomeDrawer'}],
     });
   };
+  // const dialCall = () => {
+  //   let phoneNumber = '';
+
+  //   if (Platform.OS === 'android') {
+  //     phoneNumber = 'tel:${+1234567890}';
+  //   } else {
+  //     phoneNumber = 'telprompt:${+1234567890}';
+  //   }
+
+  //   Linking.openURL(phoneNumber);
+  // };
+
   const _renderItem = ({item, index}) => (
     <TouchableOpacity
       activeOpacity={0.7}
@@ -259,7 +276,12 @@ const ProcessUssd = ({
       <View style={{flex: 1}}>
         <View style={{marginTop: 30}}>
           {dialcodesuccess ? (
-            <View style={[Basestyle.round_box, styles.selection_box2]}>
+            <View
+              style={[
+                Basestyle.round_box,
+                styles.selection_box2,
+                {height: '67%'},
+              ]}>
               <View style={{marginTop: 20, alignItems: 'center'}}>
                 <Text style={styles.opaq3}>Code to Dial</Text>
                 <Text

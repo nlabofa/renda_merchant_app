@@ -32,6 +32,7 @@ import {
 } from '../../actions/delivery.action';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import DatePicker from '../../components/DatePicker/DatePicker';
+import {processFontSize} from '../../helpers/fonts';
 const addressFields = [
   {
     index: 7,
@@ -234,7 +235,7 @@ const PackageDetails = ({
         textStyle={{letterSpacing: 0.9}}
       />
       <KeyboardAwareScrollView
-        style={{marginTop: 30}}
+        style={{marginTop: 30, overflow: 'visible'}}
         showsVerticalScrollIndicator={false}>
         <View>
           <Text style={[styles.row_top_text, {color: colors.PRIMARY_BLUE}]}>
@@ -390,7 +391,7 @@ const PackageDetails = ({
                   false: '#E6EDF2',
                   true: '#0FB8BC',
                 }}
-                style={{marginLeft: 5, marginRight: 0}}
+                style={{marginLeft: processFontSize(5), marginRight: 0}}
                 thumbColor="#fff"
                 ios_backgroundColor={'#E6EDF2'}
                 onValueChange={(value) => handleInputChange('priority', value)}
