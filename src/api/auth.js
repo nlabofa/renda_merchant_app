@@ -104,6 +104,16 @@ export default class Auth extends RendaRequest {
       return this.handleError(err);
     }
   };
+  getUserInfo = async () => {
+    try {
+      const response = await this.requestInstance.get(
+        `/users/${this.userId}?$populate=wallet`,
+      );
+      return response;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
   verifyOTP = async (payload) => {
     try {
       const response = await this.noTokenRequestInstance.post(

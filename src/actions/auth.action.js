@@ -2,10 +2,8 @@
 import * as actionTypes from '../types/auth-types';
 import {AuthRequest} from '../api/index';
 import {storeUserLoginData, removeUserData} from '../helpers/auth';
-//import {getBusinessAccounts, resetStore} from './account';
 import NavigationService from '../helpers/NavigationService';
 import store from '../store';
-//import store from '../store/index';
 //import { alertModal } from '../actions/alert';
 
 export const saveUserRoles = (data) => {
@@ -69,6 +67,10 @@ export const rateDispatch = (data) => async () => {
 export const resetPassword = (data) => async (dispatch) => {
   const response = await AuthRequest.resetPassword(data);
   return response;
+};
+export const getUserInfo = () => async (dispatch) => {
+  const response = await AuthRequest.getUserInfo();
+  console.log(response);
 };
 export const updateUserInfo = (data) => async (dispatch) => {
   const response = await AuthRequest.updateUserInfo(data);
