@@ -22,15 +22,20 @@ import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import PaystackWebView from '../../components/PaystackWebView/PaystackWebView';
 import {PAYSTACK_TEST, PAYSTACK_TEST_SECRET} from '../../../key';
 
-const PayMerchant = ({navigation, user_info}) => {
+const PayMerchant = ({navigation, route, user_info}) => {
   const childRef = useRef();
+  const {type} = route.params;
 
   const [showmodal, setshowmodal] = useState(false);
   const [successmodal, setsuccessmodal] = useState(false);
   const [amount, setamount] = useState('');
   const handleNext = () => {
     if (amount) {
-      childRef.current.StartTransaction();
+      if (type === 'topup_via_ussd') {
+        navigation.navigate('ProcessUSSD', {paytype: 'wallet', amount});
+      } else {
+        childRef.current.StartTransaction();
+      }
     }
   };
   const checkPayment = (e) => {

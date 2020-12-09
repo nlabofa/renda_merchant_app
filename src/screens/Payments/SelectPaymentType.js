@@ -56,7 +56,7 @@ const SelectDeliveryType = ({
       index: 2,
       label: wallet_balance ? 'Pay Via Wallet' : 'Top Up Wallet',
       imgsrc: require('../../assets/images/pay-merchant.png'),
-      route: 'PayMerchant',
+      route: 'SelectTopUpType',
     },
   ];
   const checkpayment = (e) => {
@@ -247,7 +247,10 @@ const SelectDeliveryType = ({
                   ? childRef.current.StartTransaction()
                   : index === 2 && wallet_balance
                   ? payViaWallet()
-                  : navigation.navigate(route)
+                  : navigation.navigate(route, {
+                      paytype: 'delivery',
+                      amount: deliverydata.paymentAmount || 1000,
+                    })
               }
             />
           ))}

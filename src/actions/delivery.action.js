@@ -62,6 +62,12 @@ export const saveDeliveryHistory = (data) => {
     data,
   };
 };
+export const saveWalletTransactions = (data) => {
+  return {
+    type: actionTypes.SAVE_WALLET_HISTORY,
+    data,
+  };
+};
 export const trackDeliveryHistory = (data) => {
   return {
     type: actionTypes.TRACK_DELIVERY_HISTORY,
@@ -92,6 +98,12 @@ export const fetchDeliveryHistory = () => async (dispatch) => {
   const {_id} = store.getState().auth.user_info;
   const response = await DeliveryRequest.fetchDeliveryHistory(_id);
   dispatch(saveDeliveryHistory(response.data));
+  console.log(response);
+  return response;
+};
+export const fetchWalletTransactions = () => async (dispatch) => {
+  const response = await DeliveryRequest.fetchWalletTransactions();
+  dispatch(saveWalletTransactions(response.data));
   console.log(response);
   return response;
 };

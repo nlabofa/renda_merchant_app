@@ -123,6 +123,7 @@ const banklist = [
 
 const ProcessUssd = ({
   navigation,
+  route,
   getUssdCode,
   deliveryimage,
   deliverydata,
@@ -132,32 +133,38 @@ const ProcessUssd = ({
   const [respdialcode, setrespdialcode] = useState('');
   const [tempbank, setempbank] = useState('');
   const [dialcodesuccess, setdialcodesuccess] = useState(false);
+  const {paytype, amount} = route.params;
 
   const premcode = '*' + tempbank + '*000*' + respdialcode + '#';
   const performAction = async (activecode) => {
-    const data = {
+    let data = {
       userId: user_info._id,
       bankCode: activecode,
-      amount: deliverydata.paymentAmount,
-      request: {
-        ...deliverydata,
-        package: {
-          details: {
-            ...deliverydata.package.details,
-            image: (deliveryimage && deliveryimage.url) || '',
-          },
-        },
-        // extras
-        user: user_info._id,
-        paymentRef: '',
-        paymentAmount: deliverydata.paymentAmount
-          ? deliverydata.paymentAmount
-          : 1000,
-        //extras
-        paymentMode: 'Ussd',
-      },
-      paymentFor: 'delivery',
+      amount: amount || deliverydata.paymentAmount,
+      paymentFor: paytype,
     };
+    if (paytype === 'delivery') {
+      data = {
+        ...data,
+        request: {
+          ...deliverydata,
+          package: {
+            details: {
+              ...deliverydata.package.details,
+              image: (deliveryimage && deliveryimage.url) || '',
+            },
+          },
+          // extras
+          user: user_info._id,
+          paymentRef: '',
+          paymentAmount: deliverydata.paymentAmount
+            ? deliverydata.paymentAmount
+            : 1000,
+          //extras
+          paymentMode: 'Ussd',
+        },
+      };
+    }
     console.log(data);
     try {
       setshowmodal(true);

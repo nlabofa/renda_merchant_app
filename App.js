@@ -40,6 +40,7 @@ const DrawerStackScreen = () => (
     initialRouteName="">
     <Drawer.Screen name="Home" component={HomeScreens.Landing} />
     <Drawer.Screen name="Dashboard" component={HomeScreens.Dashboard} />
+    <Drawer.Screen name="WalletLanding" component={Delivery.WalletLanding} />
   </Drawer.Navigator>
 );
 const OnboardStack = createStackNavigator();
@@ -130,6 +131,10 @@ const DeepStackScreen = () => (
     <DeepStack.Screen
       name="SelectDeliveryType"
       component={Delivery.SelectDeliveryType}
+    />
+    <DeepStack.Screen
+      name="SelectTopUpType"
+      component={Delivery.SelectTopUpType}
     />
     <DeepStack.Screen name="SetLocation" component={Delivery.SetLocation} />
     <DeepStack.Screen

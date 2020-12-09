@@ -17,6 +17,7 @@ const ItemBox = ({
   subtitle,
   cusomsubtitlestyle = {},
   customtext,
+  customtextstyle = {},
   status,
   type = '',
   destination,
@@ -69,7 +70,12 @@ const ItemBox = ({
         <View style={[styles.div_view, styles.row_center]}>
           {customicon}
           <View style={{marginLeft: 20}}>
-            <Text style={[Basestyle.bold_16, {color: colors.PRIMARY_BLUE}]}>
+            <Text
+              style={[
+                Basestyle.bold_16,
+                {color: colors.PRIMARY_BLUE},
+                customtextstyle,
+              ]}>
               {customtext}
             </Text>
             {subtitle && subtitle !== ' ' && (

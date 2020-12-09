@@ -24,6 +24,7 @@ import ItemBox from '../../components/ItemBox';
 import {connect} from 'react-redux';
 import {logout} from '../../actions/auth.action';
 import {fetchDeliveryHistory} from '../../actions/delivery.action';
+import {formatMoney} from '../../helpers/libs';
 
 const Dashboard = ({
   navigation,
@@ -103,16 +104,16 @@ const Dashboard = ({
             <View style={{width: '55%'}}>
               <Text style={[styles.opaq1]}>Wallet Balance</Text>
               <Text numberOfLines={1} style={Basestyle.bold_35}>
-                N 0
+                {formatMoney(user_info?.wallet?.balance) || 0}
               </Text>
             </View>
             <LinearGradient
               colors={['#1B5480', '#1b557d']}
               style={styles.button_active}>
               <TouchableOpacity
-                // onPress={() => setActive_tab('deliveries')}
+                onPress={() => navigation.navigate('SelectTopUpType')}
                 style={styles.button_row}>
-                <Text style={Basestyle.bold_14}>Manage Wallet</Text>
+                <Text style={Basestyle.bold_14}>Top Up Wallet</Text>
                 <MaterialIcons
                   name="keyboard-arrow-right"
                   size={35}

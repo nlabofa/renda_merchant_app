@@ -10,6 +10,8 @@ const images = {
   deliverhistory_icon: require('../../assets/images/history.png'),
   show_download: require('../../assets/images/shoe_download.jpeg'),
   delivered_image: require('../../assets/images/delivered.png'),
+  debit_image: require('../../assets/images/debit.png'),
+  credit_image: require('../../assets/images/topup.png'),
   warehouse_icon: require('../../assets/images/warehouse.png'),
   manageinvent_icon: require('../../assets/images/inventory.png'),
   delivery_icon: require('../../assets/images/delivery_icon.png'),

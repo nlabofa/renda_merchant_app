@@ -7,12 +7,16 @@ import SelectDeliveryType from '../../screens/Delivery/SelectDeliveryType';
 import SetLocation from '../../screens/Delivery/SetLocation';
 import SetLocationFull from '../../screens/Delivery/SetLocationFull';
 import SenderInfo from '../../screens/Delivery/SenderInfo';
+import WalletLanding from '../../screens/Home/WalletLanding';
+import SelectTopUpType from '../../screens/Payments/SelectTopUpType';
 import ReceiverInfo from '../../screens/Delivery/ReceiverInfo';
 import PackageDetails from '../../screens/Delivery/packageDetails';
 import PackageDetailsFull from '../../screens/Delivery/packageDetailsFull';
 export {
   Landing,
   TrackDelivery,
+  WalletLanding,
+  SelectTopUpType,
   DispatchDetailHistory,
   DeliveryHistory,
   NewDelivery,

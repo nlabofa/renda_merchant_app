@@ -34,7 +34,7 @@ const ITEM_LIST = [
   {
     title: 'Wallet',
     imgsrc: require('../../assets/images/wallet_icon.png'),
-    screen: '',
+    screen: 'WalletLanding',
   },
   // {
   //   title: 'Notifications',

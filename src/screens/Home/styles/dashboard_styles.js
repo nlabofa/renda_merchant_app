@@ -11,6 +11,15 @@ export default StyleSheet.create({
     height: processFontSize(40),
     width: '43%',
   },
+  button_active2: {
+    borderRadius: 20,
+    height: processFontSize(40),
+    width: '35%',
+    position: 'absolute',
+    top: hp(24),
+    right: 10,
+    zIndex: 1000000000,
+  },
   middle_content: {
     marginTop: 40,
     justifyContent: 'space-around',

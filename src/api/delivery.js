@@ -70,6 +70,16 @@ export default class Auth extends RendaRequest {
       return this.handleError(err);
     }
   };
+  fetchWalletTransactions = async (id) => {
+    try {
+      const {data} = await this.requestInstance.get(
+        '/transactions?&$sort[createdAt]=-1',
+      );
+      return data;
+    } catch (err) {
+      return this.handleError(err);
+    }
+  };
   trackDeliveryHistory = async (id) => {
     try {
       const {data} = await this.requestInstance.get(
