@@ -12,6 +12,7 @@ import SelectTopUpType from '../../screens/Payments/SelectTopUpType';
 import ReceiverInfo from '../../screens/Delivery/ReceiverInfo';
 import PackageDetails from '../../screens/Delivery/packageDetails';
 import PackageDetailsFull from '../../screens/Delivery/packageDetailsFull';
+import EditProfile from '../../screens/Auth/EditProfile.js';
 export {
   Landing,
   TrackDelivery,
@@ -19,6 +20,7 @@ export {
   SelectTopUpType,
   DispatchDetailHistory,
   DeliveryHistory,
+  EditProfile,
   NewDelivery,
   SelectDeliveryType,
   SetLocation,

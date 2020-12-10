@@ -44,7 +44,7 @@ const ITEM_LIST = [
   {
     title: 'Profile',
     imgsrc: require('../../assets/images/profile_plain.png'),
-    screen: '',
+    screen: 'EditProfile',
     //customstyle: {width: 50},
   },
   // {

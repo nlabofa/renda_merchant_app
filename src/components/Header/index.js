@@ -4,6 +4,7 @@ import {TouchableOpacity, Text, View, StyleSheet, Platform} from 'react-native';
 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
 import {colors, Basestyle} from '../../helpers/BaseThemes';
 import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 
@@ -12,6 +13,7 @@ const ReuseHeader = ({
   onPress = () => {},
   showlefticon,
   leftheader,
+  menuitem,
   navigation,
   containerstyle = {},
   textStyle = {},
@@ -22,16 +24,30 @@ const ReuseHeader = ({
   };
   return leftheader ? (
     <View style={[header2, containerstyle]}>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        hitSlop={Basestyle.hitSlop}
-        style={{marginRight: 20}}>
-        <SimpleLineIcons
-          name="arrow-left"
-          size={20}
-          color={colors.PRIMARY_BLUE}
-        />
-      </TouchableOpacity>
+      {menuitem ? (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          hitSlop={Basestyle.hitSlop}
+          style={{marginRight: 20}}>
+          <Feather
+            name="menu"
+            color={colors.PRIMARY_BLUE}
+            size={32}
+            onPress={() => navigation.toggleDrawer()}
+          />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          hitSlop={Basestyle.hitSlop}
+          style={{marginRight: 20}}>
+          <SimpleLineIcons
+            name="arrow-left"
+            size={20}
+            color={colors.PRIMARY_BLUE}
+          />
+        </TouchableOpacity>
+      )}
 
       <Text style={[styles.titlestyle2, textStyle]}>{title}</Text>
       {showlefticon && (

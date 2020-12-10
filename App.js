@@ -41,6 +41,7 @@ const DrawerStackScreen = () => (
     <Drawer.Screen name="Home" component={HomeScreens.Landing} />
     <Drawer.Screen name="Dashboard" component={HomeScreens.Dashboard} />
     <Drawer.Screen name="WalletLanding" component={Delivery.WalletLanding} />
+    <Drawer.Screen name="EditProfile" component={Delivery.EditProfile} />
   </Drawer.Navigator>
 );
 const OnboardStack = createStackNavigator();
