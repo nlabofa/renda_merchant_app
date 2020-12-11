@@ -65,7 +65,7 @@ const Dashboard = ({
         resizeMode="contain"
       />
       <Text style={[styles.empty_text]}>
-        You have made no delivery request yet{'\n'}
+        You have no pending delivery request at the moment{'\n'}
       </Text>
     </View>
   );
@@ -176,7 +176,7 @@ const Dashboard = ({
       <View style={styles.scrollview}>
         <View style={{marginTop: 25}}>
           <View style={Basestyle.row_space_between}>
-            <Text style={[styles.opaq2]}>Recent Deliveries</Text>
+            <Text style={[styles.opaq2]}>Pending Deliveries</Text>
           </View>
           <View style={{marginTop: 15}}>
             {isLoading ? (

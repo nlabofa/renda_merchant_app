@@ -73,7 +73,7 @@ const Landing = ({navigation, user_info, clearDeliveryData}) => {
                 style={{width: 55, height: 55}}
               />
             }
-            customtext="Delivery History"
+            customtext="Pending Delivery"
             onPress={() => navigation.navigate('DeliveryHistory')}
           />
         </View>

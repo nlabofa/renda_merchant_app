@@ -117,7 +117,7 @@ export const verifyOTP = (data) => async (dispatch) => {
     console.log(userData);
     dispatch(saveUserInfo(userData));
     await storeUserLoginData(userData);
-    NavigationService.reset('MainApp');
+    NavigationService.navigate('MainApp');
   } else {
     setTimeout(() => {
       alert(response.data.message);

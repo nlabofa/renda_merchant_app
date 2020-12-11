@@ -94,7 +94,7 @@ const WalletLanding = ({
       <GradientHeader
         gradient_colors={['#1B5480', '#3990BB']}
         navigation={navigation}
-        containerstyle={{height: heightPercentageToDP(27)}}
+        containerstyle={{height: heightPercentageToDP(28)}}
         lefticon={
           <Feather
             name="menu"
@@ -115,16 +115,19 @@ const WalletLanding = ({
             </View>
           </View>
         </View>
+        <LinearGradient
+          colors={['#F99B20', '#F99B20']}
+          style={styles.button_active2}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SelectTopUpType')}
+            style={{width: '100%', height: '100%', justifyContent: 'center'}}>
+            <Text style={[Basestyle.bold_14, {textAlign: 'center'}]}>
+              Top Up
+            </Text>
+          </TouchableOpacity>
+        </LinearGradient>
       </GradientHeader>
-      <LinearGradient
-        colors={['#F99B20', '#F99B20']}
-        style={styles.button_active2}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SelectTopUpType')}
-          style={{width: '100%', height: '100%', justifyContent: 'center'}}>
-          <Text style={[Basestyle.bold_14, {textAlign: 'center'}]}>Top Up</Text>
-        </TouchableOpacity>
-      </LinearGradient>
+
       <View style={styles.scrollview}>
         <View style={{marginTop: 25}}>
           {/* <View style={Basestyle.row_space_between}>
