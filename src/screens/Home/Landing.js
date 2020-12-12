@@ -21,6 +21,7 @@ import GradientHeader from '../../components/GradientHeader';
 import AsyncStorage from '@react-native-community/async-storage';
 import {processFontSize} from '../../helpers/fonts';
 import {connect} from 'react-redux';
+import OneSignal from 'react-native-onesignal';
 import {
   saveUserInfo,
   updateUserInfo,
@@ -44,6 +45,21 @@ const Landing = ({
       const data = JSON.parse(userData);
       saveUserInfo(data);
     };
+    const IOSPrompt = () => {
+      OneSignal.getPermissionSubscriptionState((status) => {
+        console.log(status);
+        if (status?.hasPrompted === false) {
+          console.log('not prompted');
+          const permissions = {
+            alert: true,
+            badge: true,
+            sound: true,
+          };
+          OneSignal.requestPermissions(permissions);
+        }
+      });
+    };
+    IOSPrompt();
     !user_info && checkUser();
     !categories && getCategories();
     device_id && updateUserInfo({oneSignalPlayerId: device_id});
