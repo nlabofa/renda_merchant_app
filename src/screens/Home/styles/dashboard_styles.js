@@ -16,7 +16,7 @@ export default StyleSheet.create({
     height: processFontSize(40),
     width: '35%',
     position: 'absolute',
-    top: hp(24),
+    top: hp(23),
     right: 10,
     zIndex: 1000000000,
   },

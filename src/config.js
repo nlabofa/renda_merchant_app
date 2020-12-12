@@ -1,6 +1,6 @@
 const CONFIG = {
   BASE_URL: 'https://renda-api.herokuapp.com/',
-  ONE_SIGNAL_APP_ID: '1eedc3eb-c986-4869-91aa-92ff131d2356',
+  ONE_SIGNAL_APP_ID: 'bf8befc8-6031-4396-bf16-ebee548edc39',
 };
 
 export default CONFIG;

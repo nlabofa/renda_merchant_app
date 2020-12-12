@@ -27,8 +27,8 @@
 		774D477C2929490D918DFF35 /* NunitoSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C86124E9B71C43CF9C39C5C9 /* NunitoSans-SemiBold.ttf */; };
 		92532C0D24FEFD9D007D1DB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92532C0C24FEFD9C007D1DB3 /* GoogleService-Info.plist */; };
 		928EC4B625057FD900F2C59F /* Bridge-Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928EC4B525057FD900F2C59F /* Bridge-Header.swift */; };
-		92E140952584F47E005F6C57 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E140942584F47E005F6C57 /* NotificationService.swift */; };
-		92E140992584F47E005F6C57 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 92E140922584F47E005F6C57 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		92E141C1258503FA005F6C57 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E141C0258503FA005F6C57 /* NotificationService.swift */; };
+		92E141C5258503FB005F6C57 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 92E141BE258503FA005F6C57 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9B2FAB00B5B1458D9FD782DA /* NunitoSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 57D2E3E1FE1D4561A95E2EC4 /* NunitoSans-Black.ttf */; };
 		9D33E0CDFEA846A18D7B52A2 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2656C5040364E618A8C4ED9 /* Rubik-Medium.ttf */; };
 		A7512533C29DE7AF30B11BA4 /* libPods-RendaMerchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD4785ACB30E9FA7BA9B64B /* libPods-RendaMerchant.a */; };
@@ -56,11 +56,11 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "RendaMerchant-tvOS";
 		};
-		92E140972584F47E005F6C57 /* PBXContainerItemProxy */ = {
+		92E141C3258503FA005F6C57 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 92E140912584F47E005F6C57;
+			remoteGlobalIDString = 92E141BD258503FA005F6C57;
 			remoteInfo = OneSignalNotificationServiceExtension;
 		};
 /* End PBXContainerItemProxy section */
@@ -72,7 +72,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				92E140992584F47E005F6C57 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */,
+				92E141C5258503FB005F6C57 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,10 +121,10 @@
 		928EC4B425057FD800F2C59F /* RendaMerchant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RendaMerchant-Bridging-Header.h"; sourceTree = "<group>"; };
 		928EC4B525057FD900F2C59F /* Bridge-Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bridge-Header.swift"; sourceTree = "<group>"; };
 		92E1408D2584F254005F6C57 /* RendaMerchant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = RendaMerchant.entitlements; path = RendaMerchant/RendaMerchant.entitlements; sourceTree = "<group>"; };
-		92E140922584F47E005F6C57 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		92E140942584F47E005F6C57 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		92E140962584F47E005F6C57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		92E140A32584F5B8005F6C57 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
+		92E141BE258503FA005F6C57 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		92E141C0258503FA005F6C57 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		92E141C2258503FA005F6C57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		92E141CE2585041B005F6C57 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		96B2329932B24852B3507B8C /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		9E1B15CAF7254DF0AC8FC521 /* SFProDisplay-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Medium.otf"; path = "../src/assets/Fonts/SFProDisplay-Medium.otf"; sourceTree = "<group>"; };
 		A2656C5040364E618A8C4ED9 /* Rubik-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-Medium.ttf"; path = "../src/assets/Fonts/Rubik-Medium.ttf"; sourceTree = "<group>"; };
@@ -181,7 +181,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		92E1408F2584F47E005F6C57 /* Frameworks */ = {
+		92E141BB258503FA005F6C57 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -266,7 +266,7 @@
 				13B07FAE1A68108700A75B9A /* RendaMerchant */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* RendaMerchantTests */,
-				92E140932584F47E005F6C57 /* OneSignalNotificationServiceExtension */,
+				92E141BF258503FA005F6C57 /* OneSignalNotificationServiceExtension */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				3A650A535DB096633C497926 /* Pods */,
@@ -285,17 +285,17 @@
 				00E356EE1AD99517003FC87E /* RendaMerchantTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* RendaMerchant-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* RendaMerchant-tvOSTests.xctest */,
-				92E140922584F47E005F6C57 /* OneSignalNotificationServiceExtension.appex */,
+				92E141BE258503FA005F6C57 /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		92E140932584F47E005F6C57 /* OneSignalNotificationServiceExtension */ = {
+		92E141BF258503FA005F6C57 /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
-				92E140A32584F5B8005F6C57 /* OneSignalNotificationServiceExtension.entitlements */,
-				92E140942584F47E005F6C57 /* NotificationService.swift */,
-				92E140962584F47E005F6C57 /* Info.plist */,
+				92E141CE2585041B005F6C57 /* OneSignalNotificationServiceExtension.entitlements */,
+				92E141C0258503FA005F6C57 /* NotificationService.swift */,
+				92E141C2258503FA005F6C57 /* Info.plist */,
 			);
 			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
@@ -376,7 +376,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				92E140982584F47E005F6C57 /* PBXTargetDependency */,
+				92E141C4258503FA005F6C57 /* PBXTargetDependency */,
 			);
 			name = RendaMerchant;
 			productName = RendaMerchant;
@@ -422,13 +422,13 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* RendaMerchant-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		92E140912584F47E005F6C57 /* OneSignalNotificationServiceExtension */ = {
+		92E141BD258503FA005F6C57 /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 92E1409A2584F47E005F6C57 /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */;
+			buildConfigurationList = 92E141C6258503FB005F6C57 /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */;
 			buildPhases = (
-				92E1408E2584F47E005F6C57 /* Sources */,
-				92E1408F2584F47E005F6C57 /* Frameworks */,
-				92E140902584F47E005F6C57 /* Resources */,
+				92E141BA258503FA005F6C57 /* Sources */,
+				92E141BB258503FA005F6C57 /* Frameworks */,
+				92E141BC258503FA005F6C57 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -436,7 +436,7 @@
 			);
 			name = OneSignalNotificationServiceExtension;
 			productName = OneSignalNotificationServiceExtension;
-			productReference = 92E140922584F47E005F6C57 /* OneSignalNotificationServiceExtension.appex */;
+			productReference = 92E141BE258503FA005F6C57 /* OneSignalNotificationServiceExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -467,7 +467,7 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
-					92E140912584F47E005F6C57 = {
+					92E141BD258503FA005F6C57 = {
 						CreatedOnToolsVersion = 12.0.1;
 						DevelopmentTeam = Y6K6Q523JD;
 						ProvisioningStyle = Automatic;
@@ -492,7 +492,7 @@
 				00E356ED1AD99517003FC87E /* RendaMerchantTests */,
 				2D02E47A1E0B4A5D006451C7 /* RendaMerchant-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* RendaMerchant-tvOSTests */,
-				92E140912584F47E005F6C57 /* OneSignalNotificationServiceExtension */,
+				92E141BD258503FA005F6C57 /* OneSignalNotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -545,7 +545,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		92E140902584F47E005F6C57 /* Resources */ = {
+		92E141BC258503FA005F6C57 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -801,11 +801,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		92E1408E2584F47E005F6C57 /* Sources */ = {
+		92E141BA258503FA005F6C57 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92E140952584F47E005F6C57 /* NotificationService.swift in Sources */,
+				92E141C1258503FA005F6C57 /* NotificationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -822,10 +822,10 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* RendaMerchant-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
-		92E140982584F47E005F6C57 /* PBXTargetDependency */ = {
+		92E141C4258503FA005F6C57 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 92E140912584F47E005F6C57 /* OneSignalNotificationServiceExtension */;
-			targetProxy = 92E140972584F47E005F6C57 /* PBXContainerItemProxy */;
+			target = 92E141BD258503FA005F6C57 /* OneSignalNotificationServiceExtension */;
+			targetProxy = 92E141C3258503FA005F6C57 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1154,7 +1154,7 @@
 			};
 			name = Release;
 		};
-		92E1409B2584F47E005F6C57 /* Debug */ = {
+		92E141C7258503FB005F6C57 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1170,11 +1170,11 @@
 				DEVELOPMENT_TEAM = Y6K6Q523JD;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.renda-merchant";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.renda-merchant.OneSignalNotificationServiceExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1184,7 +1184,7 @@
 			};
 			name = Debug;
 		};
-		92E1409C2584F47E005F6C57 /* Release */ = {
+		92E141C8258503FB005F6C57 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1201,10 +1201,10 @@
 				DEVELOPMENT_TEAM = Y6K6Q523JD;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.renda-merchant";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.renda-merchant.OneSignalNotificationServiceExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1261,11 +1261,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		92E1409A2584F47E005F6C57 /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */ = {
+		92E141C6258503FB005F6C57 /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				92E1409B2584F47E005F6C57 /* Debug */,
-				92E1409C2584F47E005F6C57 /* Release */,
+				92E141C7258503FB005F6C57 /* Debug */,
+				92E141C8258503FB005F6C57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
