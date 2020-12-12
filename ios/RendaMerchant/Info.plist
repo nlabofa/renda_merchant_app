@@ -48,14 +48,14 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow RendaMerchant access Location</string>
+	<key>NSCameraUsageDescription</key>
+	<string>RendaMerchant would like to use your camera</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Allow RendaMerchant access Location</string>
-	 <key>NSPhotoLibraryUsageDescription</key>
-    <string>RendaMerchant would like access to your photo gallery</string>
-    <key>NSCameraUsageDescription</key>
-    <string>RendaMerchant would like to use your camera</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow RendaMerchant access Location</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>RendaMerchant would like access to your photo gallery</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NunitoSans-Black.ttf</string>
