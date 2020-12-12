@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
@@ -32,6 +33,7 @@ const Landing = ({
   saveUserInfo,
   categories,
   getCategories,
+  incomingdelivery,
   device_id,
   updateUserInfo,
   user_info,
@@ -46,8 +48,15 @@ const Landing = ({
     !categories && getCategories();
     device_id && updateUserInfo({oneSignalPlayerId: device_id});
     getLocation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    incomingdelivery !== null &&
+      navigation.navigate('DispatchDetailHistory', {
+        completed: false,
+        item: incomingdelivery,
+      });
+  }, [incomingdelivery]);
 
   const getLocation = async () => {
     const hasLocationPermission = await checkLocationPermission();
@@ -236,10 +245,12 @@ const Landing = ({
 const mapStateToProps = (state) => {
   const {
     auth: {user_info, device_id, categories},
+    delivery: {incomingdelivery},
   } = state;
   return {
     user_info,
     device_id,
+    incomingdelivery,
     categories,
   };
 };

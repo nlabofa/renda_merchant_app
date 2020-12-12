@@ -8,6 +8,7 @@ const initialState = {
   deliveryimage: '',
   deliveryhistory: null,
   wallethistory: null,
+  incomingdelivery: null,
   upload_img_count: 0,
   trackdelivery: null,
   imageloading: false,
@@ -49,6 +50,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         wallethistory: action.data,
+      };
+    case actionTypes.CLEAR_INCOMING_DELIVERY:
+      return {
+        ...state,
+        incomingdelivery: null,
+      };
+    case actionTypes.SET_INCOMING_DELIVERY:
+      return {
+        ...state,
+        incomingdelivery: action.data,
       };
     case actionTypes.TRACK_DELIVERY_HISTORY:
       return {

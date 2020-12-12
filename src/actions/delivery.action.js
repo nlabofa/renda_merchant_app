@@ -68,6 +68,17 @@ export const saveWalletTransactions = (data) => {
     data,
   };
 };
+export const saveIncomingDelivery = (data) => {
+  return {
+    type: actionTypes.SET_INCOMING_DELIVERY,
+    data,
+  };
+};
+export const clearIncomingDelivery = () => {
+  return {
+    type: actionTypes.CLEAR_INCOMING_DELIVERY,
+  };
+};
 export const trackDeliveryHistory = (data) => {
   return {
     type: actionTypes.TRACK_DELIVERY_HISTORY,

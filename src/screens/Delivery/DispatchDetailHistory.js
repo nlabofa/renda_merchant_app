@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {
   View,
   StatusBar,
@@ -19,6 +21,7 @@ import moment from 'moment';
 import {connect} from 'react-redux';
 //import {heightPercentageToDP} from 'react-native-responsive-screen';
 import FontNames from '../../helpers/BaseThemes/fontnames';
+import {clearIncomingDelivery} from '../../actions/delivery.action';
 
 const contents = [
   {
@@ -31,11 +34,24 @@ const contents = [
   },
 ];
 
-const DispatchDetailHistory = ({navigation, categories, route}) => {
+const DispatchDetailHistory = ({
+  navigation,
+  clearIncomingDelivery,
+  categories,
+  route,
+}) => {
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      console.log('blur');
+      clearIncomingDelivery();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
   const scrollViewRef = useRef(null);
   const {completed, item} = route.params;
   const getCatId = (id) => {
-    if (categories.some((el) => el._id === id)) {
+    if (categories?.some((el) => el._id === id)) {
       const updatedInfo = categories.filter((el) => el._id === id);
       //console.log(updatedInfo);
       return updatedInfo[0].name;
@@ -291,9 +307,11 @@ const mapStateToProps = (state) => {
     user_info,
   };
 };
-// const mapDispatchToProps = {
-//   saveDeliveryData,
-//   submitDeliveryRequest,
-// };
+const mapDispatchToProps = {
+  clearIncomingDelivery,
+};
 
-export default connect(mapStateToProps, null)(DispatchDetailHistory);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DispatchDetailHistory);
