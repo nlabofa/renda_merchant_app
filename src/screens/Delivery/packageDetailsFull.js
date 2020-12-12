@@ -251,7 +251,7 @@ const PackageDetailsFull = ({
                     <Text style={[styles.small_icon_text3]}>
                       NGN{' '}
                       {deliverydata &&
-                        deliverydata.package.details.estimatedWorth}
+                        deliverydata?.package?.details?.estimatedWorth}
                     </Text>
                   </View>
                   <View style={{width: '36%'}}>
