@@ -52,6 +52,8 @@
 	<string>RendaMerchant would like to use your camera</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Allow RendaMerchant access Location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow $(PRODUCT_NAME) access Location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow RendaMerchant access Location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
