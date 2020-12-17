@@ -13,6 +13,8 @@ import ReceiverInfo from '../../screens/Delivery/ReceiverInfo';
 import PackageDetails from '../../screens/Delivery/packageDetails';
 import PackageDetailsFull from '../../screens/Delivery/packageDetailsFull';
 import EditProfile from '../../screens/Auth/EditProfile.js';
+import EditPassword from '../../screens/Auth/EditPassword';
+
 export {
   Landing,
   TrackDelivery,
@@ -21,6 +23,7 @@ export {
   DispatchDetailHistory,
   DeliveryHistory,
   EditProfile,
+  EditPassword,
   NewDelivery,
   SelectDeliveryType,
   SetLocation,

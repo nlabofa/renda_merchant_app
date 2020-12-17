@@ -99,6 +99,7 @@ const DeepStackScreen = () => (
     />
     {/**Dashboard Stack screens */}
     <DeepStack.Screen name="Dashboard" component={HomeScreens.Dashboard} />
+    <DeepStack.Screen name="EditPassword" component={Delivery.EditPassword} />
     <DeepStack.Screen name="ListAll" component={HomeScreens.ListAll} />
     <DeepStack.Screen
       name="ViewNotification"

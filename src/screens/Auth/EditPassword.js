@@ -2,65 +2,51 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useRef} from 'react';
-import {View, StatusBar, Text, TouchableOpacity, Alert} from 'react-native';
-import {Basestyle, colors} from '../../helpers/BaseThemes';
+import {View, StatusBar, Alert} from 'react-native';
+import {Basestyle} from '../../helpers/BaseThemes';
 import ReuseHeader from '../../components/Header/index';
 import ButtonMain from '../../components/Button/ButtonMain';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import SafeAreaView from 'react-native-safe-area-view';
-import Entypo from 'react-native-vector-icons/Entypo';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {updateUserInfo} from '../../actions/auth.action';
 import {connect} from 'react-redux';
 import {emailRegex} from '../../helpers/libs';
-import {processFontSize} from '../../helpers/fonts';
 const initialErrorState = {
-  firstName: '',
-  lastName: '',
-  password: '',
-  phoneNumber: '',
-  email: '',
+  oldpassword: '',
+  newpassword: '',
+  confirmpassword: '',
 };
-const requiredFields = ['firstName', 'lastName', 'email', 'phoneNumber'];
+const requiredFields = ['oldpassword', 'newpassword', 'confirmpassword'];
 const addressFields = [
   {
-    index: 0,
-    label: 'First Name',
-    name: 'firstName',
-    placeholder: 'Eric',
+    index: 10,
+    label: 'Old Password',
+    placeholder: '****',
+    name: 'oldpassword',
     keyboardType: '',
   },
   {
-    index: 12,
-    label: 'Last Name',
-    name: 'lastName',
-    placeholder: 'Jones',
+    index: 10,
+    label: 'New Password',
+    placeholder: '****',
+    name: 'newpassword',
     keyboardType: '',
   },
   {
-    index: 2,
-    label: 'Your Email Address',
-    placeholder: 'Eric@gmail.com',
-    name: 'email',
-    keyboardType: 'email-address',
-  },
-  {
-    index: 1,
-    label: 'Phone Number',
-    name: 'phoneNumber',
-    placeholder: '08189798881',
-    keyboardType: 'number-pad',
+    index: 10,
+    label: 'Confirm Password',
+    placeholder: '****',
+    name: 'confirmpassword',
+    keyboardType: '',
   },
 ];
-const EditProfile = ({navigation, updateUserInfo, user_info}) => {
+const EditPassword = ({navigation, updateUserInfo, user_info}) => {
   const scrollViewRef = useRef(null);
   const initialInputState = {
-    firstName: user_info?.firstName,
-    lastName: user_info?.lastName,
-    email: user_info?.email,
-    phoneNumber: user_info?.phoneNumber,
-    password: '****',
+    oldpassword: '',
+    newpassword: '',
+    confirmpassword: '',
   };
 
   const [{errors}, setState] = useState({
@@ -68,7 +54,6 @@ const EditProfile = ({navigation, updateUserInfo, user_info}) => {
   });
   const [inputValues, setInput] = useState(initialInputState);
   const [isLoading, setIsLoading] = useState(false);
-  const [hidePassword, sethidePassword] = useState(false);
   const handleInputChange = (name, value) => {
     setInput((state) => ({
       ...state,
@@ -81,9 +66,6 @@ const EditProfile = ({navigation, updateUserInfo, user_info}) => {
         [name]: '',
       },
     }));
-  };
-  const managePasswordVisibility = () => {
-    sethidePassword(!hidePassword);
   };
   const validateFields = (requiredFields) => {
     let isValid = true;
@@ -137,32 +119,29 @@ const EditProfile = ({navigation, updateUserInfo, user_info}) => {
       errors: initialErrorState,
     }));
     const isValid = validateFields(requiredFields);
-    // console.log(requiredFields);
-    if (isValid) {
-      let data = {
-        firstName: inputValues.firstName,
-        lastName: inputValues.lastName,
-        phoneNumber: inputValues.phoneNumber,
-        email: inputValues.email,
-      };
-      console.log(data);
-      try {
-        setIsLoading(true);
-        const response = await updateUserInfo(data);
-        setIsLoading(false);
-        console.log(response);
-        if (response.status === 200) {
-          Alert.alert('Your profile has been updated');
-          // navigation.reset({
-          //   index: 0,
-          //   routes: [{name: 'HomeDrawer'}],
-          // });
+    const {newpassword, confirmpassword} = inputValues;
+    if (newpassword === confirmpassword) {
+      if (isValid) {
+        let data = {
+          password: inputValues.newpassword,
+        };
+        console.log(data);
+        try {
+          setIsLoading(true);
+          const response = await updateUserInfo(data);
+          setIsLoading(false);
+          console.log(response);
+          if (response.status === 200) {
+            Alert.alert('Your Password has been updated!');
+          }
+        } catch (error) {
+          setIsLoading(false);
+          console.log(error.message);
+          alert(error.message);
         }
-      } catch (error) {
-        setIsLoading(false);
-        console.log(error.message);
-        alert(error.message);
       }
+    } else {
+      Alert.alert('Password does not match');
     }
   };
   return (
@@ -175,8 +154,7 @@ const EditProfile = ({navigation, updateUserInfo, user_info}) => {
         backgroundColor="transparent"
       />
       <ReuseHeader
-        menuitem
-        title="Edit Profile"
+        title="Change Password"
         navigation={navigation}
         leftheader
         textStyle={{letterSpacing: 0.9}}
@@ -237,26 +215,11 @@ const EditProfile = ({navigation, updateUserInfo, user_info}) => {
                         express
                         label={label}
                         placeholder={placeholder}
+                        secureTextEntry={true}
                         keyboardType={keyboardType || 'default'}
                         value={inputValues[name]}
                         handleInputChange={(text) =>
                           handleInputChange(name, text)
-                        }
-                        secureTextEntry={
-                          name === 'password' && !hidePassword ? true : false
-                        }
-                        rightElement={
-                          name === 'password' && (
-                            <TouchableOpacity
-                              onPress={() => managePasswordVisibility()}
-                              style={{right: '80%'}}>
-                              <Entypo
-                                name={hidePassword ? 'eye' : 'eye-with-line'}
-                                size={25}
-                                color={colors.PRIMARY_GREY_02}
-                              />
-                            </TouchableOpacity>
-                          )
                         }
                         errorMessage={errors[name] || ''}
                       />
@@ -266,41 +229,10 @@ const EditProfile = ({navigation, updateUserInfo, user_info}) => {
               },
             )}
           </View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('EditPassword')}
-            style={{
-              marginTop: 25,
-              borderWidth: 1,
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '100%',
-              borderRadius: 4,
-              backgroundColor: '#fff',
-              height: processFontSize(55),
-              borderColor: '#A8C0D1',
-            }}>
-            <Text
-              style={{
-                ...Basestyle.regular_16,
-                width: '100%',
-                height: '100%',
-                paddingHorizontal: 10,
-                top: 15,
-                color: colors.PRIMARY_BLUE_02,
-              }}>
-              Change Password
-            </Text>
-            <MaterialIcons
-              name="keyboard-arrow-right"
-              size={35}
-              color={colors.PRIMARY_ORANGE}
-              style={{right: 10, position: 'absolute', alignSelf: 'center'}}
-            />
-          </TouchableOpacity>
         </View>
         <ButtonMain
           onPress={() => handleNext()}
-          text="Update Info"
+          text="Update Password"
           isLoading={isLoading}
           isLoadingtext="Updating..Please wait"
           btnContainerStyle={[Basestyle.btn_full, {marginTop: 40}]}
@@ -324,4 +256,4 @@ const mapDispatchToProps = {
   updateUserInfo,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(EditPassword);
