@@ -19,7 +19,7 @@ const SelectDeliveryType = ({navigation, route, saveDeliveryData}) => {
         {
           index: 0,
           label: 'Motor Bike',
-          title: 'Motorbike',
+          title: 'Bike',
           imgsrc: require('../../assets/images/motorbike.png'),
         },
         {
@@ -33,7 +33,7 @@ const SelectDeliveryType = ({navigation, route, saveDeliveryData}) => {
         {
           index: 0,
           label: 'Motor Bike',
-          title: 'Motorbike',
+          title: 'Bike',
           imgsrc: require('../../assets/images/motorbike.png'),
         },
         {
@@ -45,7 +45,7 @@ const SelectDeliveryType = ({navigation, route, saveDeliveryData}) => {
         {
           index: 2,
           label: 'Mini Van',
-          title: 'Minivan',
+          title: 'Van',
           imgsrc: require('../../assets/images/minivan.png'),
         },
         {
@@ -88,7 +88,7 @@ const SelectDeliveryType = ({navigation, route, saveDeliveryData}) => {
               customtext={label}
               onPress={() => {
                 saveDeliveryData({
-                  deliveryMethod: label,
+                  deliveryMethod: title,
                 });
                 navigation.navigate('SetLocation');
               }}

@@ -89,7 +89,7 @@ const DispatchDetailHistory = ({
               style={[styles.row_top_text, {paddingTop: 5, paddingBottom: 15}]}>
               Delivery Details
             </Text>
-            {item.status.status === 'Completed' && item.dispatchRating === 0 && (
+            {item?.status?.status === 'Completed' && item.dispatchRating === 0 && (
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('ViewRateRider', {
@@ -238,7 +238,7 @@ const DispatchDetailHistory = ({
                         styles.small_icon_text3,
                         {color: colors.PRIMARY_ORANGE},
                       ]}>
-                      {item.status.status}
+                      {item?.status?.status}
                     </Text>
                   </View>
                   <View style={{width: '36%'}}>

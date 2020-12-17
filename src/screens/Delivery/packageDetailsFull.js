@@ -1,17 +1,28 @@
+/* eslint-disable no-alert */
 /* eslint-disable radix */
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useRef} from 'react';
-import {View, StatusBar, Image, ScrollView, Text} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {
+  View,
+  StatusBar,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Text,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles/delivery_detail';
+import paymentstyles from '../Payments/payment-styles';
 import deliverystyles from './styles/delivery_styles';
 import {Basestyle, Images, colors} from '../../helpers/BaseThemes';
 import SafeAreaView from 'react-native-safe-area-view';
 import ReuseHeader from '../../components/Header/index';
 import moment from 'moment';
-import ImageSlider from '../../components/ImageSlider';
-import {heightPercentageToDP} from 'react-native-responsive-screen';
+import Modal from 'react-native-modal';
+
+// import ImageSlider from '../../components/ImageSlider';
+// import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {getPreciseDistance} from 'geolib';
 import {connect} from 'react-redux';
 import {
@@ -37,11 +48,21 @@ const PackageDetailsFull = ({
   navigation,
   deliverydata,
   saveDeliveryData,
+  submitDeliveryRequest,
+  deliveryimage,
+  user_info,
   categories,
   route,
 }) => {
   const scrollViewRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [successmodal, setsuccessmodal] = useState(false);
   const productimage = route.params && route.params.avatar;
+  const displayprice =
+    deliverydata?.deliveryMethod === 'Truck' ||
+    deliverydata?.deliveryMethod === 'Van'
+      ? false
+      : true;
   console.log(route.params);
   // const {completed} = route.params;
 
@@ -52,9 +73,55 @@ const PackageDetailsFull = ({
       estimatedTime: _getBareEstimate(),
       //extras
     };
-    console.log(data);
+    //console.log(data);
     saveDeliveryData(data);
-    navigation.navigate('SelectPaymentType');
+    displayprice ? navigation.navigate('SelectPaymentType') : payDirect();
+  };
+  const payDirect = async () => {
+    const data = {
+      ...deliverydata,
+      package: {
+        details: {
+          ...deliverydata.package.details,
+          image: (deliveryimage && deliveryimage.url) || '',
+        },
+      },
+      // extras
+      user: user_info._id,
+      paymentMode: '',
+      paymentRef: '',
+      paymentAmount: '',
+      //extras
+    };
+    console.log(data);
+    try {
+      setIsLoading(true);
+      const response = await submitDeliveryRequest(data);
+      setIsLoading(false);
+      //console.log(response);
+      if (response.status === 201) {
+        setTimeout(() => {
+          setsuccessmodal(true);
+        }, 500);
+      } else {
+        console.log('error occured');
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setTimeout(() => {
+        alert(error.message);
+      }, 500);
+      //console.log(error.message);
+      //alert(error.message);
+    }
+  };
+  const goHome = () => {
+    setsuccessmodal(false);
+    //clearDeliveryData();
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'HomeDrawer'}],
+    });
   };
   const _getPreciseDistance = () => {
     var pdis = getPreciseDistance(
@@ -99,6 +166,36 @@ const PackageDetailsFull = ({
         translucent={true}
         backgroundColor="transparent"
       />
+      <Modal
+        isVisible={successmodal}
+        animationType={'fade'}
+        transparent={true}
+        style={{margin: 0}}
+        onModalHide={() => setsuccessmodal(false)}
+        onBackdropPress={() => setsuccessmodal(false)}
+        onBackButtonPress={() => setsuccessmodal(false)}>
+        <View style={paymentstyles.modal_content}>
+          <Image
+            source={require('../../assets/images/like_round.png')}
+            resizeMode="contain"
+            style={paymentstyles.message_icon}
+          />
+          <View style={{marginTop: 20, alignItems: 'center'}}>
+            <Text style={paymentstyles.message_text}>
+              Your delivery has been Successfully sent
+            </Text>
+            <Text style={[paymentstyles.message_text, {paddingTop: 20}]}>
+              Once your order has been assigned, you will recieve updates on the
+              status of your delivery
+            </Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => goHome()}
+            style={paymentstyles.message_bottom}>
+            <Text style={paymentstyles.continue_btn}>Continue</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
       <ReuseHeader
         title="Order Summary"
         navigation={navigation}
@@ -111,19 +208,23 @@ const PackageDetailsFull = ({
         style={{marginTop: 30}}
         showsVerticalScrollIndicator={false}>
         <View>
-          <View
-            style={[
-              Basestyle.round_box,
-              deliverystyles.selection_box2,
-              {height: 100},
-            ]}>
-            <Text style={[styles.row_top_text, {opacity: 0.6, fontSize: 18}]}>
-              Estimated Fee:
-            </Text>
-            <Text style={[styles.row_top_text, {fontSize: 25, paddingTop: 5}]}>
-              {formatMoney(deliverydata && deliverydata.paymentAmount)}
-            </Text>
-          </View>
+          {displayprice ? (
+            <View
+              style={[
+                Basestyle.round_box,
+                deliverystyles.selection_box2,
+                {height: 100},
+              ]}>
+              <Text style={[styles.row_top_text, {opacity: 0.6, fontSize: 18}]}>
+                Estimated Fee:
+              </Text>
+              <Text
+                style={[styles.row_top_text, {fontSize: 25, paddingTop: 5}]}>
+                {formatMoney(deliverydata && deliverydata.paymentAmount)}
+              </Text>
+            </View>
+          ) : null}
+
           <Text
             style={[styles.row_top_text, {paddingTop: 25, paddingBottom: 15}]}>
             Delivery Details
@@ -329,8 +430,8 @@ const PackageDetailsFull = ({
           )} */}
           <ButtonMain
             onPress={() => handleNext()}
-            //isLoading={delievery_loading}
-            text="Continue to Payment"
+            isLoading={isLoading}
+            text={displayprice ? 'Continue to Payment' : 'Submit Order'}
             btnContainerStyle={[Basestyle.btn_full, {marginTop: 20}]}
           />
         </View>
@@ -341,11 +442,12 @@ const PackageDetailsFull = ({
 
 const mapStateToProps = (state) => {
   const {
-    delivery: {deliverydata, deliveryinfo},
+    delivery: {deliverydata, deliveryimage, deliveryinfo},
     auth: {user_info, categories},
   } = state;
   return {
     deliverydata,
+    deliveryimage,
     deliveryinfo,
     categories,
     user_info,
