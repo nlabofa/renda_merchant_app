@@ -6,6 +6,7 @@ import {
   StatusBar,
   TouchableOpacity,
   Image,
+  Alert,
   ScrollView,
   Text,
   ImageBackground,
@@ -60,6 +61,12 @@ const DrawerComponent = ({navigation, logout, user_info}) => {
     setActiveScreen(title);
     navigation.closeDrawer();
     navigation.navigate(screen, {title: 'dgdgd'});
+  };
+  const performLogout = () => {
+    Alert.alert('Are you sure you want to logout?', '', [
+      {text: 'Yes', onPress: () => logout()},
+      {text: 'Cancel', onPress: () => {}},
+    ]);
   };
   return (
     <SafeAreaView forceInset={{bottom: 'never'}} style={Basestyle.container}>
@@ -146,7 +153,7 @@ const DrawerComponent = ({navigation, logout, user_info}) => {
           source={require('../../assets/images/sliderbottomarc.png')}
         />
         <TouchableOpacity
-          onPress={() => logout()}
+          onPress={() => performLogout()}
           style={styles.sidebar_bottomright}>
           <Image
             source={require('../../assets/images/logout_icon.png')}

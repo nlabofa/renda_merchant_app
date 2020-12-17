@@ -105,7 +105,10 @@ const ResetPassword = ({navigation, resetPassword, forgotPassword}) => {
             </Text>
           </View>
           <TouchableOpacity
-            onPress={() => setshowmodal(false)}
+            onPress={() => {
+              setshowmodal(false);
+              navigation.pop();
+            }}
             style={styles.message_bottom}>
             <Text style={styles.continue_btn}>Continue</Text>
           </TouchableOpacity>
@@ -119,7 +122,7 @@ const ResetPassword = ({navigation, resetPassword, forgotPassword}) => {
           <View>
             <FloatingTextInput
               label="Your Email Address "
-              placeholder="Ericagarner@gmail.com"
+              placeholder="name@email.com"
               keyboardType="email-address"
               handleInputChange={(text) => setValue(text)}
               cutomwrapperInputStyle={{marginBottom: 30}}
@@ -129,14 +132,15 @@ const ResetPassword = ({navigation, resetPassword, forgotPassword}) => {
           <View>
             <FloatingTextInput
               label="Enter OTP sent to your phone"
-              placeholder=""
+              placeholder="1234"
               keyboardType="number-pad"
+              value={otp}
               handleInputChange={(text) => setOtp(text)}
               cutomwrapperInputStyle={{marginBottom: 30}}
             />
             <FloatingTextInput
               label="New Pasword"
-              placeholder=""
+              placeholder="****"
               secureTextEntry={true}
               handleInputChange={(text) => setPassword(text)}
               cutomwrapperInputStyle={{marginBottom: 30}}

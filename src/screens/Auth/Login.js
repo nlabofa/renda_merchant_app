@@ -236,7 +236,7 @@ const Login = ({navigation, googleLogin, handleLogin, route}) => {
         <View style={{marginTop: hp(7)}}>
           <FloatingTextInput
             label="Email Address"
-            placeholder="test@gmail.com"
+            placeholder="name@email.com"
             keyboardType="email-address"
             value={inputValues.email}
             handleInputChange={(text) => handleInputChange('email', text)}
