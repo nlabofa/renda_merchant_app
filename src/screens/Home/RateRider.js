@@ -24,10 +24,10 @@ import Modal from 'react-native-modal';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import {AirbnbRating} from 'react-native-ratings';
 const RateRider = ({navigation, route, rateDispatch}) => {
-  const {orderid} = route.params;
+  const orderid = route?.params?.orderId;
 
   const [note, setnote] = useState('');
-  const [ratingval, setrating] = useState(5);
+  const [ratingval, setrating] = useState(0);
   const [successmodal, setsuccessmodal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -122,7 +122,7 @@ const RateRider = ({navigation, route, rateDispatch}) => {
             ]}>
             <Text style={styles.not_detail_head}>Request Dispatched</Text>
             <Text style={styles.not_detail_text}>
-              Your requesthas been successfully delivered
+              Your request has been successfully delivered
             </Text>
             <Image
               source={Images.delivered_image}
@@ -132,7 +132,7 @@ const RateRider = ({navigation, route, rateDispatch}) => {
             <View>
               <AirbnbRating
                 selectedColor="#FFBD38"
-                defaultRating={5}
+                defaultRating={0}
                 reviewColor={colors.PRIMARY_ORANGE}
                 onFinishRating={ratingCompleted}
               />
@@ -150,6 +150,7 @@ const RateRider = ({navigation, route, rateDispatch}) => {
             <ButtonMain
               onPress={() => handleNext()}
               text="Submit"
+              disabled={ratingval === 0}
               isLoading={isLoading}
               btnContainerStyle={{
                 marginVertical: 20,
