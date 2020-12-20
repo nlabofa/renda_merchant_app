@@ -41,8 +41,7 @@ const ViewNotification = ({navigation}) => {
               onPress={() =>
                 navigation.navigate('NotificationDetail', {
                   type: 'new message',
-                  message:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida egestas integer orci, est faucibus mauris ullamcorper a. Fames ',
+                  message: 'You have a new notification',
                 })
               }
             />
@@ -69,8 +68,7 @@ const ViewNotification = ({navigation}) => {
               onPress={() =>
                 navigation.navigate('NotificationDetail', {
                   type: 'message',
-                  message:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida egestas integer orci, est faucibus mauris ullamcorper a. Fames ',
+                  message: 'You have a new notification',
                 })
               }
             />
