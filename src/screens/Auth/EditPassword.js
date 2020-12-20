@@ -20,14 +20,14 @@ const initialErrorState = {
 const requiredFields = ['oldpassword', 'newpassword', 'confirmpassword'];
 const addressFields = [
   {
-    index: 10,
+    index: 8,
     label: 'Old Password',
     placeholder: '****',
     name: 'oldpassword',
     keyboardType: '',
   },
   {
-    index: 10,
+    index: 9,
     label: 'New Password',
     placeholder: '****',
     name: 'newpassword',

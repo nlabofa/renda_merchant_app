@@ -199,7 +199,8 @@ const SelectDeliveryType = ({
               Your delivery has been Successfully sent
             </Text>
             <Text style={[styles.message_text, {paddingTop: 20}]}>
-              You will recieve updates on the status of your delivery shortly
+              You will be contacted by the Renda Team shortly
+              {/* You will recieve updates on the status of your delivery shortly */}
             </Text>
           </View>
           <TouchableOpacity
