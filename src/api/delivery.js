@@ -73,7 +73,7 @@ export default class Auth extends RendaRequest {
   fetchWalletTransactions = async (id) => {
     try {
       const {data} = await this.requestInstance.get(
-        `/transactions?user=${this.userId}&$sort[createdAt]=-1`,
+        `/transactions?user=${this.userId}&type=Wallet&$sort[createdAt]=-1`,
       );
       return data;
     } catch (err) {

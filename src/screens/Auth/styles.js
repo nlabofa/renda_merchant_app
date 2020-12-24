@@ -12,6 +12,21 @@ export default StyleSheet.create({
     height: '100%',
     flex: 1,
   },
+  checkbox_div: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  checkbox_text: {
+    ...Basestyle.rubik_medium_15,
+    color: colors.PRIMARY_BLUE_02,
+    width: '90%',
+  },
+  checkbox_und: {
+    color: colors.PRIMARY_BLUE,
+    textDecorationLine: 'underline',
+  },
   otptoptext: {
     ...Basestyle.nunito_regular_16,
     textAlign: 'center',

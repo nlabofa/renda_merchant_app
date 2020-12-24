@@ -43,7 +43,7 @@ const addressFields = [
   },
   {
     index: 0,
-    label: 'Quanity',
+    label: 'Quantity',
     placeholder: '0 pcs',
     name: 'quantity',
     keyboardType: 'number-pad',

@@ -3,9 +3,17 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect, useRef} from 'react';
-import {View, StatusBar, TouchableOpacity, Text, Image} from 'react-native';
+import {
+  View,
+  StatusBar,
+  TouchableOpacity,
+  Text,
+  Image,
+  Linking,
+} from 'react-native';
 import {Basestyle, colors} from '../../helpers/BaseThemes';
 import ReuseHeader from '../../components/Header/index';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ButtonMain from '../../components/Button/ButtonMain';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {processFontSize} from '../../helpers/fonts';
@@ -108,6 +116,7 @@ const SignUpIndividual = ({
   const scrollViewRef = useRef(null);
 
   const [activeLGA, setActiveLGA] = useState([]);
+  const [ischecked, setischecked] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       await getRoles();
@@ -490,9 +499,36 @@ const SignUpIndividual = ({
               </View>
             </View>
           </View>
+          <View style={styles.checkbox_div}>
+            <MaterialIcons
+              name={ischecked ? 'check-box' : 'check-box-outline-blank'}
+              onPress={() => setischecked(!ischecked)}
+              size={30}
+              color={colors.PRIMARY_BLUE}
+            />
+            <Text style={styles.checkbox_text}>
+              I agree to Renda{' '}
+              <Text
+                onPress={() =>
+                  Linking.openURL('https://renda.co/privacy-policy/')
+                }
+                style={styles.checkbox_und}>
+                Terms of Service
+              </Text>{' '}
+              and{' '}
+              <Text
+                onPress={() =>
+                  Linking.openURL('https://renda.co/privacy-policy/')
+                }
+                style={styles.checkbox_und}>
+                Privacy Policy
+              </Text>
+            </Text>
+          </View>
         </View>
         <ButtonMain
           onPress={() => handleNext()}
+          disabled={!ischecked}
           text="Continue"
           isLoading={isLoading}
           isLoadingtext="Signing up...Please wait"
