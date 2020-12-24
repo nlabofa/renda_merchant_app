@@ -37,6 +37,7 @@ const contents = [
 const DispatchDetailHistory = ({
   navigation,
   clearIncomingDelivery,
+  show_rate_prompt,
   categories,
   route,
 }) => {
@@ -57,6 +58,14 @@ const DispatchDetailHistory = ({
       return updatedInfo[0].name;
     }
   };
+  useEffect(() => {
+    show_rate_prompt === true
+      ? navigation.navigate('ViewRateRider', {
+          orderid: item?._id,
+        })
+      : null;
+  }, [show_rate_prompt]);
+  console.log(show_rate_prompt);
   return (
     <SafeAreaView
       forceInset={{bottom: 'never'}}
@@ -297,13 +306,14 @@ const DispatchDetailHistory = ({
 
 const mapStateToProps = (state) => {
   const {
-    //delivery: {deliverydata, deliveryinfo},
+    delivery: {show_rate_prompt},
     auth: {user_info, categories},
   } = state;
   return {
     // deliverydata,
     // deliveryinfo,
     categories,
+    show_rate_prompt,
     user_info,
   };
 };

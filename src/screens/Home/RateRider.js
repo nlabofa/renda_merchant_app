@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
 /* eslint-disable no-alert */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Image,
@@ -23,7 +24,16 @@ import {connect} from 'react-redux';
 import Modal from 'react-native-modal';
 import FloatingTextInput from '../../components/CustomInput/FloatingTextInput';
 import {AirbnbRating} from 'react-native-ratings';
-const RateRider = ({navigation, route, rateDispatch}) => {
+import {showRatePrompt} from '../../actions/delivery.action';
+const RateRider = ({navigation, route, showRatePrompt, rateDispatch}) => {
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      console.log('blur');
+      showRatePrompt(false);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
   const orderid = route?.params?.orderId;
 
   const [note, setnote] = useState('');
@@ -195,6 +205,7 @@ const RateRider = ({navigation, route, rateDispatch}) => {
 
 const mapDispatchToProps = {
   rateDispatch,
+  showRatePrompt,
 };
 
 export default connect(null, mapDispatchToProps)(RateRider);

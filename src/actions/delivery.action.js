@@ -74,6 +74,13 @@ export const saveIncomingDelivery = (data) => {
     data,
   };
 };
+export const showRatePrompt = (data) => {
+  return {
+    type: actionTypes.SHOW_RATE_PROMPT,
+    data,
+  };
+};
+showRatePrompt;
 export const clearIncomingDelivery = () => {
   return {
     type: actionTypes.CLEAR_INCOMING_DELIVERY,

@@ -9,6 +9,7 @@ const initialState = {
   deliveryhistory: null,
   wallethistory: null,
   incomingdelivery: null,
+  show_rate_prompt: false,
   upload_img_count: 0,
   trackdelivery: null,
   imageloading: false,
@@ -50,6 +51,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         wallethistory: action.data,
+      };
+    case actionTypes.SHOW_RATE_PROMPT:
+      return {
+        ...state,
+        show_rate_prompt: action.data,
       };
     case actionTypes.CLEAR_INCOMING_DELIVERY:
       return {

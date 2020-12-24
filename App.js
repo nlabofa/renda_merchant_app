@@ -17,7 +17,10 @@ import SplashScreen from 'react-native-splash-screen';
 
 import OneSignal from 'react-native-onesignal';
 import {saveDeviceId} from './src/actions/auth.action';
-import {saveIncomingDelivery} from './src/actions/delivery.action';
+import {
+  saveIncomingDelivery,
+  showRatePrompt,
+} from './src/actions/delivery.action';
 import store from './src/store/index';
 
 const onIds = (device) => {
@@ -30,6 +33,9 @@ const onReceived = (notification) => {
 
 const onOpened = (openResult) => {
   const isAvailable = store.getState().auth?.user_info?._id;
+  const isCompleted = openResult?.notification?.payload?.body.includes(
+    'has succesfully delivered your order',
+  );
   // console.log('Message: ', openResult.notification.payload.body);
   // console.log('Data: ', openResult.notification.payload.additionalData);
   // console.log('isActive: ', openResult.notification.isAppInFocus);
@@ -37,6 +43,7 @@ const onOpened = (openResult) => {
   const data = openResult?.notification?.payload?.additionalData;
   if (data !== null && data?.package && isAvailable) {
     store.dispatch(saveIncomingDelivery(data));
+    store.dispatch(showRatePrompt(isCompleted ? true : false));
   }
 };
 
