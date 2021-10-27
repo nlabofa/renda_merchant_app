@@ -20,6 +20,7 @@ import {processFontSize} from '../../helpers/fonts';
 import {connect} from 'react-redux';
 import {logout} from '../../actions/auth.action';
 import {isIphoneX} from 'react-native-iphone-x-helper';
+import {heightPercentageToDP} from 'react-native-responsive-screen';
 
 const ITEM_LIST = [
   {
@@ -149,7 +150,10 @@ const DrawerComponent = ({navigation, logout, user_info}) => {
       <View style={styles.sidebar_bottom}>
         <ImageBackground
           resizeMode="cover"
-          style={{width: processFontSize(120), height: processFontSize(140)}}
+          style={{
+            width: processFontSize(170),
+            height: heightPercentageToDP(45),
+          }}
           source={require('../../assets/images/sliderbottomarc.png')}
         />
         <TouchableOpacity

@@ -20,6 +20,8 @@ import {Basestyle, Images} from '../../helpers/BaseThemes';
 import GradientHeader from '../../components/GradientHeader';
 import AsyncStorage from '@react-native-community/async-storage';
 import {processFontSize} from '../../helpers/fonts';
+import {clearDeliveryData} from '../../actions/delivery.action';
+
 import {connect} from 'react-redux';
 import OneSignal from 'react-native-onesignal';
 import {
@@ -28,6 +30,7 @@ import {
   getCategories,
 } from '../../actions/auth.action';
 import Geolocation from 'react-native-geolocation-service';
+import ItemBox from '../../components/ItemBox';
 
 const Landing = ({
   navigation,
@@ -37,6 +40,7 @@ const Landing = ({
   incomingdelivery,
   device_id,
   updateUserInfo,
+  clearDeliveryData,
   user_info,
 }) => {
   useEffect(() => {
@@ -208,6 +212,46 @@ const Landing = ({
         </View>
       </GradientHeader>
       <View style={styles.scrollview}>
+        <View style={{marginTop: -25, overflow: 'hidden'}}>
+          <ItemBox
+            customicon={
+              <Image
+                source={Images.package_icon}
+                resizeMode="contain"
+                style={{width: 55, height: 55}}
+              />
+            }
+            customtext="Request Delivery"
+            onPress={() => {
+              clearDeliveryData();
+              navigation.navigate('NewDelivery');
+            }}
+          />
+          <ItemBox
+            customicon={
+              <Image
+                source={Images.track_icon}
+                resizeMode="contain"
+                style={{width: 55, height: 55}}
+              />
+            }
+            customtext="Track Delivery"
+            onPress={() => navigation.navigate('TrackDelivery')}
+          />
+          <ItemBox
+            customicon={
+              <Image
+                source={Images.deliverhistory_icon}
+                resizeMode="contain"
+                style={{width: 55, height: 55}}
+              />
+            }
+            customtext="Pending Delivery"
+            onPress={() => navigation.navigate('DeliveryHistory')}
+          />
+        </View>
+      </View>
+      {/* <View style={styles.scrollview}>
         <View style={{marginTop: -25}}>
           <View style={[Basestyle.round_box, styles.selection_box]}>
             <View style={styles.left_column}>
@@ -253,7 +297,7 @@ const Landing = ({
             </View>
           </View>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -275,6 +319,7 @@ const mapDispatchToProps = {
   saveUserInfo,
   getCategories,
   updateUserInfo,
+  clearDeliveryData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);
