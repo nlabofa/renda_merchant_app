@@ -37,6 +37,7 @@ const images = {
   arc: require('../../assets/images/arc.png'),
   stopwatch: require('../../assets/images/stop_watch.png'),
   login_bg: require('../../assets/images/Login_BG.png'),
+  login_bg2: require('../../assets/images/LOGIN_BG2.png'),
 };
 
 export default images;

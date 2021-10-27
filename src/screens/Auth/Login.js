@@ -9,6 +9,7 @@ import {
   Text,
   StatusBar,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import {Basestyle, Images, colors} from '../../helpers/BaseThemes';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -209,10 +210,7 @@ const Login = ({navigation, googleLogin, handleLogin, route}) => {
   };
   return (
     // <ScrollView>
-    <ImageBackground
-      source={Images.login_bg}
-      resizeMode="stretch"
-      style={[Basestyle.container_with_space, styles.container]}>
+    <View style={[Basestyle.container_with_space, styles.container]}>
       <StatusBar
         barStyle="dark-content"
         translucent={true}
@@ -224,16 +222,21 @@ const Login = ({navigation, googleLogin, handleLogin, route}) => {
         resizeMethod="resize"
         style={styles.arc}
       />
+      <Image
+        source={Images.login_bg2}
+        resizeMode="contain"
+        style={styles.bottom_img}
+      />
       <KeyboardAwareScrollView
         enableOnAndroid={true}
         showsVerticalScrollIndicator={false}
-        style={{marginTop: hp(19), overflow: 'visible'}}>
+        style={{marginTop: hp(3), overflow: 'visible'}}>
         <Image
-          source={Images.flat_logo}
+          source={Images.white_logo}
           resizeMode="contain"
           style={styles.logo_icon}
         />
-        <View style={{marginTop: hp(7)}}>
+        <View style={{marginTop: hp(17)}}>
           <FloatingTextInput
             label="Email Address"
             placeholder="name@email.com"
@@ -308,7 +311,7 @@ const Login = ({navigation, googleLogin, handleLogin, route}) => {
           />
         </View>
       </KeyboardAwareScrollView>
-    </ImageBackground>
+    </View>
     // </ScrollView>
   );
 };
