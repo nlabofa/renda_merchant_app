@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Renda Merchant</string>
+	<string>BeepBeep Express</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -49,15 +49,15 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Renda Merchant would like to use your camera</string>
+	<string>BeepBeep Express would like to use your camera</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Allow Renda Merchant access Location</string>
+	<string>Allow BeepBeep Express access Location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) access Location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow Renda Merchant access Location</string>
+	<string>Allow BeepBeep Express access Location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Renda Merchant would like access to your photo gallery</string>
+	<string>BeepBeep Express would like access to your photo gallery</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NunitoSans-Black.ttf</string>
