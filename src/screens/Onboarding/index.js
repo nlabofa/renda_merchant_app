@@ -1,30 +1,26 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {SafeAreaView, View, Text, StatusBar, Image} from 'react-native';
+import {View, Text, StatusBar, Image} from 'react-native';
 import styles from './styles';
-import {Basestyle, Images, colors} from '../../helpers/BaseThemes/';
+import {Basestyle, Images} from '../../helpers/BaseThemes/';
 import ButtonMain from '../../components/Button/ButtonMain';
 import AppIntroSlider from 'react-native-app-intro-slider';
 
 const IntroScreens = [
   {
     index: 0,
-    headtext: 'Manage the procurement of your goods with ease and simplicity',
+    headtext: 'Reliable and always available.',
     imagesrc: Images.slider1,
   },
   {
     index: 1,
-    headtext: 'Store your goods across our vast network of warehouses',
+    headtext: 'Great value added services.',
     imagesrc: Images.slider2,
   },
   {
     index: 2,
-    headtext: 'Manage Your Inventory With Our Tech-Driven Solution',
+    headtext: 'Deliver what you want in a Beep.',
     imagesrc: Images.slider3,
-  },
-  {
-    index: 3,
-    headtext: 'Let’s own your delivery process',
-    imagesrc: Images.slider4,
   },
 ];
 
@@ -50,7 +46,7 @@ const IntroSlider = ({navigation}) => {
 
   return (
     <>
-      <SafeAreaView style={styles.intro_slider}>
+      <View style={styles.intro_slider}>
         <StatusBar
           barStyle="light-content"
           translucent={true}
@@ -60,7 +56,7 @@ const IntroSlider = ({navigation}) => {
           <View style={styles.dashed_line}>
             <Image
               source={Images.sliderline}
-              resizeMode="cover"
+              resizeMode="contain"
               style={Basestyle.box_full}
             />
           </View>
@@ -86,12 +82,12 @@ const IntroSlider = ({navigation}) => {
         <ButtonMain
           btnContainerStyle={styles.button}
           btnTextStyles={{
-            color: colors.PRIMARY_BLUE,
+            color: '#fff',
           }}
           onPress={() => navigation.navigate('Auth')}
           text="Login / Register"
         />
-      </SafeAreaView>
+      </View>
     </>
   );
 };

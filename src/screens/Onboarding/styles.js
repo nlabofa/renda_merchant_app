@@ -2,20 +2,27 @@ import {StyleSheet, Dimensions} from 'react-native';
 import {processFontSize} from '../../helpers/fonts';
 import {colors, spaces, Fontnames, Basestyle} from '../../helpers/BaseThemes';
 import {getStatusBarHeight} from 'react-native-iphone-x-helper';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 const {width} = Dimensions.get('window');
 
 export default StyleSheet.create({
-  intro_slider: {flex: 1, backgroundColor: colors.PRIMARY_BLUE},
+  intro_slider: {flex: 1, backgroundColor: '#fff'},
   tap_logo: {
-    width: processFontSize(96),
-    height: processFontSize(41),
-    marginRight: 30,
+    //backgroundColor: 'green',
+    position: 'absolute',
+    width: processFontSize(119),
+    height: processFontSize(74),
+    marginLeft: 30,
   },
   dashed_line: {
-    width: '50%',
+    width: wp(40),
+    height: hp(15),
     //backgroundColor: 'red',
-    height: 7,
+    position: 'absolute',
+    left: wp(-10),
   },
   paginationDots: {
     height: 7,
@@ -28,7 +35,7 @@ export default StyleSheet.create({
     width: 30,
     height: 7,
     borderRadius: 15 / 2,
-    backgroundColor: '#fff',
+    backgroundColor: '#B2C7DB',
     marginLeft: 10,
   },
   top_row: {
@@ -42,7 +49,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
   },
   button: {
-    backgroundColor: colors.BG_Color,
+    backgroundColor: colors.PRIMARY_BLUE,
     width: '90%',
     marginBottom: 20,
     alignSelf: 'center',
@@ -50,7 +57,7 @@ export default StyleSheet.create({
   sliderview: {
     width,
     height: '90%',
-    marginTop: '2%',
+    marginTop: '40%',
   },
   sliderview_img: {width: '90%', height: '80%', alignSelf: 'center'},
   sliderview_bottom: {
@@ -69,7 +76,7 @@ export default StyleSheet.create({
   },
   headtext: {
     fontSize: processFontSize(19),
-    color: '#fff',
+    color: colors.PRIMARY_BLUE,
     fontFamily: Fontnames.nunito_bold,
     width: '90%',
     textAlign: 'center',
