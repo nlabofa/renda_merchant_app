@@ -1,4 +1,4 @@
 export const API_KEY = 'AIzaSyBOgHa4zTMJAy8vZFAVFibBB-_bDXmSAKw';
-export const PAYSTACK_TEST = 'pk_test_941ec5ff9c4eb22e93a07d74c25a18dce87490a7';
+export const PAYSTACK_TEST = 'pk_test_e79861dddbf9c47aa34f931b81603c5e46f302b4';
 export const PAYSTACK_TEST_SECRET =
-  'sk_test_6e65f6ee03c2785ac245710c182bbabb634d67f6';
+  'sk_test_27bdac6193d6c56db9fc8d2fe4dc240cb734d883';
