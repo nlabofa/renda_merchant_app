@@ -79,7 +79,7 @@ const DrawerComponent = ({navigation, logout, user_info}) => {
 
       <ScrollView
         style={[isIphoneX() ? null : {marginTop: 30}]}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={true}>
         <View style={{marginHorizontal: 15}}>
           <Ionicons
             name="close"

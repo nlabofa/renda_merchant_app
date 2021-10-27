@@ -57,9 +57,9 @@ export default StyleSheet.create({
   sliderview: {
     width,
     height: '90%',
-    marginTop: '40%',
+    marginTop: '20%',
   },
-  sliderview_img: {width: '90%', height: '80%', alignSelf: 'center'},
+  sliderview_img: {width: '80%', height: '80%', alignSelf: 'center'},
   sliderview_bottom: {
     height: '20%',
     width: '100%',

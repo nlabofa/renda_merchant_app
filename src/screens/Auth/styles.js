@@ -37,7 +37,7 @@ export default StyleSheet.create({
     position: 'absolute',
     width: '120%',
     height: '100%',
-    top: -110,
+    top: -heightPercentageToDP(12),
     //zIndex: -100,
     //zIndex: -10000000000,
     overflow: 'visible',
